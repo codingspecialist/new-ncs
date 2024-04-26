@@ -1,42 +1,50 @@
 package shop.mtcoding.blog.user;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import shop.mtcoding.blog._core.errors.exception.Exception400;
-import shop.mtcoding.blog._core.errors.exception.Exception401;
-import shop.mtcoding.blog._core.utils.ApiUtil;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class UserController {
 
     private final UserService userService;
     private final HttpSession session;
 
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
+
+    @GetMapping("/join-form")
+    public String joinForm(){
+        return "user/join-form";
+    }
+
+    @GetMapping("/login-form")
+    public String loginForm(){
+        return "user/login-form";
+    }
+
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
-        User user = userService.회원가입(reqDTO);
-        return ResponseEntity.ok(new ApiUtil(user));
+    public String join(UserRequest.JoinDTO reqDTO) {
+        userService.회원가입(reqDTO);
+        return "redirect:/login-form";
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRequest.LoginDTO reqDTO) {
+    public String login(UserRequest.LoginDTO reqDTO) {
         User sessionUser = userService.로그인(reqDTO);
         session.setAttribute("sessionUser", sessionUser);
-        return ResponseEntity.ok(new ApiUtil(null));
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logout() {
+    public String logout() {
         session.invalidate();
-        return ResponseEntity.ok(new ApiUtil(null));
+        return "redirect:/";
     }
 }

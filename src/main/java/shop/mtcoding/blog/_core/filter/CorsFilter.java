@@ -1,16 +1,14 @@
 package shop.mtcoding.blog._core.filter;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 public class CorsFilter implements Filter {
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
-        System.out.println("CORS 필터 작동");
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
@@ -20,5 +18,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization");
+
+        chain.doFilter(req, res);
     }
 }
