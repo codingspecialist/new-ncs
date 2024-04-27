@@ -1,9 +1,6 @@
 package shop.mtcoding.blog.course.student;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "student_tb")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

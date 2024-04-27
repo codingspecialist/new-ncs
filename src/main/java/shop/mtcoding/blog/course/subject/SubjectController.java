@@ -20,7 +20,7 @@ public class SubjectController {
 
     @GetMapping("/api/course/{courseId}/subject")
     public String list(@PathVariable Long courseId, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
-        SubjectResponse.Paging respDTO = subjectService.교과목목록(courseId, pageable);
+        SubjectResponse.PagingDTO respDTO = subjectService.교과목목록(courseId, pageable);
         model.addAttribute("paging", respDTO);
         return "course/subject/list";
     }

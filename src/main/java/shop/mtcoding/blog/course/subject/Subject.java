@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "subject_tb")
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -16,12 +16,12 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final CourseRepository courseRepository;
 
-    public SubjectResponse.Paging 교과목목록(Long courseId, Pageable pageable) {
+    public SubjectResponse.PagingDTO 교과목목록(Long courseId, Pageable pageable) {
         Course coursePS = courseRepository.findById(courseId)
                 .orElseThrow(() -> new Exception404("과정을 찾을 수 없습니다"));
 
         Page<Subject> paging = subjectRepository.findByCourseId(coursePS.getId(), pageable);
-        return new SubjectResponse.Paging(coursePS, paging);
+        return new SubjectResponse.PagingDTO(coursePS, paging);
     }
 
     @Transactional

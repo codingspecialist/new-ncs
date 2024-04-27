@@ -10,7 +10,7 @@ import java.util.List;
 public class SubjectResponse {
 
     @Data
-    public static class Paging {
+    public static class PagingDTO {
         private Long courseId;
         private String courseCode;
         private String courseTitle;
@@ -24,7 +24,7 @@ public class SubjectResponse {
 
         private List<DTO> subjects;
 
-        public Paging(Course course, Page<Subject> paging) {
+        public PagingDTO(Course course, Page<Subject> paging) {
             this.courseId = course.getId();
             this.courseCode = course.getCode();
             this.courseTitle = course.getTitle();

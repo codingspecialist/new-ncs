@@ -8,7 +8,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import shop.mtcoding.blog.course.subject.SubjectResponse;
 import shop.mtcoding.blog.user.User;
 
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class CourseController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
 
-        CourseResponse.Paging respDTO = courseService.과정목록(pageable);
+        CourseResponse.PagingDTO respDTO = courseService.과정목록(pageable);
         model.addAttribute("paging", respDTO);
 
         return "course/list";
@@ -39,6 +41,13 @@ public class CourseController {
     public String save(CourseRequest.SaveDTO reqDTO){
         courseService.과정등록(reqDTO);
         return "redirect:/api/course";
+    }
+
+    @GetMapping("/api/course/{courseId}")
+    public String list(@PathVariable Long courseId, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
+        CourseResponse.DetailDTO respDTO = courseService.과정상세(courseId, pageable);
+        model.addAttribute("paging", respDTO);
+        return "course/subject/list";
     }
 
 }

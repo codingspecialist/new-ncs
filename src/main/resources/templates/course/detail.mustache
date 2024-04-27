@@ -1,0 +1,66 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="d-flex justify-content-end">
+        <a href="/api/course/{{paging.courseId}}/subject/save-form" class="btn btn-primary">교과목등록</a>
+    </div>
+
+    <div>
+        과정ID : {{paging.courseCode}} <br>
+        과정명 : {{paging.courseTitle}} <br>
+        과정회차 : {{paging.courseRound}} <br>
+        진행여부 : {{paging.courseStatus}} <br>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>교과목ID</th>
+            <th>교과목명</th>
+            <th>교과목목표</th>
+            <th>NCS여부</th>
+            <th>훈련수준</th>
+            <th>교과목시간</th>
+            <th>교과목연번</th>
+            <th>교수학습방법</th>
+            <th>평가방법</th>
+            <th>평가일</th>
+            <th>재평가일</th>
+            <th>교과목시작일</th>
+            <th>교과목종료일</th>
+            <th>과정명 및 회차</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#paging.subjects}}
+            <tr>
+                <td>{{subjectId}}</td>
+                <td>{{code}}</td>
+                <td>{{title}}</td>
+                <td>{{purpose}}</td>
+                <td>{{gubun}}</td>
+                <td>{{grade}}</td>
+                <td>{{totalTime}}</td>
+                <td>{{no}}</td>
+                <td>{{learningWay}}</td>
+                <td>{{evaluationWay}}</td>
+                <td>{{evaluationDate}}</td>
+                <td>{{revaluationDate}}</td>
+                <td>{{startDate}}</td>
+                <td>{{endDate}}</td>
+                <td>{{paging.courseTitle}} : {{paging.courseRound}}회차</td>
+            </tr>
+        {{/paging.subjects}}
+        </tbody>
+    </table>
+
+    <ul class="pagination d-flex justify-content-center">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+
+</div>
+
+{{> layout/footer}}

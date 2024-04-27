@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "exam_paper_question_option_tb")
 public class ExamPaperQuestionOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
