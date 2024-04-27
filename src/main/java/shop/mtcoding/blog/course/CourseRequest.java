@@ -8,8 +8,10 @@ public class CourseRequest {
 
     @Data
     public static class SaveDTO {
-        private String title;
         private String code;
+        private String title;
+        private Integer level;
+        private String purpose;
         private Integer totalTime;
         private Integer totalDay;
         private Integer round;
@@ -19,8 +21,10 @@ public class CourseRequest {
 
         public Course toEntity(){
             return Course.builder()
-                    .title(title)
                     .code(code)
+                    .title(title)
+                    .level(level)
+                    .purpose(purpose)
                     .totalTime(totalTime)
                     .totalDay(totalDay)
                     .round(round)

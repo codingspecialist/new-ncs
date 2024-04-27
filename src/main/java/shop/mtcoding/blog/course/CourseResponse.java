@@ -8,32 +8,6 @@ import java.util.List;
 
 public class CourseResponse {
 
-    // 기본 응답 DTO
-    @Data
-    public static class DTO {
-        private Long id;
-        private String title;
-        private String code;
-        private Integer totalTime;
-        private Integer totalDay;
-        private Integer round;
-        private LocalDate startDate;
-        private LocalDate endDate;
-        private String teacherName;
-
-        public DTO(Course course) {
-            this.id = course.getId();
-            this.title = course.getTitle();
-            this.code = course.getCode();
-            this.totalTime = course.getTotalTime();
-            this.totalDay = course.getTotalDay();
-            this.round = course.getRound();
-            this.startDate = course.getStartDate();
-            this.endDate = course.getEndDate();
-            this.teacherName = course.getTeacherName();
-        }
-    }
-
     @Data
     public static class Paging {
         private Integer totalPage; // 전체 페이지 수
@@ -43,13 +17,42 @@ public class CourseResponse {
         private Boolean isLast; // 마지막 페이지 여부
         private List<DTO> courses;
 
-        public Paging(Page<Course> coursePG) {
-            this.totalPage = coursePG.getTotalPages();
-            this.pageSize = coursePG.getSize();
-            this.pageNumber = coursePG.getNumber();
-            this.isFirst = coursePG.isFirst();
-            this.isLast = coursePG.isLast();
-            this.courses = coursePG.getContent().stream().map(DTO::new).toList();
+        public Paging(Page<Course> paging) {
+            this.totalPage = paging.getTotalPages();
+            this.pageSize = paging.getSize();
+            this.pageNumber = paging.getNumber();
+            this.isFirst = paging.isFirst();
+            this.isLast = paging.isLast();
+            this.courses = paging.getContent().stream().map(DTO::new).toList();
+        }
+
+        @Data
+        class DTO {
+            private Long id;
+            private String title;
+            private String code;
+            private Integer totalTime;
+            private Integer totalDay;
+            private Integer round;
+            private Integer level;
+            private String purpose;
+            private LocalDate startDate;
+            private LocalDate endDate;
+            private String teacherName;
+
+            public DTO(Course course) {
+                this.id = course.getId();
+                this.title = course.getTitle();
+                this.code = course.getCode();
+                this.totalTime = course.getTotalTime();
+                this.totalDay = course.getTotalDay();
+                this.round = course.getRound();
+                this.level = course.getLevel();
+                this.purpose = course.getPurpose();
+                this.startDate = course.getStartDate();
+                this.endDate = course.getEndDate();
+                this.teacherName = course.getTeacherName();
+            }
         }
     }
 }

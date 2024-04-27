@@ -3,34 +3,52 @@
 <div class="container p-5">
 
     <div class="card">
-        <div class="card-header"><b>과정을 해주세요</b></div>
+        <div class="card-header"><b>교과목을 등록 해주세요</b></div>
         <div class="card-body">
-            <form action="/api/course/save" method="post" enctype="application/x-www-form-urlencoded">
+            <form action="/api/course/{{courseId}}/subject/save" method="post" enctype="application/x-www-form-urlencoded">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter title" name="title" value="자바 크로스 플랫폼 양성과정">
+                    <input type="text" class="form-control" placeholder="교과목코드" name="code" value="1001">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter code" name="code" value="1001">
+                    <input type="text" class="form-control" placeholder="교과목명" name="title" value="자바">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter totalTime" name="totalTime" value="900">
+                    <input type="text" class="form-control" placeholder="교과목목표" name="purpose" value="자바 for, if, 객체지향을 학습하여 프로그래밍의 기본기를 배양하는 능력이다">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter totalDay" name="totalDay" value="113">
+                    <select class="form-control" name="gubun">
+                        <option value="ncs">NCS</option>
+                        <option value="비ncs">비NCS</option>
+                    </select>
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter round" name="round" value="1">
+                    <input type="text" class="form-control" placeholder="교과목수준" name="grade" value="3">
                 </div>
                 <div class="mb-3">
-                    <input type="date" class="form-control" placeholder="Enter startDate" name="startDate" value="2024-05-01">
+                    <input type="text" class="form-control" placeholder="교과목 시간" name="totalTime" value="80">
                 </div>
                 <div class="mb-3">
-                    <input type="date" class="form-control" placeholder="Enter endDate" name="endDate" value="2024-11-14">
+                    <input type="text" class="form-control" placeholder="교과목 순서" name="no" value="1">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter teacherName" name="teacherName" value="홍길동">
+                    <input type="text" class="form-control" placeholder="교수 학습방법" name="learningWay" value="실습">
                 </div>
-                <button type="submit" class="btn btn-primary form-control">과정등록</button>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="평가방법" name="evaluationWay" value="서술형시험">
+                </div>
+                <div class="mb-3">
+                    <input type="date" class="form-control" placeholder="평가일" name="evaluationDate" value="2024-05-10">
+                </div>
+                <div class="mb-3">
+                    <input type="date" class="form-control" placeholder="재평가일" name="revaluationDate" value="2024-05-11">
+                </div>
+                <div class="mb-3">
+                    <input type="date" class="form-control" placeholder="교과목 시작일" name="startDate" value="2024-05-01">
+                </div>
+                <div class="mb-3">
+                    <input type="date" class="form-control" placeholder="교과목 종료일" name="endDate" value="2024-05-10">
+                </div>
+                <button type="submit" class="btn btn-primary form-control">교과목 등록</button>
             </form>
         </div>
     </div>

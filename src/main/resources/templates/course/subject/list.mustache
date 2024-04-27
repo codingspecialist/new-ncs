@@ -3,37 +3,55 @@
 <div class="container p-5">
 
     <div class="d-flex justify-content-end">
-        <a href="/api/subject/save-form" class="btn btn-primary">교과목등록</a>
+        <a href="/api/course/{{paging.courseId}}/subject/save-form" class="btn btn-primary">교과목등록</a>
+    </div>
+
+    <div>
+        과정ID : {{paging.courseCode}} <br>
+        과정명 : {{paging.courseTitle}} <br>
+        과정회차 : {{paging.courseRound}} <br>
     </div>
 
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>순번</th>
-            <th>과정명</th>
-            <th>과정ID</th>
-            <th>회차</th>
-            <th>훈련시간</th>
-            <th>훈련일수</th>
-            <th>개강일</th>
-            <th>수료일</th>
-            <th>훈련교사</th>
+            <th>번호</th>
+            <th>교과목ID</th>
+            <th>교과목명</th>
+            <th>교과목목표</th>
+            <th>NCS여부</th>
+            <th>훈련수준</th>
+            <th>교과목시간</th>
+            <th>교과목연번</th>
+            <th>교수학습방법</th>
+            <th>평가방법</th>
+            <th>평가일</th>
+            <th>재평가일</th>
+            <th>교과목시작일</th>
+            <th>교과목종료일</th>
+            <th>과정명 및 회차</th>
         </tr>
         </thead>
         <tbody>
-        {{#paging.courses}}
+        {{#paging.subjects}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/api/subject">{{title}}</a></td>
                 <td>{{code}}</td>
+                <td>{{title}}</td>
+                <td>{{purpose}}</td>
+                <td>{{gubun}}</td>
+                <td>{{grade}}</td>
                 <td>{{totalTime}}</td>
-                <td>{{totalDay}}</td>
-                <td>{{round}}</td>
+                <td>{{no}}</td>
+                <td>{{learningWay}}</td>
+                <td>{{evaluationWay}}</td>
+                <td>{{evaluationDate}}</td>
+                <td>{{revaluationDate}}</td>
                 <td>{{startDate}}</td>
                 <td>{{endDate}}</td>
-                <td>{{teacherName}}</td>
+                <td>{{paging.courseTitle}} : {{paging.courseRound}}회차</td>
             </tr>
-        {{/paging.courses}}
+        {{/paging.subjects}}
         </tbody>
     </table>
 

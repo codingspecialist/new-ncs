@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
+import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog.user.User;
 
 public class LoginInterceptor implements HandlerInterceptor{
@@ -13,8 +14,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser == null){
-            response.sendRedirect("/login-form");
-            return false;
+            throw new Exception401("인증되지 않았습니다");
         }
         return true;
     }

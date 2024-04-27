@@ -18,7 +18,7 @@ public class CourseService {
     }
 
     public CourseResponse.Paging 과정목록(Pageable pageable) {
-        Page<Course> coursePG = courseRepository.findAll(pageable);
-        return new CourseResponse.Paging(coursePG);
+        Page<Course> paging = courseRepository.findAll(pageable);
+        return new CourseResponse.Paging(paging);
     }
 }

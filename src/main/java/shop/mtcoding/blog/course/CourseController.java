@@ -20,7 +20,7 @@ public class CourseController {
 
     // /api/course?page=0
     @GetMapping({"/", "/api/course"})
-    public String list(Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, page = 0) Pageable pageable){
+    public String list(Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
 

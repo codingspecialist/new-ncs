@@ -20,14 +20,17 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
     private String code; // 과정ID
-    private Integer totalTime; // 훈련시간
-    private Integer totalDay; // 훈련일수
+    private String title; // 과정명
+    private Integer level; // 훈련수준
     private Integer round; // 1회차, 2회차
+    private String purpose; // 과정목표
+    private Integer totalTime; // 과정시간
+    private Integer totalDay; // 과정일수
     private LocalDate startDate; // 년월일
     private LocalDate endDate; // 년월일
     private String teacherName; // 훈련교사 이름
+
 
     @Enumerated(EnumType.STRING)
     private CourseEnum courseStatus; // 과정진행전, 과정진행중, 과정종료 (기본값은 과정진행전이다 - 숫자로는 0번)
@@ -36,10 +39,12 @@ public class Course {
     private LocalDateTime createDate;
 
     @Builder
-    public Course(Long id, String title, String code, Integer totalTime, Integer totalDay, Integer round, LocalDate startDate, LocalDate endDate, String teacherName, CourseEnum courseStatus, LocalDateTime createDate) {
+    public Course(Long id, String title, String code, Integer level, String purpose, Integer totalTime, Integer totalDay, Integer round, LocalDate startDate, LocalDate endDate, String teacherName, CourseEnum courseStatus, LocalDateTime createDate) {
         this.id = id;
         this.title = title;
         this.code = code;
+        this.level = level;
+        this.purpose = purpose;
         this.totalTime = totalTime;
         this.totalDay = totalDay;
         this.round = round;

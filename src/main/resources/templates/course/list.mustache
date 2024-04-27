@@ -9,9 +9,11 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>순번</th>
+            <th>번호</th>
             <th>과정명</th>
             <th>과정ID</th>
+            <th>과정수준</th>
+            <th>과정목표</th>
             <th>회차</th>
             <th>훈련시간</th>
             <th>훈련일수</th>
@@ -24,11 +26,13 @@
         {{#paging.courses}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/api/subject">{{title}}</a></td>
+                <td><a href="/api/course/{{id}}/subject">{{title}}</a></td>
                 <td>{{code}}</td>
+                <td>{{level}}</td>
+                <td>{{purpose}}</td>
+                <td>{{round}}</td>
                 <td>{{totalTime}}</td>
                 <td>{{totalDay}}</td>
-                <td>{{round}}</td>
                 <td>{{startDate}}</td>
                 <td>{{endDate}}</td>
                 <td>{{teacherName}}</td>

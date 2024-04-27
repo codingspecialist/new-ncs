@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.Course;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -21,22 +22,19 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code; // 능력단위코드
-    private String title; // 능력단위명
-    private String purpose; // 훈련목표
+    private String code; // 교과목 ID (능력단위코드)
+    private String title; // 교과목명 (능력단위명)
+    private String purpose; // 교과목 목표
     private String gubun; // NCS, 비NCS
-    private Integer grade; // 수준
-    private Integer totalTime; // 능력단위 시간
-
+    private Integer grade; // 교과목 수준
+    private Integer totalTime; // 교과목 시간
     private Integer no; // 과정에서 몇번째로 시작하는 교과목인지에 대한 연번
-    private String learningWay; // 학습 방법
+    private String learningWay; // 교수 학습 방법
     private String evaluationWay; // 평가 방법
-    private LocalDateTime evaluationDate; // 평가일
-    private LocalDateTime revaluationDate; // 재평가일
-    private LocalDateTime evaluationScheduleDate; // 평가 예정일
-    private LocalDateTime revaluationScheduleDate; // 재평가 예정일
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate evaluationDate; // 평가일
+    private LocalDate revaluationDate; // 재평가일
+    private LocalDate startDate; // 교과목 시작일
+    private LocalDate endDate; // 교과목 종료일
 
     // 코스에 회차 정보가 있기 때문에 특정 회차에 대한 교과목이다. 다음 회차에서 적기 귀찮으면 불러오기 해서 저장할 수 있다.
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,7 +44,7 @@ public class Subject {
     private LocalDateTime createDate;
 
     @Builder
-    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, String evaluationWay, LocalDateTime evaluationDate, LocalDateTime revaluationDate, LocalDateTime evaluationScheduleDate, LocalDateTime revaluationScheduleDate, LocalDateTime startDate, LocalDateTime endDate, Course course, LocalDateTime createDate) {
+    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, String evaluationWay, LocalDate evaluationDate, LocalDate revaluationDate, LocalDate startDate, LocalDate endDate, Course course, LocalDateTime createDate) {
         this.id = id;
         this.code = code;
         this.title = title;
@@ -59,8 +57,6 @@ public class Subject {
         this.evaluationWay = evaluationWay;
         this.evaluationDate = evaluationDate;
         this.revaluationDate = revaluationDate;
-        this.evaluationScheduleDate = evaluationScheduleDate;
-        this.revaluationScheduleDate = revaluationScheduleDate;
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
