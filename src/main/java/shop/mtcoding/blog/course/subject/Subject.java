@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.course.subject;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +22,7 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code; // 능력단위코드
-    private String name; // 능력단위명
+    private String title; // 능력단위명
     private String purpose; // 훈련목표
     private String gubun; // NCS, 비NCS
     private Integer grade; // 수준
@@ -43,4 +44,26 @@ public class Subject {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, String evaluationWay, LocalDateTime evaluationDate, LocalDateTime revaluationDate, LocalDateTime evaluationScheduleDate, LocalDateTime revaluationScheduleDate, LocalDateTime startDate, LocalDateTime endDate, Course course, LocalDateTime createDate) {
+        this.id = id;
+        this.code = code;
+        this.title = title;
+        this.purpose = purpose;
+        this.gubun = gubun;
+        this.grade = grade;
+        this.totalTime = totalTime;
+        this.no = no;
+        this.learningWay = learningWay;
+        this.evaluationWay = evaluationWay;
+        this.evaluationDate = evaluationDate;
+        this.revaluationDate = revaluationDate;
+        this.evaluationScheduleDate = evaluationScheduleDate;
+        this.revaluationScheduleDate = revaluationScheduleDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.course = course;
+        this.createDate = createDate;
+    }
 }

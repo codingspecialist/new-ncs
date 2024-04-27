@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.course.exam;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,4 +34,15 @@ public class Exam {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public Exam(Long id, Student student, ExamPaper examPaper, boolean isAbsent, String examState, String passState, LocalDateTime createDate) {
+        this.id = id;
+        this.student = student;
+        this.examPaper = examPaper;
+        this.isAbsent = isAbsent;
+        this.examState = examState;
+        this.passState = passState;
+        this.createDate = createDate;
+    }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,4 +29,18 @@ public class Student {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public Student(Long id, Integer no, String name, String birthday, String state, LocalDateTime dropOutDate, String dropOutReason, String comment, Integer grade, LocalDateTime createDate) {
+        this.id = id;
+        this.no = no;
+        this.name = name;
+        this.birthday = birthday;
+        this.state = state;
+        this.dropOutDate = dropOutDate;
+        this.dropOutReason = dropOutReason;
+        this.comment = comment;
+        this.grade = grade;
+        this.createDate = createDate;
+    }
 }

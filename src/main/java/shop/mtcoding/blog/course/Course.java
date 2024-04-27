@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,8 +29,22 @@ public class Course {
     private Integer round; // 1회차, 2회차
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private boolean isLesson; // 종료된 과정(false), 실시중 과정(true)
+    private boolean isStart; // 종료된 과정(false), 실시중 과정(true)
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public Course(Long id, String name, String code, Integer totalTime, Integer totalDays, Integer round, LocalDateTime startDate, LocalDateTime endDate, boolean isStart, LocalDateTime createDate) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.totalTime = totalTime;
+        this.totalDays = totalDays;
+        this.round = round;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isStart = isStart;
+        this.createDate = createDate;
+    }
 }

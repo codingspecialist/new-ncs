@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.course.exam.paper;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,4 +26,11 @@ public class ExamPaper {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public ExamPaper(Long id, Subject subject, LocalDateTime createDate) {
+        this.id = id;
+        this.subject = subject;
+        this.createDate = createDate;
+    }
 }

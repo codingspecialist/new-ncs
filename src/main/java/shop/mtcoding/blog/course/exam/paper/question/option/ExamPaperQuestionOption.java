@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.course.exam.paper.question.option;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,4 +28,13 @@ public class ExamPaperQuestionOption {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public ExamPaperQuestionOption(Long id, Integer no, String content, ExamPaperQuestion examPaperQuestion, LocalDateTime createDate) {
+        this.id = id;
+        this.no = no;
+        this.content = content;
+        this.examPaperQuestion = examPaperQuestion;
+        this.createDate = createDate;
+    }
 }

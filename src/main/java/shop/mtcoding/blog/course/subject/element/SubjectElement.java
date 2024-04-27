@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,8 +24,15 @@ public class SubjectElement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String subtitle;
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    @Builder
+    public SubjectElement(Long id, String subtitle, LocalDateTime createDate) {
+        this.id = id;
+        this.subtitle = subtitle;
+        this.createDate = createDate;
+    }
 }
