@@ -14,11 +14,6 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
-    @GetMapping("/")
-    public String index(){
-        return "index";
-    }
-
     @GetMapping("/join-form")
     public String joinForm(){
         return "user/join-form";

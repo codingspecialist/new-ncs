@@ -1,14 +1,12 @@
 package shop.mtcoding.blog.course;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -22,29 +20,33 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String title;
     private String code; // 과정ID
     private Integer totalTime; // 훈련시간
-    private Integer totalDays; // 훈련일수
+    private Integer totalDay; // 훈련일수
     private Integer round; // 1회차, 2회차
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private boolean isStart; // 종료된 과정(false), 실시중 과정(true)
+    private LocalDate startDate; // 년월일
+    private LocalDate endDate; // 년월일
+    private String teacherName; // 훈련교사 이름
+
+    @Enumerated(EnumType.STRING)
+    private CourseEnum courseStatus; // 과정진행전, 과정진행중, 과정종료 (기본값은 과정진행전이다 - 숫자로는 0번)
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public Course(Long id, String name, String code, Integer totalTime, Integer totalDays, Integer round, LocalDateTime startDate, LocalDateTime endDate, boolean isStart, LocalDateTime createDate) {
+    public Course(Long id, String title, String code, Integer totalTime, Integer totalDay, Integer round, LocalDate startDate, LocalDate endDate, String teacherName, CourseEnum courseStatus, LocalDateTime createDate) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.code = code;
         this.totalTime = totalTime;
-        this.totalDays = totalDays;
+        this.totalDay = totalDay;
         this.round = round;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.isStart = isStart;
+        this.teacherName = teacherName;
+        this.courseStatus = courseStatus;
         this.createDate = createDate;
     }
 }

@@ -13,6 +13,9 @@ spring:
     servlet:
       expose-session-attributes: true
       expose-request-attributes: true
+  devtools:
+    livereload:
+      enabled: true
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test;MODE=MySQL
@@ -38,3 +41,8 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: TRACE
+    shop.mtcoding.blog: DEBUG

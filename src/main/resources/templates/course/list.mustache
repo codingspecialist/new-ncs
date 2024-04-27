@@ -1,0 +1,47 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="d-flex justify-content-end">
+        <a href="/api/course/save-form" class="btn btn-primary">과정등록</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>순번</th>
+            <th>과정명</th>
+            <th>과정ID</th>
+            <th>회차</th>
+            <th>훈련시간</th>
+            <th>훈련일수</th>
+            <th>개강일</th>
+            <th>수료일</th>
+            <th>훈련교사</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#paging.courses}}
+            <tr>
+                <td>{{id}}</td>
+                <td><a href="/api/subject">{{title}}</a></td>
+                <td>{{code}}</td>
+                <td>{{totalTime}}</td>
+                <td>{{totalDay}}</td>
+                <td>{{round}}</td>
+                <td>{{startDate}}</td>
+                <td>{{endDate}}</td>
+                <td>{{teacherName}}</td>
+            </tr>
+        {{/paging.courses}}
+        </tbody>
+    </table>
+
+    <ul class="pagination d-flex justify-content-center">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+
+</div>
+
+{{> layout/footer}}
