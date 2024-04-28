@@ -10,37 +10,54 @@ import java.util.List;
 public class SubjectResponse {
 
     @Data
-    public static class PagingDTO {
-        private Long courseId;
-        private String courseCode;
-        private String courseTitle;
-        private Integer courseRound;
+    public static class SaveDTO {
+        private Long currentCourseId;
+        private List<CourseDTO> courses;
 
+        public SaveDTO(Long currentCourseId, List<Course> courses) {
+            this.currentCourseId = currentCourseId;
+            this.courses = courses.stream().map(course -> new CourseDTO(course, currentCourseId)).toList();
+        }
+
+        @Data
+        public static class CourseDTO {
+            private Long courseId;
+            private String title;
+            private Integer round;
+            private Boolean isSelected;
+
+            public CourseDTO(Course course, Long currentCourseId) {
+                this.courseId = course.getId();
+                this.title = course.getTitle();
+                this.round = course.getRound();
+                this.isSelected = course.getId().equals(currentCourseId) ? true : false;
+            }
+        }
+    }
+
+
+
+    @Data
+    public static class PagingDTO {
         private Integer totalPage; // 전체 페이지 수
         private Integer pageSize; // 페이지 별 아이템 개수
         private Integer pageNumber; // 현재 페이지 번호
         private Boolean isFirst; // 첫번째 페이지 여부
         private Boolean isLast; // 마지막 페이지 여부
 
-        private List<DTO> subjects;
+        private List<SubjectDTO> subjects;
 
-        public PagingDTO(Course course, Page<Subject> paging) {
-            this.courseId = course.getId();
-            this.courseCode = course.getCode();
-            this.courseTitle = course.getTitle();
-            this.courseRound = course.getRound();
-
+        public PagingDTO(Page<Subject> paging) {
             this.totalPage = paging.getTotalPages();
             this.pageSize = paging.getSize();
             this.pageNumber = paging.getNumber();
             this.isFirst = paging.isFirst();
             this.isLast = paging.isLast();
-
-            this.subjects = paging.getContent().stream().map(DTO::new).toList();
+            this.subjects = paging.getContent().stream().map(SubjectDTO::new).toList();
         }
 
         @Data
-        class DTO {
+        class SubjectDTO {
             private Long id;
             private String code; // 능력단위 코드
             private String title;
@@ -58,8 +75,10 @@ public class SubjectResponse {
             private LocalDate startDate; // 교과목 시작 날짜
             private LocalDate endDate; // 교과목 종료 날짜
             private Long courseId; // 과정 PK
+            private String courseTitle;
+            private Integer courseRound;
 
-            public DTO(Subject subject) {
+            public SubjectDTO(Subject subject) {
                 this.id = subject.getId();
                 this.code = subject.getCode();
                 this.title = subject.getTitle();
@@ -75,6 +94,8 @@ public class SubjectResponse {
                 this.startDate = subject.getStartDate();
                 this.endDate = subject.getEndDate();
                 this.courseId = subject.getCourse().getId();
+                this.courseTitle = subject.getCourse().getTitle();
+                this.courseRound = subject.getCourse().getRound();
             }
         }
     }

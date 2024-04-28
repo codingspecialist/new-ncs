@@ -3,13 +3,7 @@
 <div class="container p-5">
 
     <div class="d-flex justify-content-end">
-        <a href="/api/course/{{paging.courseId}}/subject/save-form" class="btn btn-primary">교과목등록</a>
-    </div>
-
-    <div>
-        과정ID : {{paging.courseCode}} <br>
-        과정명 : {{paging.courseTitle}} <br>
-        과정회차 : {{paging.courseRound}} <br>
+        <a href="/api/course/1/subject/save-form" class="btn btn-primary">교과목등록</a>
     </div>
 
     <table class="table table-hover">
@@ -49,7 +43,7 @@
                 <td>{{revaluationDate}}</td>
                 <td>{{startDate}}</td>
                 <td>{{endDate}}</td>
-                <td>{{paging.courseTitle}} : {{paging.courseRound}}회차</td>
+                <td>{{courseTitle}} : {{courseRound}}회차</td>
             </tr>
         {{/paging.subjects}}
         </tbody>
