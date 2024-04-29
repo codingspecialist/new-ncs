@@ -2,6 +2,7 @@ package shop.mtcoding.blog.course;
 
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.course.subject.Subject;
 
 import java.time.LocalDate;
@@ -80,7 +81,7 @@ public class CourseResponse {
                 this.startDate = course.getStartDate();
                 this.endDate = course.getEndDate();
                 this.teacherName = course.getTeacherName();
-                this.courseStatus = course.getCourseStatus().value;
+                this.courseStatus = course.getCourseStatus().getValue();
             }
         }
     }
@@ -94,14 +95,41 @@ public class CourseResponse {
         private String courseStatus;
 
         private List<SubjectDTO> subjects;
+        private List<StudentDTO> students;
 
-        public DetailDTO(Course course, List<Subject> subjects) {
+        public DetailDTO(Course course, List<Subject> subjects, List<Student> students) {
             this.courseId = course.getId();
             this.courseCode = course.getCode();
             this.courseTitle = course.getTitle();
             this.courseRound = course.getRound();
-            this.courseStatus = course.getCourseStatus().value;
+            this.courseStatus = course.getCourseStatus().getValue();
             this.subjects = subjects.stream().map(SubjectDTO::new).toList();
+            this.students = students.stream().map(StudentDTO::new).toList();
+        }
+
+        @Data
+        class StudentDTO {
+            private Long studentId;
+            private String name; // 학생 번호는 이름순으로 해서 rownum 뽑자
+            private String birthday;
+            private String state; // 취업, 중도탈락, 미이수, 이수, 재학중
+            private String dropOutDate; // 중탈 날짜
+            private String dropOutReason; // 중탈 이유
+            private String comment; // 학생 모든 교과목에 대한 총평
+            private String grade; // 학생 모든 교과목에 대한 수준 1,2,3,4,5
+            private Long courseId;
+
+            public StudentDTO(Student student) {
+                this.studentId = student.getId();
+                this.name = student.getName();
+                this.birthday = student.getBirthday();
+                this.state = student.getState().getValue();
+                this.dropOutDate = student.getDropOutDate() == null ? "" : student.getDropOutDate().toString();
+                this.dropOutReason = student.getDropOutReason() == null ? "" : student.getDropOutReason();
+                this.comment = student.getComment()  == null ? "" : student.getComment();
+                this.grade = student.getGrade()  == null ? "" : student.getGrade().toString();
+                this.courseId = student.getCourse().getId();
+            }
         }
 
         @Data

@@ -84,7 +84,6 @@
                 <thead>
                 <tr>
                     <th>PK</th>
-                    <th>번호(이름순)</th>
                     <th>이름</th>
                     <th>생일</th>
                     <th>상태</th>
@@ -95,24 +94,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#model.subjects}}
+                {{#model.students}}
                     <tr>
-                        <td>{{subjectId}}</td>
-                        <td>{{code}}</td>
-                        <td>{{title}}</td>
-                        <td>{{purpose}}</td>
-                        <td>{{gubun}}</td>
+                        <td>{{studentId}}</td>
+                        <td>{{name}}</td>
+                        <td>{{birthday}}</td>
+                        <td>{{state}}</td>
+                        <td>{{dropOutDate}}</td>
+                        <td>{{dropOutReason}}</td>
+                        <td>{{comment}}</td>
                         <td>{{grade}}</td>
-                        <td>{{totalTime}}</td>
-                        <td>{{no}}</td>
-                        <td>{{learningWay}}</td>
-                        <td>{{evaluationWay}}</td>
-                        <td>{{evaluationDate}}</td>
-                        <td>{{revaluationDate}}</td>
-                        <td>{{startDate}}</td>
-                        <td>{{endDate}}</td>
                     </tr>
-                {{/model.subjects}}
+                {{/model.students}}
                 </tbody>
             </table>
         </div>

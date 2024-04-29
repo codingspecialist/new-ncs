@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.Course;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -22,7 +23,7 @@ public class Student {
 
     @Enumerated(EnumType.STRING)
     private StudentEnum state; // 취업, 중도탈락, 미이수, 이수, 재학중
-    private LocalDateTime dropOutDate; // 중탈 날짜
+    private LocalDate dropOutDate; // 중탈 날짜
     private String dropOutReason; // 중탈 이유
     private String comment; // 학생 모든 교과목에 대한 총평
     private Integer grade; // 학생 모든 교과목에 대한 수준 1,2,3,4,5
@@ -34,7 +35,7 @@ public class Student {
     private LocalDateTime createDate;
 
     @Builder
-    public Student(Long id, String name, String birthday, StudentEnum state, LocalDateTime dropOutDate, String dropOutReason, String comment, Integer grade, Course course, LocalDateTime createDate) {
+    public Student(Long id, String name, String birthday, StudentEnum state, LocalDate dropOutDate, String dropOutReason, String comment, Integer grade, Course course, LocalDateTime createDate) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;

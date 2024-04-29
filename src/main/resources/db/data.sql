@@ -25,3 +25,9 @@ values('900101', 1, now(), '김주혁', 'ENROLLED');
 
 insert into student_tb(birthday, course_id, create_date, name, state)
 values('950501', 1, now(), '설동훈', 'ENROLLED');
+
+insert into student_tb(birthday, course_id, create_date, name, state)
+values('950501', 1, now(), '이종한', 'ENROLLED');
+
+insert into student_tb(birthday, comment, course_id, create_date, drop_out_date, drop_out_reason, grade, name, state)
+values('800825', '탈락자 총평없음', 1, now(), '2024-07-01', '몸이아픔', 0, '이종환', 'DROPOUT')

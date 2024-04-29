@@ -1,9 +1,12 @@
 package shop.mtcoding.blog.course;
 
+import lombok.Getter;
+
+@Getter
 public enum CourseEnum {
     NOT_STARTED("과정진행전"), RUNNING("과정진행중"), FINISHED("과정종료");
 
-    String value;
+    private String value;
 
     CourseEnum(String value) {
         this.value = value;

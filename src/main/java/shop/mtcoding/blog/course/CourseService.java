@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
+import shop.mtcoding.blog.course.student.Student;
+import shop.mtcoding.blog.course.student.StudentRepository;
 import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.SubjectRepository;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class CourseService {
+    private final StudentRepository studentRepository;
     private final SubjectRepository subjectRepository;
     private final CourseRepository courseRepository;
 
@@ -38,6 +41,7 @@ public class CourseService {
                 .orElseThrow(() -> new Exception404("과정을 찾을 수 없습니다"));
 
         List<Subject> subjectListPS = subjectRepository.findByCourseId(coursePS.getId());
-        return new CourseResponse.DetailDTO(coursePS, subjectListPS);
+        List<Student> studentListPS = studentRepository.findByCourseId(coursePS.getId());
+        return new CourseResponse.DetailDTO(coursePS, subjectListPS, studentListPS);
     }
 }

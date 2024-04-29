@@ -1,5 +1,8 @@
 package shop.mtcoding.blog.course.student;
 
+import lombok.Getter;
+
+@Getter
 public enum StudentEnum {
     EMPLOYED("취업"),       // 취업
     DROPOUT("중도탈락"),        // 중도탈락
@@ -7,7 +10,7 @@ public enum StudentEnum {
     COMPLETED("이수"),      // 이수
     ENROLLED("재학중");        // 재학중
 
-    String value;
+    private String value;
 
     StudentEnum(String value) {
         this.value = value;
