@@ -1,0 +1,26 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="card">
+        <div class="card-header"><b>교과목 요소를 등록 해주세요</b></div>
+
+        <div class="card-body">
+
+            <form id="save-form" action="/api/subject/{{subjectId}}/save" method="post"
+                  enctype="application/x-www-form-urlencoded">
+
+                <h1>+버튼 만들어서 교과목 추가해서 한번에 여러개를 등록할 수 있어야 한다.</h1>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="순번" name="no" value="1">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="교과목 요소명" name="subtitle" value="객체지향">
+                </div>
+                <button type="submit" class="btn btn-primary form-control">교과목 요소 등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}

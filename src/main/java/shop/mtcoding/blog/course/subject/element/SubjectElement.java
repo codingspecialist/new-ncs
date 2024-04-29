@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import shop.mtcoding.blog.course.subject.Subject;
 
 import java.time.LocalDateTime;
 
@@ -22,15 +23,21 @@ public class SubjectElement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer no; // 교과목에서의 순번
     private String subtitle;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Subject subject;
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public SubjectElement(Long id, String subtitle, LocalDateTime createDate) {
+    public SubjectElement(Long id, Integer no, String subtitle, Subject subject, LocalDateTime createDate) {
         this.id = id;
+        this.no = no;
         this.subtitle = subtitle;
+        this.subject = subject;
         this.createDate = createDate;
     }
 }

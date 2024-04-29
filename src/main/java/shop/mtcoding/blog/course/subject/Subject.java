@@ -29,7 +29,7 @@ public class Subject {
     private String gubun; // NCS, 비NCS
     private Integer grade; // 교과목 수준
     private Integer totalTime; // 교과목 시간
-    private Integer no; // 과정에서 몇번째로 시작하는 교과목인지에 대한 연번
+    private Integer no; // 과정에서 몇번째로 시작하는 교과목인지에 대한 순번
     private String learningWay; // 교수 학습 방법
     private String evaluationWay; // 평가 방법
     private LocalDate evaluationDate; // 평가일

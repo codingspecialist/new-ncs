@@ -9,9 +9,8 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>PK</th>
-            <th>과정명</th>
             <th>과정ID</th>
+            <th>과정명</th>
             <th>과정수준</th>
             <th>과정목표</th>
             <th>회차</th>
@@ -26,9 +25,8 @@
         <tbody>
         {{#paging.courses}}
             <tr>
-                <td>{{id}}</td>
-                <td><a href="/api/course/{{id}}">{{title}}</a></td>
                 <td>{{code}}</td>
+                <td><a href="/api/course/{{id}}">{{title}}</a></td>
                 <td>{{level}}</td>
                 <td>{{purpose}}</td>
                 <td>{{round}}</td>

@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
-import shop.mtcoding.blog._core.errors.exception.Exception404;
 
 import java.util.Optional;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service // IoC 등록
 public class UserService {

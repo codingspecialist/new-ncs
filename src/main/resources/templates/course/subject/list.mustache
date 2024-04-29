@@ -9,14 +9,13 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>PK</th>
             <th>교과목ID</th>
             <th>교과목명</th>
             <th>교과목목표</th>
             <th>NCS여부</th>
             <th>훈련수준</th>
             <th>교과목시간</th>
-            <th>교과목연번</th>
+            <th>순번</th>
             <th>교수학습방법</th>
             <th>평가방법</th>
             <th>평가일</th>
@@ -29,14 +28,13 @@
         <tbody>
         {{#paging.subjects}}
             <tr>
-                <td>{{subjectId}}</td>
+                <td>{{no}}</td>
                 <td>{{code}}</td>
                 <td><a href="/api/subject/{{subjectId}}/element">{{title}}</a></td>
                 <td>{{purpose}}</td>
                 <td>{{gubun}}</td>
                 <td>{{grade}}</td>
                 <td>{{totalTime}}</td>
-                <td>{{no}}</td>
                 <td>{{learningWay}}</td>
                 <td>{{evaluationWay}}</td>
                 <td>{{evaluationDate}}</td>
