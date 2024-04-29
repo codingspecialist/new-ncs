@@ -23,6 +23,11 @@ public class CourseService {
         courseRepository.save(reqDTO.toEntity());
     }
 
+    public CourseResponse.SelectedDTO 선택된과정목록(Long courseId) {
+        List<Course> courseList = courseRepository.findAll();
+        return new CourseResponse.SelectedDTO(courseId, courseList);
+    }
+
     public CourseResponse.PagingDTO 과정목록(Pageable pageable) {
         Page<Course> paging = courseRepository.findAll(pageable);
         return new CourseResponse.PagingDTO(paging);

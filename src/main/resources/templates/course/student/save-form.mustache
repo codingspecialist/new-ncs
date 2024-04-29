@@ -1,0 +1,40 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="card">
+        <div class="card-header"><b>학생을 등록 해주세요</b></div>
+
+        <div class="card-header">
+            <select class="form-control" id="select-option">
+                {{#model.courses}}
+                    <option value="{{courseId}}" {{#isSelected}}selected{{/isSelected}}>{{round}}회차 {{title}}</option>
+                {{/model.courses}}
+            </select>
+        </div>
+
+        <div class="card-body">
+            <form id="save-form" action="/api/course/{{model.currentCourseId}}/student/save" method="post"
+                  enctype="application/x-www-form-urlencoded">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="학생명" name="name" value="김성훈">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="생년원일6자리" name="birthday" value="860205">
+                </div>
+                <button type="submit" class="btn btn-primary form-control">학생 등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#select-option").change(() => {
+        let currentCourseId = $("#select-option").val();
+        $("#save-form").prop("action", `/api/course/${currentCourseId}/student/save`);
+    });
+
+    $("#select-option").css("color", "blue");
+</script>
+
+{{> layout/footer}}

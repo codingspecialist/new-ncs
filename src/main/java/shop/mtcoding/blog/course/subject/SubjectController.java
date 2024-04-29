@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import shop.mtcoding.blog.course.CourseResponse;
+import shop.mtcoding.blog.course.CourseService;
 
 @RequiredArgsConstructor
 @Controller
@@ -17,6 +19,7 @@ public class SubjectController {
 
     private final HttpSession session;
     private final SubjectService subjectService;
+    private final CourseService courseService;
 
     @GetMapping("/api/subject")
     public String list(Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
@@ -27,7 +30,7 @@ public class SubjectController {
 
     @GetMapping("/api/course/{courseId}/subject/save-form")
     public String saveForm(@PathVariable Long courseId, Model model){
-        SubjectResponse.SaveDTO respDTO = subjectService.과정목록(courseId);
+        CourseResponse.SelectedDTO respDTO = courseService.선택된과정목록(courseId);
         model.addAttribute("model", respDTO);
 
         return "course/subject/save-form";

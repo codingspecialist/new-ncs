@@ -10,6 +10,32 @@ import java.util.List;
 public class CourseResponse {
 
     @Data
+    public static class SelectedDTO {
+        private Long currentCourseId;
+        private List<CourseDTO> courses;
+
+        public SelectedDTO(Long currentCourseId, List<Course> courses) {
+            this.currentCourseId = currentCourseId;
+            this.courses = courses.stream().map(course -> new CourseDTO(course, currentCourseId)).toList();
+        }
+
+        @Data
+        public static class CourseDTO {
+            private Long courseId;
+            private String title;
+            private Integer round;
+            private Boolean isSelected;
+
+            public CourseDTO(Course course, Long currentCourseId) {
+                this.courseId = course.getId();
+                this.title = course.getTitle();
+                this.round = course.getRound();
+                this.isSelected = course.getId().equals(currentCourseId) ? true : false;
+            }
+        }
+    }
+
+    @Data
     public static class PagingDTO {
         private Integer totalPage; // 전체 페이지 수
         private Integer pageSize; // 페이지 별 아이템 개수
