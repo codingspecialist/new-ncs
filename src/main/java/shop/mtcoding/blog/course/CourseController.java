@@ -23,6 +23,7 @@ public class CourseController {
     // /api/course?page=0
     @GetMapping({"/", "/api/course"})
     public String list(Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
+        // 인터셉터에서 / 주소 때문에 이 부분만 예외로 세션 인증 처리하기
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
 
@@ -47,6 +48,8 @@ public class CourseController {
     public String detail(@PathVariable Long courseId, @RequestParam(value = "tabNum", required = false, defaultValue = "0") Integer tabNum, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
         CourseResponse.DetailDTO respDTO = courseService.과정상세(courseId, pageable);
         model.addAttribute("model", respDTO);
+
+        // 과정 상세보기에서 무슨 학생등록 버튼 클릭하면 리다이렉션되면, 탭번호가 1, 교과목등록이면 탭번호 0
         model.addAttribute("tabNum", tabNum);
         return "course/detail";
     }

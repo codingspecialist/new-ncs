@@ -29,9 +29,9 @@
         <tbody>
         {{#paging.subjects}}
             <tr>
-                <td>{{id}}</td>
+                <td>{{subjectId}}</td>
                 <td>{{code}}</td>
-                <td>{{title}}</td>
+                <td><a href="/api/subject/{{subjectId}}/element">{{title}}</a></td>
                 <td>{{purpose}}</td>
                 <td>{{gubun}}</td>
                 <td>{{grade}}</td>

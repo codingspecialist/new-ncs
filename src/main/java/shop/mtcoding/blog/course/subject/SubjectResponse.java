@@ -29,7 +29,7 @@ public class SubjectResponse {
 
         @Data
         class SubjectDTO {
-            private Long id;
+            private Long subjectId;
             private String code; // 능력단위 코드
             private String title;
             private String purpose;
@@ -50,7 +50,7 @@ public class SubjectResponse {
             private Integer courseRound;
 
             public SubjectDTO(Subject subject) {
-                this.id = subject.getId();
+                this.subjectId = subject.getId();
                 this.code = subject.getCode();
                 this.title = subject.getTitle();
                 this.purpose = subject.getPurpose();
