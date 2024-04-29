@@ -16,3 +16,12 @@ values('S1001', 1, now(), '2024-05-10', '2024-05-10', '서술형시험', 3, 'NCS
 
 insert into subject_tb(code, course_id, create_date, end_date, evaluation_date, evaluation_way, grade, gubun, learning_way, no, purpose, revaluation_date, start_date, title, total_time)
 values('S1002', 1, now(), '2024-05-20', '2024-05-20', '서술형시험', 5, '비NCS', '실습', 2, '디비 CRUD를 학습하여 SQL의 기본기를 배양하는 능력이다', '2024-05-21', '2024-05-10', 'SQL', 40);
+
+insert into student_tb(birthday, course_id, create_date, name, state)
+values('860221', 1, now(), '김성훈', 'ENROLLED');
+
+insert into student_tb(birthday, course_id, create_date, name, state)
+values('900101', 1, now(), '김주혁', 'ENROLLED');
+
+insert into student_tb(birthday, course_id, create_date, name, state)
+values('950501', 1, now(), '설동훈', 'ENROLLED');
