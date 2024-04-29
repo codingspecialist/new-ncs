@@ -45,7 +45,7 @@ public class CourseController {
     @GetMapping("/api/course/{courseId}")
     public String list(@PathVariable Long courseId, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
         CourseResponse.DetailDTO respDTO = courseService.과정상세(courseId, pageable);
-        model.addAttribute("paging", respDTO);
+        model.addAttribute("model", respDTO);
         return "course/detail";
     }
 

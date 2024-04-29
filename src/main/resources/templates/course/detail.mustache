@@ -3,61 +3,112 @@
 <div class="container p-5">
 
     <div class="d-flex justify-content-end">
-        <a href="/api/course/{{paging.courseId}}/subject/save-form" class="btn btn-primary">교과목등록</a>
+        <a href="/api/course/{{model.courseId}}/subject/save-form" class="btn btn-primary">교과목등록</a>
     </div>
 
     <div>
-        과정ID : {{paging.courseCode}} <br>
-        과정명 : {{paging.courseTitle}} <br>
-        과정회차 : {{paging.courseRound}} <br>
-        진행여부 : {{paging.courseStatus}} <br>
+        과정ID : {{model.courseCode}} <br>
+        과정명 : {{model.courseTitle}} <br>
+        과정회차 : {{model.courseRound}} <br>
+        진행여부 : {{model.courseStatus}} <br>
     </div>
 
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>교과목ID</th>
-            <th>교과목명</th>
-            <th>교과목목표</th>
-            <th>NCS여부</th>
-            <th>훈련수준</th>
-            <th>교과목시간</th>
-            <th>교과목연번</th>
-            <th>교수학습방법</th>
-            <th>평가방법</th>
-            <th>평가일</th>
-            <th>재평가일</th>
-            <th>교과목시작일</th>
-            <th>교과목종료일</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#paging.subjects}}
-            <tr>
-                <td>{{subjectId}}</td>
-                <td>{{code}}</td>
-                <td>{{title}}</td>
-                <td>{{purpose}}</td>
-                <td>{{gubun}}</td>
-                <td>{{grade}}</td>
-                <td>{{totalTime}}</td>
-                <td>{{no}}</td>
-                <td>{{learningWay}}</td>
-                <td>{{evaluationWay}}</td>
-                <td>{{evaluationDate}}</td>
-                <td>{{revaluationDate}}</td>
-                <td>{{startDate}}</td>
-                <td>{{endDate}}</td>
-            </tr>
-        {{/paging.subjects}}
-        </tbody>
-    </table>
+    <hr>
 
-    <ul class="pagination d-flex justify-content-center">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">해당 과정의 교과목들</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">해당 과정의 학생들</button>
+        </li>
     </ul>
+    <div class="tab-content" id="myTabContent">
+
+        <!--교과목 데이터 탭-->
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>PK</th>
+                    <th>교과목ID</th>
+                    <th>교과목명</th>
+                    <th>교과목목표</th>
+                    <th>NCS여부</th>
+                    <th>훈련수준</th>
+                    <th>교과목시간</th>
+                    <th>교과목연번</th>
+                    <th>교수학습방법</th>
+                    <th>평가방법</th>
+                    <th>교과목시작일</th>
+                    <th>교과목종료일</th>
+                    <th>평가일</th>
+                    <th>재평가일</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#model.subjects}}
+                    <tr>
+                        <td>{{subjectId}}</td>
+                        <td>{{code}}</td>
+                        <td>{{title}}</td>
+                        <td>{{purpose}}</td>
+                        <td>{{gubun}}</td>
+                        <td>{{grade}}</td>
+                        <td>{{totalTime}}</td>
+                        <td>{{no}}</td>
+                        <td>{{learningWay}}</td>
+                        <td>{{evaluationWay}}</td>
+                        <td>{{startDate}}</td>
+                        <td>{{endDate}}</td>
+                        <td>{{evaluationDate}}</td>
+                        <td>{{revaluationDate}}</td>
+                    </tr>
+                {{/model.subjects}}
+                </tbody>
+            </table>
+        </div>
+
+        <!--학생 데이터 탭-->
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>PK</th>
+                    <th>번호(이름순)</th>
+                    <th>이름</th>
+                    <th>생일</th>
+                    <th>상태</th>
+                    <th>중탈날짜</th>
+                    <th>중탈이유</th>
+                    <th>학생총평</th>
+                    <th>학생수준</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#model.subjects}}
+                    <tr>
+                        <td>{{subjectId}}</td>
+                        <td>{{code}}</td>
+                        <td>{{title}}</td>
+                        <td>{{purpose}}</td>
+                        <td>{{gubun}}</td>
+                        <td>{{grade}}</td>
+                        <td>{{totalTime}}</td>
+                        <td>{{no}}</td>
+                        <td>{{learningWay}}</td>
+                        <td>{{evaluationWay}}</td>
+                        <td>{{evaluationDate}}</td>
+                        <td>{{revaluationDate}}</td>
+                        <td>{{startDate}}</td>
+                        <td>{{endDate}}</td>
+                    </tr>
+                {{/model.subjects}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 
 </div>
 

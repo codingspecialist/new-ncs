@@ -9,6 +9,8 @@ import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.SubjectRepository;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -30,7 +32,7 @@ public class CourseService {
         Course coursePS = courseRepository.findById(courseId)
                 .orElseThrow(() -> new Exception404("과정을 찾을 수 없습니다"));
 
-        Page<Subject> paging = subjectRepository.findByCourseId(coursePS.getId(), pageable);
-        return new CourseResponse.DetailDTO(coursePS, paging);
+        List<Subject> subjectListPS = subjectRepository.findByCourseId(coursePS.getId());
+        return new CourseResponse.DetailDTO(coursePS, subjectListPS);
     }
 }

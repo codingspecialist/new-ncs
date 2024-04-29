@@ -67,28 +67,15 @@ public class CourseResponse {
         private Integer courseRound;
         private String courseStatus;
 
-        private Integer totalPage; // 전체 페이지 수
-        private Integer pageSize; // 페이지 별 아이템 개수
-        private Integer pageNumber; // 현재 페이지 번호
-        private Boolean isFirst; // 첫번째 페이지 여부
-        private Boolean isLast; // 마지막 페이지 여부
-
         private List<SubjectDTO> subjects;
 
-        public DetailDTO(Course course, Page<Subject> paging) {
+        public DetailDTO(Course course, List<Subject> subjects) {
             this.courseId = course.getId();
             this.courseCode = course.getCode();
             this.courseTitle = course.getTitle();
             this.courseRound = course.getRound();
             this.courseStatus = course.getCourseStatus().value;
-
-            this.totalPage = paging.getTotalPages();
-            this.pageSize = paging.getSize();
-            this.pageNumber = paging.getNumber();
-            this.isFirst = paging.isFirst();
-            this.isLast = paging.isLast();
-
-            this.subjects = paging.getContent().stream().map(SubjectDTO::new).toList();
+            this.subjects = subjects.stream().map(SubjectDTO::new).toList();
         }
 
         @Data
