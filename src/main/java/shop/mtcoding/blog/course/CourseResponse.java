@@ -16,8 +16,8 @@ public class CourseResponse {
         private List<CourseDTO> courses;
 
         public SelectedDTO(Long currentCourseId, List<Course> courses) {
-            this.currentCourseId = currentCourseId;
-            this.courses = courses.stream().map(course -> new CourseDTO(course, currentCourseId)).toList();
+            this.currentCourseId = currentCourseId == null ? 0 : currentCourseId;
+            this.courses = courses.stream().map(course -> new CourseDTO(course, this.currentCourseId)).toList();
         }
 
         @Data

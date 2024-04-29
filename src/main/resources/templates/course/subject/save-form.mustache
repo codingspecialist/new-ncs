@@ -7,6 +7,7 @@
 
         <div class="card-header">
             <select class="form-control" id="select-option">
+                <option>과정을 선택해주세요 (필수)</option>
                 {{#model.courses}}
                     <option value="{{courseId}}" {{#isSelected}}selected{{/isSelected}}>{{round}}회차 {{title}}</option>
                 {{/model.courses}}
@@ -68,9 +69,7 @@
 
 <script>
     $("#select-option").change(() => {
-        console.log("옵션 변경됨");
         let currentCourseId = $("#select-option").val();
-        console.log(currentCourseId);
         $("#save-form").prop("action", `/api/course/${currentCourseId}/subject/save`);
     });
 

@@ -1,14 +1,16 @@
 {{> layout/header}}
 
+<input type="hidden" id="courseId" value="{{model.courseId}}">
+<input type="hidden" id="tabNum" value="{{tabNum}}">
+
 <div class="container p-5">
 
     <div class="d-flex justify-content-end">
         <div>
-            <a href="/api/course/{{model.courseId}}/subject/save-form" class="btn btn-primary mr-3">교과목등록</a>
-            <a href="/api/course/{{model.courseId}}/student/save-form" class="btn btn-primary">학생등록</a>
+            <a id="subject-save-form" href="/api/subject/save-form?courseId={{model.courseId}}" class="btn btn-primary mr-3">교과목등록</a>
+            <a id="student-save-form" href="/api/student/save-form?courseId={{model.courseId}}" class="btn btn-primary">학생등록</a>
         </div>
     </div>
-
 
     <div>
         과정ID : {{model.courseCode}} <br>
@@ -21,20 +23,20 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                    type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">해당 과정의 교과목들
+            <button class="nav-link active" id="subject-tab" data-bs-toggle="tab" data-bs-target="#subject-tab-pane"
+                    type="button" role="tab" aria-controls="subject-tab-pane" aria-selected="true">해당 과정의 교과목들
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">해당 과정의 학생들
+            <button class="nav-link" id="student-tab" data-bs-toggle="tab" data-bs-target="#student-tab-pane"
+                    type="button" role="tab" aria-controls="student-tab-pane" aria-selected="false">해당 과정의 학생들
             </button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
 
         <!--교과목 데이터 탭-->
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+        <div class="tab-pane fade show active" id="subject-tab-pane" role="tabpanel" aria-labelledby="subject-tab"
              tabindex="0">
             <table class="table table-hover">
                 <thead>
@@ -79,7 +81,7 @@
         </div>
 
         <!--학생 데이터 탭-->
-        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="tab-pane fade" id="student-tab-pane" role="tabpanel" aria-labelledby="student-tab" tabindex="0">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -113,5 +115,15 @@
     </div>
 
 </div>
+
+<script>
+    let selectedTabNum = $("#tabNum").val();
+
+    if(selectedTabNum == 0){
+        $("#subject-tab").click();
+    }else{
+        $("#student-tab").click();
+    }
+</script>
 
 {{> layout/footer}}

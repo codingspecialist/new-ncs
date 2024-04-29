@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
 
 @RequiredArgsConstructor
@@ -43,9 +44,10 @@ public class CourseController {
     }
 
     @GetMapping("/api/course/{courseId}")
-    public String list(@PathVariable Long courseId, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
+    public String detail(@PathVariable Long courseId, @RequestParam(value = "tabNum", required = false, defaultValue = "0") Integer tabNum, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
         CourseResponse.DetailDTO respDTO = courseService.과정상세(courseId, pageable);
         model.addAttribute("model", respDTO);
+        model.addAttribute("tabNum", tabNum);
         return "course/detail";
     }
 
