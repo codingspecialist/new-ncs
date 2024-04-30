@@ -5,8 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import shop.mtcoding.blog.course.exam.paper.ExamPaper;
+import shop.mtcoding.blog.course.paper.Paper;
 import shop.mtcoding.blog.course.student.Student;
+import shop.mtcoding.blog.user.User;
 
 import java.time.LocalDateTime;
 
@@ -22,28 +23,44 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String examTitle; // ExamPaper안에 Subject안에 title이 있지만, 중복해서 저장(조회가 편함)
+
+    // 시험 보는 학생
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 
+    // 시험 담당 강사
     @ManyToOne(fetch = FetchType.LAZY)
-    private ExamPaper examPaper;
+    private User teacher;
 
+    // 시험지
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Paper examPaper;
+
+    // 결석여부
     private boolean isAbsent;
 
     private String examState; // 본평가, 재평가
     private String passState; // 통과, 미통과, 평가포기
 
+    private Integer point; // 시험결과 점수
+    private Integer grade; // 시험결과 수준
+
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public Exam(Long id, Student student, ExamPaper examPaper, boolean isAbsent, String examState, String passState, LocalDateTime createDate) {
+    public Exam(Long id, String examTitle, Student student, User teacher, Paper examPaper, boolean isAbsent, String examState, String passState, Integer point, Integer grade, LocalDateTime createDate) {
         this.id = id;
+        this.examTitle = examTitle;
         this.student = student;
+        this.teacher = teacher;
         this.examPaper = examPaper;
         this.isAbsent = isAbsent;
         this.examState = examState;
         this.passState = passState;
+        this.point = point;
+        this.grade = grade;
         this.createDate = createDate;
     }
 }

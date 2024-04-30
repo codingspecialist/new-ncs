@@ -1,11 +1,11 @@
-package shop.mtcoding.blog.course.exam.paper.question.option;
+package shop.mtcoding.blog.course.paper.question.option;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import shop.mtcoding.blog.course.exam.paper.question.ExamPaperQuestion;
+import shop.mtcoding.blog.course.paper.question.PaperQuestion;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "exam_paper_question_option_tb")
-public class ExamPaperQuestionOption {
+@Table(name = "paper_question_option_tb")
+public class PaperQuestionOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,17 +25,17 @@ public class ExamPaperQuestionOption {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private ExamPaperQuestion examPaperQuestion;
+    private PaperQuestion paperQuestion;
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public ExamPaperQuestionOption(Long id, Integer no, String content, ExamPaperQuestion examPaperQuestion, LocalDateTime createDate) {
+    public PaperQuestionOption(Long id, Integer no, String content, PaperQuestion paperQuestion, LocalDateTime createDate) {
         this.id = id;
         this.no = no;
         this.content = content;
-        this.examPaperQuestion = examPaperQuestion;
+        this.paperQuestion = paperQuestion;
         this.createDate = createDate;
     }
 }
