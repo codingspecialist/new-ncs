@@ -30,4 +30,16 @@ insert into student_tb(birthday, course_id, create_date, name, state)
 values('950501', 1, now(), '이종한', 'ENROLLED');
 
 insert into student_tb(birthday, comment, course_id, create_date, drop_out_date, drop_out_reason, grade, name, state)
-values('800825', '탈락자 총평없음', 1, now(), '2024-07-01', '몸이아픔', 0, '이종환', 'DROPOUT')
+values('800825', '탈락자 총평없음', 1, now(), '2024-07-01', '몸이아픔', 0, '이종환', 'DROPOUT');
+
+insert into subject_element_tb(create_date, no, subject_id, subtitle)
+values(now(), 1, 1, '연산자');
+
+insert into subject_element_tb(create_date, no, subject_id, subtitle)
+values(now(), 2, 1, '객체지향');
+
+insert into subject_element_tb(create_date, no, subject_id, subtitle)
+values(now(), 3, 1, '오버로딩');
+
+insert into subject_element_tb(create_date, no, subject_id, subtitle)
+values(now(), 4, 1, '스레드');

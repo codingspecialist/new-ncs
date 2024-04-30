@@ -41,17 +41,16 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
+                    <th>연번</th>
                     <th>교과목ID</th>
                     <th>교과목명</th>
-                    <th>교과목목표</th>
-                    <th>NCS여부</th>
+                    <th>NCS</th>
                     <th>훈련수준</th>
                     <th>교과목시간</th>
-                    <th>교과목연번</th>
-                    <th>교수학습방법</th>
+                    <th>학습방법</th>
                     <th>평가방법</th>
-                    <th>교과목시작일</th>
-                    <th>교과목종료일</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
                     <th>평가일</th>
                     <th>재평가일</th>
                 </tr>
@@ -59,13 +58,12 @@
                 <tbody>
                 {{#model.subjects}}
                     <tr>
+                        <td>{{no}}</td>
                         <td>{{code}}</td>
                         <td><a href="/api/subject/{{subjectId}}/element">{{title}}</td>
-                        <td>{{purpose}}</td>
                         <td>{{gubun}}</td>
                         <td>{{grade}}</td>
                         <td>{{totalTime}}</td>
-                        <td>{{no}}</td>
                         <td>{{learningWay}}</td>
                         <td>{{evaluationWay}}</td>
                         <td>{{startDate}}</td>

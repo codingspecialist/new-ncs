@@ -40,4 +40,10 @@ public class MyExceptionHandler {
     public String ex500(Exception500 e){
         return Script.back(e.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public String unknown(Exception e){
+        return Script.back(e.getMessage());
+    }
 }

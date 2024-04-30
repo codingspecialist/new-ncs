@@ -24,4 +24,13 @@ public class SubjectElementService {
         List<SubjectElement> subjectElementListPS = subjectElementRepository.findBySubjectId(subjectId);
         return new SubjectElementResponse.ListDTO(subjectPS, subjectElementListPS);
     }
+
+    @Transactional
+    public void 교과목요소전체등록(Long subjectId, List<SubjectElementRequest.SaveDTO> reqDTOs) {
+        Subject subjectPS = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new Exception404("해당 교과목을 찾을 수 없습니다"));
+
+        List<SubjectElement> subjectElements = reqDTOs.stream().map(saveDTO -> saveDTO.toEntity(subjectPS)).toList();
+        subjectElementRepository.saveAll(subjectElements);
+    }
 }
