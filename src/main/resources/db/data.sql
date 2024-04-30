@@ -43,3 +43,95 @@ values(now(), 3, 1, '오버로딩');
 
 insert into subject_element_tb(create_date, no, subject_id, subtitle)
 values(now(), 4, 1, '스레드');
+
+insert into paper_tb(subject_id, create_date, count)
+values(1, now(), 2);
+
+insert into paper_tb(subject_id, create_date, count)
+values(2, now(), 5);
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(1, '다음 중 for문 설명으로 틀린것은?', 50, 4, 1, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(2, '다음 중 while문 설명으로 틀린것은?', 50, 4, 1, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(1, '다음 중 select 설명으로 틀린것은?', 20, 4, 2, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(2, '다음 중 insert 설명으로 틀린것은?', 20, 4, 2, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(3, '다음 중 update 설명으로 틀린것은?', 20, 4, 2, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(4, '다음 중 delete 설명으로 틀린것은?', 20, 4, 2, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(5, '다음 중 dml 설명으로 틀린것은?', 20, 4, 2, now());
+
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 1, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 1, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 1, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 1, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 2, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 2, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 2, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 2, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 3, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 3, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 3, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 3, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 4, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 4, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 4, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 4, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 5, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 5, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 5, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 5, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 6, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 6, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 6, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 6, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 7, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 7, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 7, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 7, now(), true);
+

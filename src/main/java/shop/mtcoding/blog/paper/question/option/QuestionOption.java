@@ -1,11 +1,11 @@
-package shop.mtcoding.blog.course.paper.question.option;
+package shop.mtcoding.blog.paper.question.option;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import shop.mtcoding.blog.course.paper.question.PaperQuestion;
+import shop.mtcoding.blog.paper.question.Question;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "paper_question_option_tb")
-public class PaperQuestionOption {
+@Table(name = "question_option_tb")
+public class QuestionOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,17 +25,20 @@ public class PaperQuestionOption {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private PaperQuestion paperQuestion;
+    private Question question;
+    
+    private Boolean isRight; // true 이면 정답
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public PaperQuestionOption(Long id, Integer no, String content, PaperQuestion paperQuestion, LocalDateTime createDate) {
+    public QuestionOption(Long id, Integer no, String content, Question question, Boolean isRight, LocalDateTime createDate) {
         this.id = id;
         this.no = no;
         this.content = content;
-        this.paperQuestion = paperQuestion;
+        this.question = question;
+        this.isRight = isRight;
         this.createDate = createDate;
     }
 }

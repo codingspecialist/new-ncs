@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import shop.mtcoding.blog.course.paper.Paper;
+import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.user.User;
 
@@ -22,8 +22,6 @@ public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String examTitle; // ExamPaper안에 Subject안에 title이 있지만, 중복해서 저장(조회가 편함)
 
     // 시험 보는 학생
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,9 +48,8 @@ public class Exam {
     private LocalDateTime createDate;
 
     @Builder
-    public Exam(Long id, String examTitle, Student student, User teacher, Paper examPaper, boolean isAbsent, String examState, String passState, Integer point, Integer grade, LocalDateTime createDate) {
+    public Exam(Long id, Student student, User teacher, Paper examPaper, boolean isAbsent, String examState, String passState, Integer point, Integer grade, LocalDateTime createDate) {
         this.id = id;
-        this.examTitle = examTitle;
         this.student = student;
         this.teacher = teacher;
         this.examPaper = examPaper;

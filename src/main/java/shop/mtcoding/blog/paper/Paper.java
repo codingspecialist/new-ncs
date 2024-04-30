@@ -1,4 +1,4 @@
-package shop.mtcoding.blog.course.paper;
+package shop.mtcoding.blog.paper;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -21,7 +21,6 @@ public class Paper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     // 하나의 시험지는 하나의 과정에 하나의 교과목에서만 사용될 수 있다.
     // 그런데 과정은 2회차가 있기 때문에 그 회차에도 사용되어야 한다.
     // 시험지는 한개 만들어서 공유해서 쓰면 된다.
@@ -32,16 +31,21 @@ public class Paper {
     // 만들어둬야 한다.
     // 그럼 시험을 친다는 것은 시험지를 업데이트 하는 방식이 되어야 한다.
     // 어떤 방식이 좋을까?
+
+    // @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ManyToOne(fetch = FetchType.LAZY)
     private Subject subject; // Subject(정보들), SubjectElement(subtitles)
+
+    private Integer count; // 문항수
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public Paper(Long id, Subject subject, LocalDateTime createDate) {
+    public Paper(Long id, Subject subject, Integer count, LocalDateTime createDate) {
         this.id = id;
         this.subject = subject;
+        this.count = count;
         this.createDate = createDate;
     }
 }
