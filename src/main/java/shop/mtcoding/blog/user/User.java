@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import shop.mtcoding.blog.course.student.Student;
 
 import java.sql.Timestamp;
 
@@ -20,18 +21,25 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String name; // 선생님 이름
+    private String name; // 선생님 이름 or 학생 이름
+    private String role; // student, teacher
 
     @CreationTimestamp // pc -> db (날짜주입)
     private Timestamp createdAt;
 
+    // @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Student student; // role이 student이면 연결된 객체 필요!! 선생이 먼저 학생을 등록해야 가입가능
+
     @Builder
-    public User(Integer id, String username, String password, String email, String name, Timestamp createdAt) {
+    public User(Integer id, String username, String password, String email, String name, String role, Timestamp createdAt, Student student) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
+        this.role = role;
         this.createdAt = createdAt;
+        this.student = student;
     }
 }

@@ -10,18 +10,18 @@
         <thead>
         <tr>
             <th>번호</th>
-            <th>과정명/회차</th>
             <th>교과목</th>
             <th>문항수</th>
+            <th>과정명/회차</th>
         </tr>
         </thead>
         <tbody>
         {{#paging.papers}}
             <tr>
                 <td>{{paperId}}</td>
-                <td>{{courseTitle}}/{{courseRound}}회차</td>
                 <td><a href="/api/paper/{{paperId}}">{{subjectTitle}}</a></td>
                 <td>{{count}}</td>
+                <td>{{courseTitle}}/{{courseRound}}회차</td>
             </tr>
         {{/paging.papers}}
         </tbody>

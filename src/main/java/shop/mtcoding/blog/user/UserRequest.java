@@ -17,6 +17,8 @@ public class UserRequest {
                     .password(password)
                     .email(email)
                     .name(name)
+                    .role("student")
+                    .student(null)
                     .build();
         }
     }

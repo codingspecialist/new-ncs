@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog.user.User;
 
 @RequiredArgsConstructor
@@ -26,6 +27,8 @@ public class CourseController {
         // 인터셉터에서 / 주소 때문에 이 부분만 예외로 세션 인증 처리하기
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
+
+        if(sessionUser.getRole().equals("student")) throw new Exception401("해당 리소스에 접근할 권한이 없습니다");
 
         CourseResponse.PagingDTO respDTO = courseService.과정목록(pageable);
         model.addAttribute("paging", respDTO);

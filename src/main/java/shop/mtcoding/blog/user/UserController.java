@@ -34,7 +34,17 @@ public class UserController {
     public String login(UserRequest.LoginDTO reqDTO) {
         User sessionUser = userService.로그인(reqDTO);
         session.setAttribute("sessionUser", sessionUser);
-        return "redirect:/";
+
+
+        if(sessionUser.getRole().equals("student")){
+            session.setAttribute("teacher", false);
+            return "redirect:/api/exam";
+        }else{
+            session.setAttribute("teacher", true);
+            return "redirect:/";
+        }
+
+
     }
 
     @GetMapping("/logout")

@@ -1,7 +1,3 @@
-insert into user_tb(username, password, email, name, created_at) values('ssar', '1234', 'ssar@nate.com', '쌀',now());
-insert into user_tb(username, password, email, name, created_at) values('cos', '1234', 'cos@nate.com', '코스',now());
-insert into user_tb(username, password, email, name, created_at) values('love', '1234', 'love@nate.com', '러브',now());
-
 insert into course_tb(code, course_status, create_date, end_date, level, purpose, round, start_date, teacher_name, title, total_day, total_time)
 values('C1001', 'RUNNING', now(), '2024-11-01', 5, '플러터를 통해 크로스 플랫폼을 학습한다', 1, '2024-05-01', '홍길동', '자바 크로스 플랫폼 과정', 120, 900);
 
@@ -134,4 +130,9 @@ insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(3, '한번만실행할수있다', 7, now(), false);
 insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(4, '반복되지않는다', 7, now(), true);
+
+insert into user_tb(username, password, email, name, role, student_id, created_at) values('ssar', '1234', 'ssar@nate.com', '최주호', 'teacher', null, now());
+insert into user_tb(username, password, email, name, role, student_id, created_at) values('cos', '1234', 'cos@nate.com', '김성훈', 'student', 1, now());
+insert into user_tb(username, password, email, name, role, student_id, created_at) values('love', '1234', 'love@nate.com', '김주혁', 'student', 2, now());
+
 
