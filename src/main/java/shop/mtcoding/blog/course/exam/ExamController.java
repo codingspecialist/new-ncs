@@ -14,4 +14,9 @@ public class ExamController {
     public String list(){
         return "course/exam/list";
     }
+
+    @GetMapping("/api/exam/my")
+    public String my(){
+        return "course/exam/my";
+    }
 }

@@ -28,7 +28,8 @@ public class User {
     private Timestamp createdAt;
 
     // @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne(fetch = FetchType.LAZY)
+    // @Column(unique = true) // OneToOne은 UK가 기본적용됨.
+    @OneToOne(fetch = FetchType.LAZY)
     private Student student; // role이 student이면 연결된 객체 필요!! 선생이 먼저 학생을 등록해야 가입가능
 
     @Builder
