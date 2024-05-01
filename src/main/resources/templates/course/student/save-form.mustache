@@ -1,4 +1,5 @@
 {{> layout/header}}
+<input type="hidden" id="screen" value="{{screen}}">
 
 <div class="container p-5">
 
@@ -15,7 +16,7 @@
         </div>
 
         <div class="card-body">
-            <form id="save-form" action="/api/course/{{model.currentCourseId}}/student/save" method="post"
+            <form id="save-form" action="/api/course/{{model.currentCourseId}}/student/save?screen={{screen}}" method="post"
                   enctype="application/x-www-form-urlencoded">
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="학생명" name="name" value="김성훈">
@@ -32,7 +33,8 @@
 <script>
     $("#select-option").change(() => {
         let currentCourseId = $("#select-option").val();
-        $("#save-form").prop("action", `/api/course/${currentCourseId}/student/save`);
+        let screen = $("#screen").val();
+        $("#save-form").prop("action", `/api/course/${currentCourseId}/student/save?screen=${screen}`);
     });
 
     $("#select-option").css("color", "blue");

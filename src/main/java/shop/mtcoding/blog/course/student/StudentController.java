@@ -32,23 +32,18 @@ public class StudentController {
     public String saveForm(@RequestParam(value = "courseId", required = false) Long courseId, Model model) {
         CourseResponse.SelectedDTO respDTO = courseService.선택된과정목록(courseId);
         model.addAttribute("model", respDTO);
-
-        // detail에서 왔는지 header의 nav를 바로 클릭했는지 여부 파악
-        session.setAttribute("beforeCourseId", courseId);
+        model.addAttribute("screen", courseId == null ? "" : "detail");
 
         return "course/student/save-form";
     }
 
     @PostMapping("/api/course/{courseId}/student/save")
-    public String save(@PathVariable Long courseId, StudentRequest.SaveDTO reqDTO){
+    public String save(@PathVariable Long courseId, StudentRequest.SaveDTO reqDTO, @RequestParam(value = "screen", required = false) String screen){
         studentService.학생등록(courseId, reqDTO);
 
-        Long beforeCourseId = (Long) session.getAttribute("beforeCourseId");
-        if(beforeCourseId != null){ // 과정DB에서 과정선택 후 교과목 등록 클릭
-            session.removeAttribute("beforeCourseId");
-            // 어떤 tab을 선택해서 화면을 초기화 할지 결정하기 (0 교과목, 1 학생)
+        if(screen.equals("detail")){
             return "redirect:/api/course/"+courseId+"?tabNum=1";
-        }else{ // 교과목DB 메뉴에서 교과목 등록 버튼 클릭
+        }else{
             return "redirect:/api/student";
         }
     }
