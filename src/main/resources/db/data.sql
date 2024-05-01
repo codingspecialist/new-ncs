@@ -1,4 +1,4 @@
-insert into user_tb(username, password, email, name, role, student_id, created_at) values('ssar', '1234', 'ssar@nate.com', '최주호', 'teacher', null, now());
+insert into user_tb(username, password, email, name, role, status, student_id, created_at) values('ssar', '1234', 'ssar@nate.com', '최주호', 'teacher', true, null, now());
 
 
 insert into course_tb(code, course_status, start_date, end_date, level, purpose, round, teacher_name, title, total_day, total_time, create_date)

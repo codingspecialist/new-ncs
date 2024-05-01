@@ -28,8 +28,6 @@ public class CourseController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
 
-        if(sessionUser.getRole().equals("student")) throw new Exception401("해당 리소스에 접근할 권한이 없습니다");
-
         CourseResponse.PagingDTO respDTO = courseService.과정목록(pageable);
         model.addAttribute("paging", respDTO);
 

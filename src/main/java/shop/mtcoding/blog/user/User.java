@@ -16,13 +16,14 @@ import java.sql.Timestamp;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(unique = true)
     private String username;
     private String password;
     private String email;
     private String name; // 선생님 이름 or 학생 이름
     private String role; // student, teacher
+    private Boolean status; // 인증 여부
 
     @CreationTimestamp // pc -> db (날짜주입)
     private Timestamp createdAt;
@@ -33,13 +34,14 @@ public class User {
     private Student student; // role이 student이면 연결된 객체 필요!! 선생이 먼저 학생을 등록해야 가입가능
 
     @Builder
-    public User(Integer id, String username, String password, String email, String name, String role, Timestamp createdAt, Student student) {
+    public User(Long id, String username, String password, String email, String name, String role, Boolean status, Timestamp createdAt, Student student) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
         this.role = role;
+        this.status = status;
         this.createdAt = createdAt;
         this.student = student;
     }

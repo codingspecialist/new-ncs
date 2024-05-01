@@ -24,9 +24,33 @@ public class UserController {
         return "user/login-form";
     }
 
+    @PostMapping("/student-check")
+    public String studentCheck(UserRequest.StudentCheckDTO reqDTO){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser==null) return "redirect:/login-form";
+
+        User userPS =userService.학생인증(reqDTO);
+
+        session.setAttribute("sessionUser", userPS);
+        return "redirect:/api/exam/my";
+    }
+
+    @GetMapping("/student-check-form")
+    public String studentCheckForm(){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser==null) return "redirect:/login-form";
+        return "user/student-check-form";
+    }
+
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO reqDTO) {
-        userService.회원가입(reqDTO);
+        User sessionUser = userService.회원가입(reqDTO);
+
+        if(reqDTO.getRole().equals("student")){
+            session.setAttribute("sessionUser", sessionUser);
+            return "redirect:/student-check-form";
+        }
+
         return "redirect:/login-form";
     }
 
@@ -35,12 +59,15 @@ public class UserController {
         User sessionUser = userService.로그인(reqDTO);
         session.setAttribute("sessionUser", sessionUser);
 
-
         if(sessionUser.getRole().equals("student")){
-            session.setAttribute("teacher", false);
-            return "redirect:/api/exam";
+            if(sessionUser.getStatus()){
+                session.setAttribute("teacher", sessionUser.getRole().equals("teacher"));
+                return "redirect:/api/exam";
+            }else{
+                return "redirect:/student-check-form";
+            }
         }else{
-            session.setAttribute("teacher", true);
+            session.setAttribute("teacher", sessionUser.getRole().equals("teacher"));
             return "redirect:/";
         }
 

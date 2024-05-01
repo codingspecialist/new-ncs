@@ -11,6 +11,12 @@ import shop.mtcoding.blog._core.utils.Script;
 @RestControllerAdvice // 데이터 응답
 public class MyExceptionHandler {
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(StudentCheckException.class)
+    public String ex401(StudentCheckException e){
+        return Script.href("/student-check-form", e.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception400.class)
     public String ex400(Exception400 e){

@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
+import shop.mtcoding.blog._core.errors.exception.Exception403;
+import shop.mtcoding.blog._core.utils.Script;
 import shop.mtcoding.blog.user.User;
 
 public class LoginInterceptor implements HandlerInterceptor{
@@ -22,9 +24,16 @@ public class LoginInterceptor implements HandlerInterceptor{
             String role = sessionUser.getRole();
             if(role.equals("student")){
                 if(url.startsWith("/api/exam")){
-                    return true;
+                    
+                    if(sessionUser.getStatus() == false){
+                        response.setContentType("text/html; charset-utf-8");
+                        response.getWriter().println(Script.href("/student-check-form", "학생인증이 필요합니다"));
+                        return false;
+                    }else{
+                        return true;
+                    }
                 }else{
-                    throw new Exception401("해당 리소스에 접근할 권한이 없습니다");
+                    throw new Exception403("해당 리소스에 접근할 권한이 없습니다");
                 }
             }
         }
