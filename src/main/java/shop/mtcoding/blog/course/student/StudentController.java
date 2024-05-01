@@ -47,7 +47,7 @@ public class StudentController {
         if(beforeCourseId != null){ // 과정DB에서 과정선택 후 교과목 등록 클릭
             session.removeAttribute("beforeCourseId");
             // 어떤 tab을 선택해서 화면을 초기화 할지 결정하기 (0 교과목, 1 학생)
-            return "redirect:/api/course/"+beforeCourseId+"?tabNum=1";
+            return "redirect:/api/course/"+courseId+"?tabNum=1";
         }else{ // 교과목DB 메뉴에서 교과목 등록 버튼 클릭
             return "redirect:/api/student";
         }
