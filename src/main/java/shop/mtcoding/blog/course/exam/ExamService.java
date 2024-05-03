@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
-import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.course.student.StudentRepository;
-import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.SubjectRepository;
 import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.PaperRepository;
@@ -25,12 +23,17 @@ public class ExamService {
     private final UserRepository userRepository;
     private final SubjectRepository subjectRepository;
 
-    public void 시험지목록(Long sessionUserId){
+    public List<ExamResponse.MyPaperDTO> 나의시험지목록(Long sessionUserId){
         User userPS = userRepository.findByStudent(sessionUserId)
-                .orElseThrow(() -> new Exception404("유저를 찾을 수 없어요"));
+                .orElseThrow(() -> new Exception404("당신은 학생이 아니에요 : 관리자에게 문의하세요."));
 
         Long courseId = userPS.getStudent().getCourse().getId();
 
-        List<Subject> subjects = subjectRepository.findByCourseId(courseId);
+        System.out.println("=================================");
+        System.out.println("courseId : "+courseId);
+        System.out.println("=================================");
+
+        List<Paper> paper = paperRepository.findByCourseId(courseId);
+        return paper.stream().map(ExamResponse.MyPaperDTO::new).toList();
     }
 }

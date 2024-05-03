@@ -22,6 +22,7 @@ public class PaperService {
     private final QuestionRepository paperQuestionRepository;
     private final SubjectElementRepository subjectElementRepository;
 
+    // 전체 시험지 목록
     public PaperResponse.PagingDTO 시험지목록(Pageable pageable){
         Page<Paper> paperPG = paperRepository.findAll(pageable);
         return new PaperResponse.PagingDTO(paperPG);
