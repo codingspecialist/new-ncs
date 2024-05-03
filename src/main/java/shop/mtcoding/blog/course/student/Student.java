@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.Course;
+import shop.mtcoding.blog.user.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +31,10 @@ public class Student {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
+
+    // 조회 용도로만 사용
+    @OneToOne(mappedBy = "student")
+    private User user;
 
     @CreationTimestamp
     private LocalDateTime createDate;

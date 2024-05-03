@@ -12,4 +12,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByCourseId(@Param("courseId") Long courseId);
 
     Student findByNameAndBirthday(@Param("name") String name, @Param("courseId") String courseId);
+
+    Student findByUserId(@Param("userId") Long userId);
 }
