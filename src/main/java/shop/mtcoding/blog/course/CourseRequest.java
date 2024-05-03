@@ -17,7 +17,7 @@ public class CourseRequest {
         private Integer round;
         private LocalDate startDate;
         private LocalDate endDate;
-        private String teacherName;
+        private String mainTeacherName;
 
         public Course toEntity(){
             return Course.builder()
@@ -31,7 +31,7 @@ public class CourseRequest {
                     .startDate(startDate)
                     .endDate(endDate)
                     .courseStatus(CourseEnum.NOT_STARTED)
-                    .teacherName(teacherName)
+                    .mainTeacherName(mainTeacherName)
                     .build();
         }
     }

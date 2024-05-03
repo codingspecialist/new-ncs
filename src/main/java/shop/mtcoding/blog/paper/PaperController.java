@@ -31,16 +31,11 @@ public class PaperController {
     }
 
     @GetMapping("/api/paper/{paperId}")
-    public String detail(@PathVariable Long paperId, Model model){
+    public String detail(@PathVariable(value = "paperId") Long paperId, Model model){
         PaperResponse.QuestionListDTO respDTO = paperService.문제목록(paperId);
         model.addAttribute("model", respDTO);
         return "paper/detail";
     }
 
-    @GetMapping("/paper/{paperId}")
-    public ResponseEntity<?> detailTest(@PathVariable Long paperId, Model model){
-        PaperResponse.QuestionListDTO respDTO = paperService.문제목록(paperId);
-        model.addAttribute("model", respDTO);
-        return ResponseEntity.ok(respDTO);
-    }
+
 }

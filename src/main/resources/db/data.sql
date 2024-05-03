@@ -1,14 +1,14 @@
 insert into user_tb(username, password, email, name, role, is_check, student_id, created_at) values('ssar', '1234', 'ssar@nate.com', '최주호', 'teacher', true, null, now());
 
 
-insert into course_tb(code, course_status, start_date, end_date, level, purpose, round, teacher_name, title, total_day, total_time, create_date)
+insert into course_tb(code, course_status, start_date, end_date, level, purpose, round, main_teacher_name, title, total_day, total_time, create_date)
 values('C1004', 'NOT_STARTED', '2024-06-01', '2025-03-07', 5, '마이크로 아키텍쳐에 대해서 이해한다.', 1, '최주호', 'MSA기반 자바과정', 150, 1200, now());
 
 
-insert into subject_tb(code, course_id, start_date, end_date, evaluation_date,  revaluation_date, evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)
-values('S2001', 1, '2024-06-01', '2024-06-07', '2024-06-07', '2024-06-08', '서술형시험', 3, 'NCS', '실습', 1, '객체지향을 학습하는 능력이다', '자바', 50, now());
-insert into subject_tb(code, course_id, start_date, end_date, evaluation_date,  revaluation_date, evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)
-values('S2002', 1, '2024-06-08', '2024-06-13', '2024-06-13', '2024-06-14', '서술형시험', 3, 'NCS', '실습', 2, 'HTTP를 학습하는 능력이다', '스프링부트', 50, now());
+insert into subject_tb(teacher_name, code, course_id, start_date, end_date, evaluation_date,  revaluation_date, evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)
+values('최주호', 'S2001', 1, '2024-06-01', '2024-06-07', '2024-06-07', '2024-06-08', '서술형시험', 3, 'NCS', '실습', 1, '객체지향을 학습하는 능력이다', '자바', 50, now());
+insert into subject_tb(teacher_name, code, course_id, start_date, end_date, evaluation_date,  revaluation_date, evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)
+values('최주호', 'S2002', 1, '2024-06-08', '2024-06-13', '2024-06-13', '2024-06-14', '서술형시험', 3, 'NCS', '실습', 2, 'HTTP를 학습하는 능력이다', '스프링부트', 50, now());
 
 
 insert into student_tb(birthday, course_id, create_date, name, state)

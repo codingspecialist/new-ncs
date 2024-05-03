@@ -9,6 +9,7 @@ public class SubjectRequest {
 
     @Data
     public static class SaveDTO {
+        private String teacherName;
         private String code; // 교과목ID
         private String title; // 교과목명
         private String purpose; // 교과목목표
@@ -25,6 +26,7 @@ public class SubjectRequest {
 
         public Subject toEntity(Course course){
             return Subject.builder()
+                    .teacherName(teacherName)
                     .code(code)
                     .title(title)
                     .purpose(purpose)

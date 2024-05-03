@@ -38,7 +38,7 @@ public class StudentController {
     }
 
     @PostMapping("/api/course/{courseId}/student/save")
-    public String save(@PathVariable Long courseId, StudentRequest.SaveDTO reqDTO, @RequestParam(value = "screen", required = false) String screen){
+    public String save(@PathVariable(value = "courseId") Long courseId, StudentRequest.SaveDTO reqDTO, @RequestParam(value = "screen", required = false) String screen){
         studentService.학생등록(courseId, reqDTO);
 
         if(screen.equals("detail")){

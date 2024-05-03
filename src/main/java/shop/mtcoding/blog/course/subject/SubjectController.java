@@ -39,7 +39,7 @@ public class SubjectController {
     }
 
     @PostMapping("/api/course/{courseId}/subject/save")
-    public String save(@PathVariable Long courseId, SubjectRequest.SaveDTO reqDTO, @RequestParam(value = "screen", required = false) String screen){
+    public String save(@PathVariable(value = "courseId") Long courseId, SubjectRequest.SaveDTO reqDTO, @RequestParam(value = "screen", required = false) String screen){
         subjectService.교과목등록(courseId, reqDTO);
 
         if(screen.equals("detail")){

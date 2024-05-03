@@ -46,8 +46,8 @@ public class CourseController {
     }
 
     @GetMapping("/api/course/{courseId}")
-    public String detail(@PathVariable Long courseId, @RequestParam(value = "tabNum", required = false, defaultValue = "0") Integer tabNum, Model model, @PageableDefault(size = 5, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
-        CourseResponse.DetailDTO respDTO = courseService.과정상세(courseId, pageable);
+    public String detail(@PathVariable(value = "courseId") Long courseId, @RequestParam(value = "tabNum", required = false, defaultValue = "0") Integer tabNum, Model model){
+        CourseResponse.DetailDTO respDTO = courseService.과정상세(courseId);
         model.addAttribute("model", respDTO);
 
         // 과정 상세보기에서 무슨 학생등록 버튼 클릭하면 리다이렉션되면, 탭번호가 1, 교과목등록이면 탭번호 0

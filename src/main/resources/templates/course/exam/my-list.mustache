@@ -7,21 +7,23 @@
         <tr>
             <th>번호</th>
             <th>교과목</th>
-            <th>문항수</th>
+            <th>시험문항수</th>
             <th>과정명/회차</th>
+            <th>훈려강사</th>
             <th>응시하기</th>
         </tr>
         </thead>
         <tbody>
-        {{#models}}
+        {{#model.papers}}
             <tr>
                 <td>{{paperId}}</td>
                 <td>{{subjectTitle}}</td>
                 <td>{{count}}</td>
                 <td>{{courseTitle}}/{{courseRound}}회차</td>
-                <td><a class="btn btn-outline-primary btn-sm" href="/api/exam/my/start">응시하기</a></td>
+                <td>{{teacherName}}</td>
+                <td><a class="btn btn-outline-primary btn-sm" href="/api/exam/my/start?paperId={{paperId}}">응시하기</a></td>
             </tr>
-        {{/models}}
+        {{/model.papers}}
         </tbody>
     </table>
 

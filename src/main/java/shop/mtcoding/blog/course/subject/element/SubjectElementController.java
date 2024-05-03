@@ -22,20 +22,20 @@ public class SubjectElementController {
     private final SubjectElementService subjectElementService;
 
     @GetMapping("/api/subject/{subjectId}/element")
-    public String list(@PathVariable Long subjectId, Model model){
+    public String list(@PathVariable(value = "subjectId") Long subjectId, Model model){
         SubjectElementResponse.ListDTO respDTO = subjectElementService.교과목요소목록(subjectId);
         model.addAttribute("model", respDTO);
         return "course/subject/element/list";
     }
 
     @GetMapping("/api/subject/{subjectId}/element/save-form")
-    public String saveForm(@PathVariable Long subjectId, Model model){
+    public String saveForm(@PathVariable(value = "subjectId") Long subjectId, Model model){
         model.addAttribute("subjectId", subjectId);
         return "course/subject/element/save-form";
     }
 
     @PostMapping("/api/subject/{subjectId}/element/save")
-    public ResponseEntity<?> save(@PathVariable Long subjectId, @RequestBody List<SubjectElementRequest.SaveDTO> reqDTOs){
+    public ResponseEntity<?> save(@PathVariable(value = "subjectId") Long subjectId, @RequestBody List<SubjectElementRequest.SaveDTO> reqDTOs){
         subjectElementService.교과목요소전체등록(subjectId, reqDTOs);
         return ResponseEntity.ok(new ApiUtil<>(null));
     }

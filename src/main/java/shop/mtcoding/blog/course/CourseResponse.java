@@ -80,7 +80,7 @@ public class CourseResponse {
                 this.purpose = course.getPurpose();
                 this.startDate = course.getStartDate();
                 this.endDate = course.getEndDate();
-                this.teacherName = course.getTeacherName();
+                this.teacherName = course.getMainTeacherName();
                 this.courseStatus = course.getCourseStatus().getValue();
             }
         }

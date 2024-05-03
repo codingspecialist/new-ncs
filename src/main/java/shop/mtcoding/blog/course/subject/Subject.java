@@ -39,6 +39,7 @@ public class Subject {
     private LocalDate revaluationDate; // 재평가일
     private LocalDate startDate; // 교과목 시작일
     private LocalDate endDate; // 교과목 종료일
+    private String teacherName; // 교과목 훈련교사 이름
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Paper> papers = new ArrayList<>();
@@ -55,7 +56,7 @@ public class Subject {
     private LocalDateTime createDate;
 
     @Builder
-    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, String evaluationWay, LocalDate evaluationDate, LocalDate revaluationDate, LocalDate startDate, LocalDate endDate, Course course, LocalDateTime createDate) {
+    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, String evaluationWay, LocalDate evaluationDate, LocalDate revaluationDate, LocalDate startDate, LocalDate endDate, String teacherName, Course course, LocalDateTime createDate) {
         this.id = id;
         this.code = code;
         this.title = title;
@@ -70,6 +71,7 @@ public class Subject {
         this.revaluationDate = revaluationDate;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.teacherName = teacherName;
         this.course = course;
         this.createDate = createDate;
     }
