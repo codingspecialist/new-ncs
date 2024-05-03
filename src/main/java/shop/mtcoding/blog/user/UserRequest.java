@@ -26,7 +26,7 @@ public class UserRequest {
                     .email(email)
                     .name(name)
                     .role(role)
-                    .status(false) // 인증안됨
+                    .isCheck(false) // 인증안됨
                     .build();
         }
     }

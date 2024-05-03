@@ -33,7 +33,7 @@ public class Exam {
 
     // 시험지
     @ManyToOne(fetch = FetchType.LAZY)
-    private Paper examPaper;
+    private Paper paper;
 
     // 결석여부
     private boolean isAbsent;
@@ -48,11 +48,11 @@ public class Exam {
     private LocalDateTime createDate;
 
     @Builder
-    public Exam(Long id, Student student, User teacher, Paper examPaper, boolean isAbsent, String examState, String passState, Integer point, Integer grade, LocalDateTime createDate) {
+    public Exam(Long id, Student student, User teacher, Paper paper, boolean isAbsent, String examState, String passState, Integer point, Integer grade, LocalDateTime createDate) {
         this.id = id;
         this.student = student;
         this.teacher = teacher;
-        this.examPaper = examPaper;
+        this.paper = paper;
         this.isAbsent = isAbsent;
         this.examState = examState;
         this.passState = passState;

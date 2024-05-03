@@ -48,7 +48,7 @@ public class UserService {
         User userPS = userRepository.findById(reqDTO.getUserId())
                 .orElseThrow();
         userPS.setStudent(studentPS);
-        userPS.setStatus(true);
+        userPS.setIsCheck(true);
 
         return userPS;
     } // 더티체킹 업데이트

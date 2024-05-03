@@ -60,7 +60,7 @@ public class UserController {
         session.setAttribute("sessionUser", sessionUser);
 
         if(sessionUser.getRole().equals("student")){
-            if(sessionUser.getStatus()){
+            if(sessionUser.getIsCheck()){
                 session.setAttribute("teacher", sessionUser.getRole().equals("teacher"));
                 return "redirect:/api/exam";
             }else{

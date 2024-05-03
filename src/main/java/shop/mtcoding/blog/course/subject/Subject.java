@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.Course;
+import shop.mtcoding.blog.paper.Paper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 1. 교과목 정보 (자바, 스프링)
@@ -36,6 +39,13 @@ public class Subject {
     private LocalDate revaluationDate; // 재평가일
     private LocalDate startDate; // 교과목 시작일
     private LocalDate endDate; // 교과목 종료일
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+    private List<Paper> papers = new ArrayList<>();
+
+    public void addPaper(Paper paper){
+        this.papers.add(paper);
+    }
 
     // 코스에 회차 정보가 있기 때문에 특정 회차에 대한 교과목이다. 다음 회차에서 적기 귀찮으면 불러오기 해서 저장할 수 있다.
     @ManyToOne(fetch = FetchType.LAZY)

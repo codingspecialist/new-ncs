@@ -23,25 +23,25 @@ public class User {
     private String email;
     private String name; // 선생님 이름 or 학생 이름
     private String role; // student, teacher
-    private Boolean status; // 인증 여부
+    private Boolean isCheck; // 인증 여부
 
     @CreationTimestamp // pc -> db (날짜주입)
     private Timestamp createdAt;
 
-    // @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     // @Column(unique = true) // OneToOne은 UK가 기본적용됨.
     @OneToOne(fetch = FetchType.LAZY)
     private Student student; // role이 student이면 연결된 객체 필요!! 선생이 먼저 학생을 등록해야 가입가능
 
     @Builder
-    public User(Long id, String username, String password, String email, String name, String role, Boolean status, Timestamp createdAt, Student student) {
+    public User(Long id, String username, String password, String email, String name, String role, Boolean isCheck, Timestamp createdAt, Student student) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
         this.role = role;
-        this.status = status;
+        this.isCheck = isCheck;
         this.createdAt = createdAt;
         this.student = student;
     }

@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor{
             if(role.equals("student")){
                 if(url.startsWith("/api/exam")){
                     
-                    if(sessionUser.getStatus() == false){
+                    if(sessionUser.getIsCheck() == false){
                         response.setContentType("text/html; charset-utf-8");
                         response.getWriter().println(Script.href("/student-check-form", "학생인증이 필요합니다"));
                         return false;

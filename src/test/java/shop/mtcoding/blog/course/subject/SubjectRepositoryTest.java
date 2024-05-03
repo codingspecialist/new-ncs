@@ -16,7 +16,7 @@ public class SubjectRepositoryTest {
     public void findByCourseId_test(){
         Long courseId = 1L;
 
-        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "id");
-        subjectRepository.findByCourseId(courseId, pageable);
+        subjectRepository.findByCourseId(courseId);
     }
+
 }
