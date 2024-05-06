@@ -5,13 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 /**
  * 1. 시험지
@@ -22,6 +19,11 @@ import java.util.List;
 public class PaperController {
     private final HttpSession session;
     private final PaperService paperService;
+
+    @GetMapping("/api/paper/save-form")
+    public String saveForm(){
+        return "paper/save-form";
+    }
 
     @GetMapping("/api/paper")
     public String list(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
