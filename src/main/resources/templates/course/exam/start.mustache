@@ -24,13 +24,13 @@
             {{#model.questions}}
 
                 <tr>
-                    <input type="hidden" class="questionNo" value="{{questionId}}">
+                    <input type="hidden" class="questionNo" value="{{no}}">
                     <td>{{no}}</td>
                     <td>{{title}}</td>
                     <td>{{point}}</td>
                     <td>
                         {{#options}}
-                            {{no}} {{content}} <input type="radio" class="selectNo" name="selectNo-{{questionId}}" value="{{no}}"><br>
+                            {{no}} {{content}} <input type="radio" class="optionNo" name="question-{{questionId}}" value="{{no}}"><br>
                         {{/options}}
                     </td>
                 </tr>
@@ -46,25 +46,26 @@
     function sendAnswer(){
         let requestBody  = {
             paperId : {{model.paperId}},
-            teacherName: {{model.teacherName}},
+            teacherName: "{{model.teacherName}}",
             answers: []
         };
         let items = $("tbody > tr");
 
         items.each(function (index, element){
             let questionNo = $(element).find(".questionNo:first").val();
-            let selectNo = $(element).find(".selectNo:checked").val();
+            let optionNo = $(element).find(".optionNo:checked").val();
             // console.log("문제번호", questionNo);
             // console.log("정답번호", selectNo);
 
             let answer = {
-                questionNo: questionNo,
-                selectNo: selectNo,
+                questionNo: Number(questionNo),
+                optionNo: Number(optionNo),
             };
 
             requestBody.answers.push(answer);
         });
 
+        console.log(JSON.stringify(requestBody));
 
         $.ajax({
             url: "/api/exam/my",
@@ -73,6 +74,7 @@
             contentType: "application/json; charset=utf-8"
         }).done((res)=>{
             console.log(res);
+            //location.href = "/api/exam/my";
         }).fail((res)=>{
             alert("오류");
         });

@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
+import shop.mtcoding.blog._core.errors.exception.api.ApiException400;
 import shop.mtcoding.blog.course.Course;
+import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
+import shop.mtcoding.blog.course.exam.answer.ExamAnswerRepository;
 import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.course.student.StudentRepository;
 import shop.mtcoding.blog.course.subject.SubjectRepository;
@@ -12,12 +15,12 @@ import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.course.subject.element.SubjectElementRepository;
 import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.PaperRepository;
-import shop.mtcoding.blog.paper.PaperResponse;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.QuestionRepository;
 import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -25,6 +28,7 @@ import java.util.List;
 @Service
 public class ExamService {
     private final ExamRepository examRepository;
+    private final ExamAnswerRepository examAnswerRepository;
     private final PaperRepository paperRepository;
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
@@ -67,7 +71,44 @@ public class ExamService {
         Student student = studentRepository.findByUserId(sessionUser.getId());
 
         Exam exam = reqDTO.toEntity(paper, student, "통과", 80, 4);
-        
-        // 2. ExamAnswer 컬렉션 저장
+        examRepository.save(exam);
+
+        // 2. 정답지 가져오기
+        List<Question> questionList = questionRepository.findByPaperId(reqDTO.getPaperId());
+
+        // 3. ExamAnswer 컬렉션 저장 (정답지와 비교하기)
+        List<ExamAnswer> examAnswerList = new ArrayList<>();
+
+
+        // 첫번째 문제
+        questionList.forEach(question -> {
+
+            // 20바퀴 돌면서 해당 문제에 대한 응답을 찾아서 정답확인 후 객체 생성
+            reqDTO.getAnswers().forEach(answerDTO -> {
+
+                if(answerDTO.getOptionNo() == null) throw new ApiException400("모든 문제에 대한 답안을 제출해야 됩니다");
+
+                boolean isCollect;
+                if(question.getNo().equals(answerDTO.getQuestionNo())){
+                    if(question.getAnswerNumber().equals(answerDTO.getOptionNo())){
+                        isCollect = true;
+                    }else{
+                        isCollect = false;
+                    }
+                    ExamAnswer examAnswer = ExamAnswer.builder()
+                            .exam(exam)
+                            .question(question)
+                            .questionNo(answerDTO.getQuestionNo())
+                            .optionNo(answerDTO.getOptionNo())
+                            .isCorrect(isCollect)
+                            .build();
+                    examAnswerList.add(examAnswer);
+                }
+            });
+        });
+
+
+        // 4. 학생 제출 답안 저장하기
+        examAnswerRepository.saveAll(examAnswerList);
     }
 }

@@ -6,6 +6,7 @@ import shop.mtcoding.blog.paper.Paper;
 
 import java.util.List;
 
+// request 내부 클래스는 public static 으로 만든다.
 public class ExamRequest {
 
     @Data
@@ -15,9 +16,10 @@ public class ExamRequest {
         private List<AnswerDTO> answers;
 
         @Data
-        class AnswerDTO {
-            private Long questionNo; // 문제 번호 (PK 아님)
-            private Long selectNo; // 정답 번호 (PK 아님)
+        public static class AnswerDTO {
+            private Integer questionNo; // 문제 번호 (PK 아님)
+            private Integer optionNo; // 정답 번호 (PK 아님)
+
         }
 
         public Exam toEntity(Paper paper, Student student, String passState, Integer point, Integer grade){
@@ -33,6 +35,5 @@ public class ExamRequest {
                     .build();
         }
     }
-    
     
 }

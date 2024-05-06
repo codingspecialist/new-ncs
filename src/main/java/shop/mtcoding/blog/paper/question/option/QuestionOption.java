@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "question_option_tb")
+@Table(name = "question_option_tb",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"no", "question_id"})})
 public class QuestionOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

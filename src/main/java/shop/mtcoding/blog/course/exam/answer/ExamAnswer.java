@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.mtcoding.blog.course.exam.Exam;
 import shop.mtcoding.blog.paper.question.Question;
-import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
 @NoArgsConstructor
 @Getter
@@ -24,16 +23,16 @@ public class ExamAnswer {
     private Question question; // 시험지 1개 - 시험문제 20개(문제수만큼)
 
     private Integer questionNo;
-    private Integer selectNo;
+    private Integer optionNo;
     private Boolean isCorrect; // true이면 맞춘거임
 
     @Builder
-    public ExamAnswer(Long id, Exam exam, Question question, Integer questionNo, Integer selectNo, Boolean isCorrect) {
+    public ExamAnswer(Long id, Exam exam, Question question, Integer questionNo, Integer optionNo, Boolean isCorrect) {
         this.id = id;
         this.exam = exam;
         this.question = question;
         this.questionNo = questionNo;
-        this.selectNo = selectNo;
+        this.optionNo = optionNo;
         this.isCorrect = isCorrect;
     }
 }
