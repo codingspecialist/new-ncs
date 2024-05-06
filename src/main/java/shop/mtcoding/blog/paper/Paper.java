@@ -37,15 +37,17 @@ public class Paper {
     private Subject subject; // Subject(정보들), SubjectElement(subtitles)
 
     private Integer count; // 문항수
+    private String paperState; // 본평가지, 재평가지
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Builder
-    public Paper(Long id, Subject subject, Integer count, LocalDateTime createDate) {
+    public Paper(Long id, Subject subject, Integer count, String paperState, LocalDateTime createDate) {
         this.id = id;
         this.subject = subject;
         this.count = count;
+        this.paperState = paperState;
         this.createDate = createDate;
     }
 }

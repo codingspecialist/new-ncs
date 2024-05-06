@@ -25,7 +25,7 @@ public class ExamRequest {
 
             // 채점하기
             public ExamAnswer toEntity(Question question, Exam exam) {
-                if (questionNo == null) throw new ApiException400("모든 문제에 대한 답안을 제출해야 됩니다");
+                if (selectedOptionNo == null) throw new ApiException400("모든 문제에 대한 답안을 제출해야 됩니다");
 
                 boolean isCollect;
                 if (question.getAnswerNumber() == selectedOptionNo) {
@@ -55,7 +55,7 @@ public class ExamRequest {
                     .passState(passState)
                     .score(score)
                     .grade(grade)
-                    .examState("본평가")
+                    .examState(paper.getPaperState())
                     .isAbsent(false)
                     .build();
         }

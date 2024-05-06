@@ -14,11 +14,19 @@ import shop.mtcoding.blog.user.User;
 
 import java.io.IOException;
 
+/**
+ * 주소에 my가 붙어있으면 학생쪽, 없으면 관리자 or 강사 or 직원
+ */
 @RequiredArgsConstructor
 @Controller
 public class ExamController {
     private final HttpSession session;
     private final ExamService examService;
+
+    @GetMapping("/api/exam")
+    public String list(){
+        return "course/exam/list";
+    }
 
     @PostMapping("/api/exam/my")
     public ResponseEntity<?> exam(@RequestBody ExamRequest.SaveDTO reqDTO) throws IOException {
@@ -26,11 +34,6 @@ public class ExamController {
 
         examService.시험결과저장(reqDTO, sessionUser);
         return ResponseEntity.ok(new ApiUtil<>(null));
-    }
-
-    @GetMapping("/api/exam")
-    public String list(){
-        return "course/exam/list";
     }
 
     @GetMapping("/api/exam/my")

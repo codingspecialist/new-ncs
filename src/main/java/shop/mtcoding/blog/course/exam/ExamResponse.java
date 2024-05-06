@@ -1,14 +1,13 @@
 package shop.mtcoding.blog.course.exam;
 
 import lombok.Data;
-import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.Paper;
-import shop.mtcoding.blog.paper.PaperResponse;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
 import java.util.List;
+import java.util.Map;
 
 public class ExamResponse {
 
@@ -74,9 +73,14 @@ public class ExamResponse {
         private Long studentId;
         private List<PaperDTO> papers;
 
-        public MyPaperListDTO(Long studentId, List<Paper> papers) {
+        public MyPaperListDTO(Long studentId, List<Paper> papers, Map<Long, Boolean> attendanceMap) {
             this.studentId = studentId;
-            this.papers = papers.stream().map(PaperDTO::new).toList();
+            this.papers = papers.stream().map(paper -> {
+
+                Boolean isAttendance =  attendanceMap.get(paper.getId());
+
+                return new PaperDTO(paper, isAttendance);
+            }).toList();
         }
 
         @Data
@@ -87,16 +91,20 @@ public class ExamResponse {
             private Long subjectId;
             private String subjectTitle; // 교과목명
             private Integer count; // 문항수
+            private String paperState;
             private String teacherName;
+            private Boolean isAttendance;
 
-            public PaperDTO(Paper paper) {
+            public PaperDTO(Paper paper, Boolean isAttendance) {
                 this.paperId = paper.getId();
                 this.courseTitle = paper.getSubject().getCourse().getTitle();
                 this.courseRound = paper.getSubject().getCourse().getRound();
                 this.subjectId = paper.getSubject().getId();
                 this.subjectTitle = paper.getSubject().getTitle();
                 this.count = paper.getCount();
+                this.paperState = paper.getPaperState();
                 this.teacherName = paper.getSubject().getTeacherName();
+                this.isAttendance = isAttendance;
             }
         }
 

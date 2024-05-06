@@ -19,8 +19,7 @@ import shop.mtcoding.blog.paper.question.QuestionRepository;
 import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -58,7 +57,17 @@ public class ExamService {
 
         List<Paper> papers = paperRepository.findByCourseId(coursePS.getId());
 
-        return new ExamResponse.MyPaperListDTO(userPS.getStudent().getId(), papers);
+        Map<Long, Boolean> attendanceMap = new HashMap<>();
+        papers.stream().forEach(paper -> {
+            Optional<Exam> examPS = examRepository.findByPaperIdAndStudentId(paper.getId(), userPS.getStudent().getId());
+            if(examPS.isPresent()){
+                attendanceMap.put(paper.getId(), true);
+            }else{
+                attendanceMap.put(paper.getId(), false);
+            }
+        });
+
+        return new ExamResponse.MyPaperListDTO(userPS.getStudent().getId(), papers, attendanceMap);
     }
 
     @Transactional

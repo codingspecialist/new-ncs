@@ -35,10 +35,10 @@ values(now(), 4, 2, '리플렉션');
 insert into subject_element_tb(create_date, no, subject_id, subtitle)
 values(now(), 5, 2, '컨트롤러');
 
-insert into paper_tb(subject_id, create_date, count)
-values(1, now(), 2);
-insert into paper_tb(subject_id, create_date, count)
-values(2, now(), 5);
+insert into paper_tb(subject_id, create_date, count, paper_state)
+values(1, now(), 2, '본평가');
+insert into paper_tb(subject_id, create_date, count, paper_state)
+values(2, now(), 5, '본평가');
 
 insert into question_tb(no, title, point, answer_number, paper_id, create_date)
 values(1, '다음 중 for문 설명으로 틀린것은?', 50, 4, 1, now());

@@ -7,7 +7,6 @@ import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PaperResponse {
@@ -88,6 +87,7 @@ public class PaperResponse {
             private Long subjectId;
             private String subjectTitle; // 교과목명
             private Integer count; // 문항수
+            private String paperState;
 
             public PaperDTO(Paper paper) {
                 this.paperId = paper.getId();
@@ -96,6 +96,7 @@ public class PaperResponse {
                 this.subjectId = paper.getSubject().getId();
                 this.subjectTitle = paper.getSubject().getTitle();
                 this.count = paper.getCount();
+                this.paperState = paper.getPaperState();
             }
         }
     }

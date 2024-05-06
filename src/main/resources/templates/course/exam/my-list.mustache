@@ -8,6 +8,7 @@
             <th>번호</th>
             <th>교과목</th>
             <th>시험문항수</th>
+            <th>시험유형</th>
             <th>과정명/회차</th>
             <th>훈려강사</th>
             <th>응시하기</th>
@@ -19,9 +20,18 @@
                 <td>{{paperId}}</td>
                 <td>{{subjectTitle}}</td>
                 <td>{{count}}</td>
+                <td>{{paperState}}</td>
                 <td>{{courseTitle}}/{{courseRound}}회차</td>
                 <td>{{teacherName}}</td>
-                <td><a class="btn btn-outline-primary btn-sm" href="/api/exam/my/start?paperId={{paperId}}">응시하기</a></td>
+                <td>
+                    {{#isAttendance}}
+                        <a class="btn btn-outline-secondary btn-sm" href="#" disabled>응시완료</a>
+                    {{/isAttendance}}
+                    {{^isAttendance}}
+                        <a class="btn btn-outline-primary btn-sm" href="/api/exam/my/start?paperId={{paperId}}">응시하기</a>
+                    {{/isAttendance}}
+
+                </td>
             </tr>
         {{/model.papers}}
         </tbody>
