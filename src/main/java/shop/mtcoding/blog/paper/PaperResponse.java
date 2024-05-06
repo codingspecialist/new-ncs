@@ -2,7 +2,6 @@ package shop.mtcoding.blog.paper;
 
 import lombok.Data;
 import org.springframework.data.domain.Page;
-import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
@@ -13,16 +12,18 @@ public class PaperResponse {
 
     @Data
     public static class QuestionListDTO {
+        private Long paperId;
         private String evaluationDate; // 평가일 (subject)
         private String loc; // 평가장소 (임시)
         private String subjectTitle; // 교과목 (subject)
         private List<String> subjectElements;
         private List<QuestionDTO> questions;
 
-        public QuestionListDTO(Subject subject, List<SubjectElement> subjectElements, List<Question> questions) {
-            this.evaluationDate = subject.getEvaluationDate().toString();
+        public QuestionListDTO(Paper paper, List<SubjectElement> subjectElements, List<Question> questions) {
+            this.paperId = paper.getId();
+            this.evaluationDate = paper.getSubject().getEvaluationDate().toString();
             this.loc = "3호";
-            this.subjectTitle = subject.getTitle();
+            this.subjectTitle = paper.getSubject().getTitle();
             this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();
             this.questions = questions.stream().map(QuestionDTO::new).toList();
         }

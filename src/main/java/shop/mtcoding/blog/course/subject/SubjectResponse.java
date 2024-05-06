@@ -9,6 +9,21 @@ import java.util.List;
 public class SubjectResponse {
 
     @Data
+    public static class DTO {
+        private Long subjectId;
+        private String subjectTitle;
+        private String courseTitle;
+        private Integer courseRound;
+
+        public DTO(Subject subject) {
+            this.subjectId = subject.getId();
+            this.subjectTitle = subject.getTitle();
+            this.courseTitle = subject.getCourse().getTitle();
+            this.courseRound = subject.getCourse().getRound();
+        }
+    }
+
+    @Data
     public static class PagingDTO {
         private Integer totalPage; // 전체 페이지 수
         private Integer pageSize; // 페이지 별 아이템 개수

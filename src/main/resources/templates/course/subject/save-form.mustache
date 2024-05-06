@@ -7,8 +7,8 @@
         <div class="card-header"><b>교과목을 등록 해주세요</b></div>
 
         <div class="card-header">
-            <select class="form-control" id="select-option">
-                <option>과정을 선택해주세요 (필수)</option>
+            <select class="form-select" id="select-option">
+                <option value="0">과정을 선택해주세요 (필수)</option>
                 {{#model.courses}}
                     <option value="{{courseId}}" {{#isSelected}}selected{{/isSelected}}>{{round}}회차 {{title}}</option>
                 {{/model.courses}}

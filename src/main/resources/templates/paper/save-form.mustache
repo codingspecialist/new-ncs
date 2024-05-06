@@ -6,24 +6,29 @@
         <div class="card-header"><b>시험지를 등록 해주세요</b></div>
         <div class="card-body">
             <form action="/api/paper/save" method="post" enctype="application/x-www-form-urlencoded">
-                <div class="card-header">
-                    <select class="form-control" name="subjectId">
-                        <option>교과목을 선택해주세요 (필수)</option>
-                        <option value="1">자바</option>
-                        <option value="2">스프링</option>
+                <div class="mb-3">
+                    <select class="form-select" name="subjectId">
+                        <option value="0">교과목을 선택해주세요 (필수)</option>
+                        {{#models}}
+                            <option value="{{subjectId}}">{{subjectTitle}} : {{courseTitle}} {{courseRound}}회차</option>
+                        {{/models}}
                     </select>
                 </div>
-                <div class="card-header">
+
+                <hr>
+                <div class="mb-3">
                     <select class="form-control" name="paperState">
-                        <option>시험지 유형을 선택해주세요 (필수)</option>
                         <option value="본평가">본평가</option>
                         <option value="재평가">재평가</option>
                     </select>
                 </div>
+
+                <hr>
+
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="문항수" name="count" value="5">
+                    <input type="text" class="form-control" placeholder="문항수" name="count">
                 </div>
-                <button type="submit" class="btn btn-primary form-control">과정등록</button>
+                <button type="submit" class="btn btn-primary form-control">시험지등록</button>
             </form>
         </div>
     </div>

@@ -40,12 +40,8 @@ public class CourseService {
         Course coursePS = courseRepository.findById(courseId)
                 .orElseThrow(() -> new Exception404("과정을 찾을 수 없습니다"));
 
-        System.out.println("111111111111111111111111111111111");
         List<Subject> subjectListPS = subjectRepository.findByCourseId(coursePS.getId());
-        System.out.println("22222222222222222222222222222222");
         List<Student> studentListPS = studentRepository.findByCourseId(coursePS.getId());
-        System.out.println(subjectListPS.size());
-        System.out.println(studentListPS.size());
         return new CourseResponse.DetailDTO(coursePS, subjectListPS, studentListPS);
     }
 }

@@ -1,0 +1,21 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="card">
+        <div class="card-header"><b>시험문제를 등록 해주세요</b></div>
+        <div class="card-body">
+            <form action="/api/paper/save" method="post" enctype="application/x-www-form-urlencoded">
+
+                <hr>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="문항수" name="count">
+                </div>
+                <button type="submit" class="btn btn-primary form-control">시험문제등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
