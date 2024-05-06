@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.course.student.Student;
-import shop.mtcoding.blog.user.User;
+import shop.mtcoding.blog.paper.Paper;
 
 import java.time.LocalDateTime;
 
@@ -40,14 +39,35 @@ public class Exam {
     private String examState; // 본평가, 재평가
     private String passState; // 통과, 미통과, 평가포기
 
-    private Integer point; // 시험결과 점수
+    private Integer score; // 시험결과 점수
     private Integer grade; // 시험결과 수준
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
+    public void updatePointAndGrade(Integer score){
+        this.score = score;
+        if(score >= 90){
+            grade = 5;
+        }else if(score >= 80){
+            grade = 4;
+        }else if(score >= 70){
+            grade = 3;
+        }else if(score >= 60){
+            grade = 2;
+        }else{
+            grade = 1;
+        }
+
+        if(grade > 1){
+            passState = "통과";
+        }else{
+            passState = "미통과";
+        }
+    }
+
     @Builder
-    public Exam(Long id, Student student, String teacherName, Paper paper, boolean isAbsent, String examState, String passState, Integer point, Integer grade, LocalDateTime createDate) {
+    public Exam(Long id, Student student, String teacherName, Paper paper, boolean isAbsent, String examState, String passState, Integer score, Integer grade, LocalDateTime createDate) {
         this.id = id;
         this.student = student;
         this.teacherName = teacherName;
@@ -55,7 +75,7 @@ public class Exam {
         this.isAbsent = isAbsent;
         this.examState = examState;
         this.passState = passState;
-        this.point = point;
+        this.score = score;
         this.grade = grade;
         this.createDate = createDate;
     }

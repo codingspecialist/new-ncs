@@ -53,13 +53,13 @@
 
         items.each(function (index, element){
             let questionNo = $(element).find(".questionNo:first").val();
-            let optionNo = $(element).find(".optionNo:checked").val();
+            let selectedOptionNo = $(element).find(".optionNo:checked").val();
             // console.log("문제번호", questionNo);
-            // console.log("정답번호", selectNo);
+            // console.log("정답번호", selectedOptionNo);
 
             let answer = {
                 questionNo: Number(questionNo),
-                optionNo: Number(optionNo),
+                selectedOptionNo: Number(selectedOptionNo),
             };
 
             requestBody.answers.push(answer);
@@ -74,9 +74,9 @@
             contentType: "application/json; charset=utf-8"
         }).done((res)=>{
             console.log(res);
-            //location.href = "/api/exam/my";
+            location.href = "/api/exam/my";
         }).fail((res)=>{
-            alert("오류");
+            alert(res.responseJSON.msg);
         });
     }
 
