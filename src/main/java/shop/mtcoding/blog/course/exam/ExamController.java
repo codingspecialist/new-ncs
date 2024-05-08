@@ -29,7 +29,7 @@ public class ExamController {
     }
 
     @PostMapping("/api/exam/my")
-    public ResponseEntity<?> exam(@RequestBody ExamRequest.SaveDTO reqDTO) throws IOException {
+    public ResponseEntity<?> save(@RequestBody ExamRequest.SaveDTO reqDTO) throws IOException {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         examService.시험결과저장(reqDTO, sessionUser);

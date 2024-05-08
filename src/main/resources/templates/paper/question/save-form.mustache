@@ -1,21 +1,84 @@
 {{> layout/header}}
+<input type="hidden" id="paperId" value="1">
 
 <div class="container p-5">
-
-    <div class="card">
-        <div class="card-header"><b>시험문제를 등록 해주세요</b></div>
-        <div class="card-body">
-            <form action="/api/paper/save" method="post" enctype="application/x-www-form-urlencoded">
-
-                <hr>
-
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="문항수" name="count">
+    <form>
+        <div class="card">
+            <div class="card-header">
+                <div><b>문제 번호를 입력해주세요</b></div>
+                <div class="mt-1">
+                    <input type="text" class="form-control" placeholder="문제번호" value="">
                 </div>
-                <button type="submit" class="btn btn-primary form-control">시험문제등록</button>
-            </form>
+            </div>
+            <div class="card-header">
+                <div><b>문제 점수를 입력해주세요</b></div>
+                <div class="mt-1">
+                    <input type="text" class="form-control" placeholder="문제점수" value="">
+                </div>
+            </div>
+            <div class="card-header">
+                <div><b>문제 제목을 입력해주세요</b></div>
+                <div class="mt-1">
+                    <input type="text" class="form-control" placeholder="문제제목" value="">
+                </div>
+            </div>
+            <div class="card-header">
+                <div><b>문제 옵션을 등록해주세요</b></div>
+                <div class="mt-1 mb-3 pl-2">
+                    <input type="text" class="form-control" placeholder="옵션번호" value="1" readonly>
+                    <input type="text" class="form-control" placeholder="문제옵션" value="">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="correct-1">
+                        <label class="form-check-label">
+                            정답 여부
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-1 mb-3 pl-2">
+                    <input type="text" class="form-control" placeholder="옵션번호" value="2" readonly>
+                    <input type="text" class="form-control" placeholder="문제옵션" value="">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="2" id="correct-2">
+                        <label class="form-check-label">
+                            정답 여부
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-1 mb-3 pl-2">
+                    <input type="text" class="form-control" placeholder="옵션번호" value="3" readonly>
+                    <input type="text" class="form-control" placeholder="문제옵션" value="">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="3" id="correct-3">
+                        <label class="form-check-label">
+                            정답 여부
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-1 mb-3 pl-2">
+                    <input type="text" class="form-control" placeholder="옵션번호" value="4" readonly>
+                    <input type="text" class="form-control" placeholder="문제옵션" value="">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="4" id="correct-4">
+                        <label class="form-check-label">
+                            정답 여부
+                        </label>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
+
+        <button type="button" onclick="saveElement()" class="btn btn-primary form-control">문제 등록</button>
+    </form>
+
 </div>
+
+<script>
+    let checkList = [];
+
+    $("input[checkbox]").click((e)=>{
+        console.log(e);
+    });
+</script>
 
 {{> layout/footer}}

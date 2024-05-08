@@ -8,43 +8,41 @@
 
         <div class="card-body">
 
-            <form id="save-form">
+            <button type="button" class="btn btn-primary mb-2" onclick="addElement()">요소 추가</button>
 
-                <button type="button" class="btn btn-primary" onclick="addElement()">요소 추가</button>
-
-                <div id="element-input-box">
-                    <div class="subject-element-item">
-                        <div class="mb-3">
-                            <input type="text" class="form-control no" placeholder="순번" value="1">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control subtitle" placeholder="교과목 요소명" value="오버로딩">
-                        </div>
+            <div id="element-input-box">
+                <div class="subject-element-item">
+                    <div class="mb-3">
+                        <input type="text" class="form-control no" placeholder="순번" value="1">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control subtitle" placeholder="교과목 요소명" value="오버로딩">
                     </div>
                 </div>
+            </div>
 
-                <button type="button" onclick="saveElement()" class="btn btn-primary form-control">교과목 요소 등록</button>
-            </form>
+            <button type="button" onclick="saveElement()" class="btn btn-primary form-control">교과목 요소 등록</button>
+
         </div>
     </div>
 </div>
 <script>
 
-    function saveElement(){
+    function saveElement() {
         let subjectId = $("#subjectId").val();
         let subjectElements = [];
 
         let items = $("#element-input-box .subject-element-item");
 
-        items.each(function (index, element){
-           let no = $(element).find(".no:first").val();
-           let subtitle = $(element).find(".subtitle:first").val();
+        items.each(function (index, element) {
+            let no = $(element).find(".no:first").val();
+            let subtitle = $(element).find(".subtitle:first").val();
 
-           let subjectElement = {
-               no : no,
-               subtitle : subtitle
-           }
-           subjectElements.push(subjectElement);
+            let subjectElement = {
+                no: no,
+                subtitle: subtitle
+            }
+            subjectElements.push(subjectElement);
         });
 
         console.log(subjectElements);
@@ -54,9 +52,9 @@
             method: "post",
             data: JSON.stringify(subjectElements),
             contentType: "application/json; charset=utf-8"
-        }).done((res)=>{
+        }).done((res) => {
             location.href = `/api/subject/${subjectId}/element`;
-        }).fail((res)=>{
+        }).fail((res) => {
             console.log(res.responseJSON.msg);
         });
     }
