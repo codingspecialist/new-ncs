@@ -2,6 +2,7 @@ package shop.mtcoding.blog.paper;
 
 import lombok.Data;
 import shop.mtcoding.blog.course.subject.Subject;
+import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
@@ -11,6 +12,7 @@ public class PaperRequest {
 
     @Data
     public static class QuestionSaveDTO {
+        private Long elementId;
         private Long paperId;
         private Integer questionNo;
         private String questionTitle;
@@ -18,13 +20,14 @@ public class PaperRequest {
         private Integer questionAnswerNumber;
         List<OptionDTO> options;
 
-        public Question toEntity(Paper paper){
+        public Question toEntity(Paper paper, SubjectElement subjectElement){
             return Question.builder()
                     .no(questionNo)
                     .title(questionTitle)
                     .point(questionPoint)
                     .answerNumber(questionAnswerNumber)
                     .paper(paper)
+                    .subjectElement(subjectElement)
                     .build();
         }
 

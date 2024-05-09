@@ -5,6 +5,14 @@
     <form>
         <div class="card">
             <div class="card-header">
+                <select class="form-select" id="elementId">
+                    <option value="0">능력단위 요소를 선택해주세요 (필수)</option>
+                    {{#elements}}
+                        <option value="{{elementId}}">{{subtitle}}</option>
+                    {{/elements}}
+                </select>
+            </div>
+            <div class="card-header">
                 <div><b>문제 번호를 입력해주세요</b></div>
                 <div class="mt-1">
                     <input type="text" class="form-control" placeholder="문제번호" value="{{expectNo}}" id="questionNo">
@@ -16,6 +24,7 @@
                     <input type="text" class="form-control" placeholder="문제점수" value="{{expectPoint}}" id="questionPoint">
                 </div>
             </div>
+
             <div class="card-header">
                 <div><b>문제 제목을 입력해주세요</b></div>
                 <div class="mt-1">
@@ -80,9 +89,12 @@
 <script>
     let selectedAnswerNumber = 0;
     let paperId = $("#paperId").val();
+    let elementId = $("#elementId").val();
 
     function saveQuestion(){
+
         let requestBody = {
+            elementId: $("#elementId").val(),
             paperId: paperId,
             questionNo : $("#questionNo").val(),
             questionTitle : $("#questionTitle").val(),

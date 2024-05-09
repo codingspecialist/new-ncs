@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
@@ -30,6 +31,9 @@ public class Question {
     private Integer answerNumber; // 4번이 정담
 
     @ManyToOne(fetch = FetchType.LAZY)
+    private SubjectElement subjectElement;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Paper paper;
 
     @CreationTimestamp
@@ -43,7 +47,7 @@ public class Question {
     }
 
     @Builder
-    public Question(Long id, Integer no, String title, Integer point, Integer answerNumber, Paper paper, LocalDateTime createDate) {
+    public Question(Long id, Integer no, String title, Integer point, Integer answerNumber, Paper paper, LocalDateTime createDate, SubjectElement subjectElement) {
         this.id = id;
         this.no = no;
         this.title = title;
@@ -51,5 +55,6 @@ public class Question {
         this.answerNumber = answerNumber;
         this.paper = paper;
         this.createDate = createDate;
+        this.subjectElement = subjectElement;
     }
 }

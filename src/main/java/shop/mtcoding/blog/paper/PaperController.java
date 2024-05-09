@@ -69,6 +69,7 @@ public class PaperController {
         model.addAttribute("expectNo", respDTO.getExpectNo());
         model.addAttribute("expectPoint", respDTO.getExpectPoint());
         model.addAttribute("paperId", paperId);
+        model.addAttribute("elements", respDTO.getElements());
         return "paper/question/save-form";
     }
 }

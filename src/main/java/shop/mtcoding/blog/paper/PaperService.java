@@ -5,9 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog._core.errors.exception.api.ApiException400;
+import shop.mtcoding.blog._core.errors.exception.api.ApiException404;
 import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.SubjectRepository;
 import shop.mtcoding.blog.course.subject.element.SubjectElement;
@@ -76,13 +76,25 @@ public class PaperService {
             throw new ApiException400("점수 합계가 100점을 넘을 수 없어요");
         }
 
+        SubjectElement subjectElement = subjectElementRepository.findById(reqDTO.getElementId())
+                .orElseThrow(() -> new ApiException404("능력단위 요소가 존재하지 않아요"));
 
-        Question questionPS = questionRepository.save(reqDTO.toEntity(paperPS));
+        Question questionPS = questionRepository.save(reqDTO.toEntity(paperPS, subjectElement));
         List<QuestionOption> optionList = reqDTO.getOptions().stream().map(optionDTO -> optionDTO.toEntity(questionPS)).toList();
         questionOptionRepository.saveAll(optionList);
     }
 
     public QuestionDBResponse.ExpectedNextDTO 다음예상문제(Long paperId) {
-        return questionQueryRepository.findStatisticsByPaperId(paperId);
+        Paper paperPS = paperRepository.findById(paperId)
+                .orElseThrow(() -> new Exception404("시험지가 존재하지 않아요"));
+
+
+        List<SubjectElement> elementListPS = subjectElementRepository.findBySubjectId(paperPS.getSubject().getId());
+
+        QuestionDBResponse.ExpectedNextDTO respDTO = questionQueryRepository.findStatisticsByPaperId(paperId);
+
+        respDTO.setElements(elementListPS);
+
+        return respDTO;
     }
 }

@@ -42,27 +42,27 @@ values(2, now(), 5, '본평가');
 insert into paper_tb(subject_id, create_date, count, paper_state)
 values(1, now(), 2, '재평가');
 
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(1, '다음 중 for문 설명으로 틀린것은?', 50, 4, 1, now());
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(2, '다음 중 while문 설명으로 틀린것은?', 50, 4, 1, now());
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(1, '다음 중 for문 설명으로 틀린것은?', 50, 4, 1, now(), 1);
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(2, '다음 중 while문 설명으로 틀린것은?', 50, 4, 1, now(), 2);
 
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(1, '다음 중 select 설명으로 틀린것은?', 20, 4, 2, now());
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(2, '다음 중 insert 설명으로 틀린것은?', 20, 4, 2, now());
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(3, '다음 중 update 설명으로 틀린것은?', 20, 4, 2, now());
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(4, '다음 중 delete 설명으로 틀린것은?', 20, 4, 2, now());
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(5, '다음 중 dml 설명으로 틀린것은?', 20, 4, 2, now());
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(1, '다음 중 select 설명으로 틀린것은?', 20, 4, 2, now(), 3);
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(2, '다음 중 insert 설명으로 틀린것은?', 20, 4, 2, now(), 4);
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(3, '다음 중 update 설명으로 틀린것은?', 20, 4, 2, now(), 5);
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(4, '다음 중 delete 설명으로 틀린것은?', 20, 4, 2, now(), 6);
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(5, '다음 중 dml 설명으로 틀린것은?', 20, 4, 2, now(), 7);
 
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(1, '다음 중 스레드 설명으로 틀린것은?', 50, 4, 3, now());
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(1, '다음 중 스레드 설명으로 틀린것은?', 50, 4, 3, now(), 1);
 
-insert into question_tb(no, title, point, answer_number, paper_id, create_date)
-values(2, '다음 중 소켓 설명으로 틀린것은?', 50, 4, 3, now());
+insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id)
+values(2, '다음 중 소켓 설명으로 틀린것은?', 50, 4, 3, now(), 2);
 
 insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(1, '반복문이다', 1, now(), false);
