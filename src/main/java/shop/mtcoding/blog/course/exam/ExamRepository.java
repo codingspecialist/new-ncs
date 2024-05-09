@@ -18,4 +18,7 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     List<Exam> findByStudentId(@Param("studentId") Long studentId);
 
     Optional<Exam> findByPaperIdAndStudentId(@Param("paperId") Long paperId, @Param("studentId") Long studentId);
+
+    @Query("select ex from Exam ex join fetch ex.examAnswers an join fetch an.question q join fetch q.questionOptions op where ex.id = :examId")
+    Optional<Exam> findByIdWithAnswer(@Param("examId") Long examId);
 }

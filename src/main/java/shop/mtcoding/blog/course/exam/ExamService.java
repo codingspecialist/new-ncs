@@ -35,6 +35,16 @@ public class ExamService {
     private final SubjectElementRepository elementRepository;
     private final QuestionRepository questionRepository;
 
+    public ExamResponse.ResultDetailDTO 시험친결과상세보기(Long examId) {
+        Exam examPS = examRepository.findById(examId)
+                .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
+
+        List<SubjectElement> subjectElementListPS =
+                elementRepository.findBySubjectId(examPS.getPaper().getSubject().getId());
+
+        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS);
+    }
+
     public ExamResponse.StartDTO 시험치기(User sessionUser, Long paperId) {
         Paper paperPS = paperRepository.findById(paperId)
                 .orElseThrow(() -> new Exception404("시험지가 존재하지 않아요"));
@@ -137,9 +147,5 @@ public class ExamService {
 
         // PK, 번호(교과목번호), 과정명/회차, paper.getSubject(교과목), 시험유형, 학생명, 훈련강사, 결과점수, 통과여부, (통과못했거나, 재평가지로 재평가하기버튼필요)
         return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
-    }
-
-    public void 시험결과상세(User sessionUser, Long examId) {
-
     }
 }

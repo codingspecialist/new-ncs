@@ -16,10 +16,10 @@ public class ExamAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Exam exam; // 시험지 1개 - 시험은 25개(학생수만큼)
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Question question; // 시험지 1개 - 시험문제 20개(문제수만큼)
 
     private Integer questionNo;

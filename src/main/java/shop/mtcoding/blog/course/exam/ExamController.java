@@ -35,9 +35,9 @@ public class ExamController {
     }
 
     @GetMapping("/api/exam/{examId}/my/result")
-    public String resultDetail(@PathVariable(value = "examId") Long examId){
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        examService.시험결과상세(sessionUser,examId);
+    public String resultDetail(@PathVariable(value = "examId") Long examId, Model model){
+        ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
+        model.addAttribute("model", respDTO);
         return "course/exam/my-result-detail";
     }
 

@@ -5,10 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
 import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.paper.Paper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 1. 실행된 시험
@@ -46,6 +49,13 @@ public class Exam {
 
     private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
+
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
+    private List<ExamAnswer> examAnswers = new ArrayList<>();
+
+    public void addAnswer(ExamAnswer answer){
+        this.examAnswers.add(answer);
+    }
 
     @CreationTimestamp
     private LocalDateTime createDate;
