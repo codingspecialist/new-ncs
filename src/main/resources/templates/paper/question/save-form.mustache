@@ -1,5 +1,5 @@
 {{> layout/header}}
-<input type="hidden" id="paperId" value="1">
+<input type="hidden" id="paperId" value="{{paperId}}">
 
 <div class="container p-5">
     <form>
@@ -7,77 +7,134 @@
             <div class="card-header">
                 <div><b>문제 번호를 입력해주세요</b></div>
                 <div class="mt-1">
-                    <input type="text" class="form-control" placeholder="문제번호" value="">
+                    <input type="text" class="form-control" placeholder="문제번호" value="{{expectNo}}" id="questionNo">
                 </div>
             </div>
             <div class="card-header">
                 <div><b>문제 점수를 입력해주세요</b></div>
                 <div class="mt-1">
-                    <input type="text" class="form-control" placeholder="문제점수" value="">
+                    <input type="text" class="form-control" placeholder="문제점수" value="{{expectPoint}}" id="questionPoint">
                 </div>
             </div>
             <div class="card-header">
                 <div><b>문제 제목을 입력해주세요</b></div>
                 <div class="mt-1">
-                    <input type="text" class="form-control" placeholder="문제제목" value="">
+                    <input type="text" class="form-control" placeholder="문제제목" value="" id="questionTitle">
                 </div>
             </div>
             <div class="card-header">
                 <div><b>문제 옵션을 등록해주세요</b></div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="1" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="correct-1">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
+
+                <div id="questionBox">
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="1" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="1">
+                            <label class="form-check-label">
+                                정답
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="2" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="2">
+                            <label class="form-check-label">
+                                정답
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="3" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="3">
+                            <label class="form-check-label">
+                                정답
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="4" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="4">
+                            <label class="form-check-label">
+                                정답
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="2" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="2" id="correct-2">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
-                    </div>
-                </div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="3" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="3" id="correct-3">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
-                    </div>
-                </div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="4" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="4" id="correct-4">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
-                    </div>
-                </div>
+
             </div>
 
         </div>
 
-        <button type="button" onclick="saveElement()" class="btn btn-primary form-control">문제 등록</button>
+        <button type="button" onclick="saveQuestion()" class="btn btn-primary form-control">문제 등록</button>
     </form>
 
 </div>
 
 <script>
-    let checkList = [];
+    let selectedAnswerNumber = 0;
+    let paperId = $("#paperId").val();
 
-    $("input[checkbox]").click((e)=>{
-        console.log(e);
+    function saveQuestion(){
+        let requestBody = {
+            paperId: paperId,
+            questionNo : $("#questionNo").val(),
+            questionTitle : $("#questionTitle").val(),
+            questionPoint : $("#questionPoint").val(),
+            questionAnswerNumber : selectedAnswerNumber,
+            options : []
+        };
+
+        let items = $("#questionBox").find(".questionItem");
+        items.each(function(index, element){
+            let option = {
+                optionNo: $(element).find(".optionNo").val(),
+                optionContent: $(element).find(".optionContent").val(),
+                optionRight: $(element).find(".optionRight").is(':checked')
+            };
+            requestBody.options.push(option);
+        });
+
+        console.log(requestBody);
+
+        $.ajax({
+            url: `/api/paper/${paperId}/question/save`,
+            method: "post",
+            data: JSON.stringify(requestBody),
+            contentType: "application/json; charset=utf-8"
+        }).done((res) => {
+            console.log(res);
+            location.href = "/api/paper/"+paperId;
+        }).fail((res) => {
+            alert(res.responseJSON.msg);
+            console.log(res.responseJSON.msg);
+        });
+    }
+
+
+
+    // 체크박스 체크 유효성 및 정답 번호 체크
+    let checkList = 0;
+    $("input[type='checkbox']").click(function(){
+        if ($(this).is(':checked')) {
+            selectedAnswerNumber = $(this).val();
+            if(checkList > 0){
+                alert('정답 체크는 하나만 가능해요');
+                $(this).prop('checked', false);
+                return;
+            }
+            checkList++;
+        } else {
+            selectedAnswerNumber = 0;
+            checkList--;
+        }
+        console.log("선택한 정답 : "+selectedAnswerNumber);
     });
 </script>
 

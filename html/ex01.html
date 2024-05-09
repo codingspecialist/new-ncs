@@ -22,89 +22,122 @@
             <div class="card-header">
                 <div><b>문제 번호를 입력해주세요</b></div>
                 <div class="mt-1">
-                    <input type="text" class="form-control" placeholder="문제번호" value="">
+                    <input type="text" class="form-control" placeholder="문제번호" value="" id="questionNo">
                 </div>
             </div>
             <div class="card-header">
                 <div><b>문제 점수를 입력해주세요</b></div>
                 <div class="mt-1">
-                    <input type="text" class="form-control" placeholder="문제점수" value="">
+                    <input type="text" class="form-control" placeholder="문제점수" value="" id="questionPoint">
                 </div>
             </div>
             <div class="card-header">
                 <div><b>문제 제목을 입력해주세요</b></div>
                 <div class="mt-1">
-                    <input type="text" class="form-control" placeholder="문제제목" value="">
+                    <input type="text" class="form-control" placeholder="문제제목" value="" id="questionTitle">
                 </div>
             </div>
             <div class="card-header">
                 <div><b>문제 옵션을 등록해주세요</b></div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="1" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="correct-1">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
+
+                <div id="questionBox">
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="text" class="form-control optionNo" placeholder="옵션번호" value="1" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="1">
+                            <label class="form-check-label">
+                                정답 여부
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="text" class="form-control optionNo" placeholder="옵션번호" value="2" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="2">
+                            <label class="form-check-label">
+                                정답 여부
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="text" class="form-control optionNo" placeholder="옵션번호" value="3" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="3">
+                            <label class="form-check-label">
+                                정답 여부
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-1 mb-3 pl-2 questionItem">
+                        <input type="text" class="form-control optionNo" placeholder="옵션번호" value="4" readonly>
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <div class="form-check">
+                            <input class="form-check-input optionRight" type="checkbox" value="4">
+                            <label class="form-check-label">
+                                정답 여부
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="2" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="2" id="correct-2">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
-                    </div>
-                </div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="3" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="3" id="correct-3">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
-                    </div>
-                </div>
-                <div class="mt-1 mb-3 pl-2">
-                    <input type="text" class="form-control" placeholder="옵션번호" value="4" readonly>
-                    <input type="text" class="form-control" placeholder="문제옵션" value="">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="4" id="correct-4">
-                        <label class="form-check-label">
-                            정답 여부
-                        </label>
-                    </div>
-                </div>
+
             </div>
 
         </div>
 
-        <button type="button" onclick="saveElement()" class="btn btn-primary form-control">문제 등록</button>
+        <button type="button" onclick="saveQuestion()" class="btn btn-primary form-control">문제 등록</button>
     </form>
 
 </div>
 
 <script>
+    let selectedAnswerNumber = 0;
 
-    let checkList = [];
+    function saveQuestion(){
+        let requestBody = {
+            paperId: $("#paperId").val(),
+            questionNo : $("#questionNo").val(),
+            questionTitle : $("#questionTitle").val(),
+            questionPoint : $("#questionPoint").val(),
+            questionAnswerNumber : selectedAnswerNumber,
+            options : []
+        };
 
+        let items = $("#questionBox").find(".questionItem");
+        items.each(function(index, element){
+            let option = {
+                optionNo: $(element).find(".optionNo").val(),
+                optionContent: $(element).find(".optionContent").val(),
+                optionRight: $(element).find(".optionRight").is(':checked')
+            };
+            requestBody.options.push(option);
+        });
+
+        console.log(requestBody);
+    }
+
+
+
+    // 체크박스 체크 유효성 및 정답 번호 체크
+    let checkList = 0;
     $("input[type='checkbox']").click(function(){
         if ($(this).is(':checked')) {
-            console.log('Checkbox is checked.');
-            if(checkList.length > 0){
+            selectedAnswerNumber = $(this).val();
+            if(checkList > 0){
                 alert('정답 체크는 하나만 가능해요');
+                $(this).prop('checked', false);
                 return;
             }
-            checkList.push($(this).value);
+            checkList++;
         } else {
-            console.log('Checkbox is not checked.');
+            selectedAnswerNumber = 0;
+            checkList--;
         }
+        console.log("선택한 정답 : "+selectedAnswerNumber);
     });
-</script>`
+</script>
 
 <div class="bg-light p-5 text-center">
     <h4>Created by Metacoding</h4>

@@ -5,13 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import shop.mtcoding.blog._core.utils.ApiUtil;
 import shop.mtcoding.blog.course.subject.SubjectResponse;
 import shop.mtcoding.blog.course.subject.SubjectService;
+import shop.mtcoding.blog.paper.question.QuestionDBResponse;
 
 import java.util.List;
 
@@ -26,6 +30,11 @@ public class PaperController {
     private final PaperService paperService;
     private final SubjectService subjectService;
 
+    @PostMapping("/api/paper/{paperId}/question/save")
+    public ResponseEntity<?> questionSave(@RequestBody PaperRequest.QuestionSaveDTO reqDTO){
+        paperService.문제등록(reqDTO);
+        return ResponseEntity.ok(new ApiUtil<>(null));
+    }
 
     @GetMapping("/api/paper/save-form")
     public String saveForm(Model model) {
@@ -36,9 +45,7 @@ public class PaperController {
 
     @PostMapping("/api/paper/save")
     public String save(PaperRequest.SaveDTO reqDTO) {
-
         paperService.시험지등록(reqDTO);
-
         return "redirect:/api/paper";
     }
 
@@ -57,9 +64,11 @@ public class PaperController {
     }
 
     @GetMapping("/api/paper/{paperId}/question")
-    public String questionSaveForm(){
+    public String questionSaveForm(@PathVariable(name = "paperId") Long paperId, Model model){
+        QuestionDBResponse.ExpectedNextDTO respDTO = paperService.다음예상문제(paperId);
+        model.addAttribute("expectNo", respDTO.getExpectNo());
+        model.addAttribute("expectPoint", respDTO.getExpectPoint());
+        model.addAttribute("paperId", paperId);
         return "paper/question/save-form";
     }
-
-
 }
