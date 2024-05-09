@@ -12,6 +12,7 @@
             <th>학생명</th>
             <th>훈련강사</th>
             <th>점수</th>
+            <th>수준</th>
             <th>통과여부</th>
             <th>상세보기</th>
         </tr>
@@ -26,6 +27,7 @@
                 <td>{{studentName}}</td>
                 <td>{{teacherName}}</td>
                 <td>{{examScore}}</td>
+                <td>{{grade}}</td>
                 <td>{{examPassState}}</td>
                 <td><a class="btn btn-primary" href="/api/exam/{{examId}}/my/result">상세보기</a></td>
             </tr>

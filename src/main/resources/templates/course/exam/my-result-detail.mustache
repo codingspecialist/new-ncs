@@ -10,6 +10,7 @@
             훈련교사 : {{model.studentName}} <br>
             문항수 : {{model.questionCount}} <br>
             총점 : {{model.score}} <br>
+            수준 : {{model.grade}} <br>
             통과여부 : {{model.examPassState}} <br>
         </div>
     </div>
@@ -49,7 +50,7 @@
         <div class="card">
             <div class="card-header">총평</div>
             <div class="card-body">
-                선생님 왈 : 머시기 머시기가 잘못됐어..이거좀 잘했으면 좋겠어
+                {{model.teacherComment}}
             </div>
         </div>
     </form>

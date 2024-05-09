@@ -50,6 +50,8 @@ public class Exam {
     private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
 
+    private String teacherComment;
+
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private List<ExamAnswer> examAnswers = new ArrayList<>();
 
@@ -82,8 +84,7 @@ public class Exam {
     }
 
     @Builder
-
-    public Exam(Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, LocalDateTime createDate) {
+    public Exam(Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, LocalDateTime createDate, String teacherComment) {
         this.id = id;
         this.student = student;
         this.teacherName = teacherName;
@@ -94,5 +95,10 @@ public class Exam {
         this.score = score;
         this.grade = grade;
         this.createDate = createDate;
+        this.teacherComment = teacherComment;
+    }
+
+    public void updateTeacherComment(String teacherComment) {
+        this.teacherComment = teacherComment;
     }
 }

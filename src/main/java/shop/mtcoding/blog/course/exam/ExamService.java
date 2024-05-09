@@ -134,7 +134,40 @@ public class ExamService {
             score = score * 0.9;
         }
 
+        // 6. 점수 입력 수준 입력
         examPS.updatePointAndGrade(score);
+
+        // 7. 총평 자동화
+        String teacherGoodComment = "";
+        String teacherBadComment = "";
+
+        for (ExamAnswer examAnswer : examAnswerList) {
+            if(examAnswer.getIsCorrect()){
+                teacherGoodComment += examAnswer.getQuestion().getSubjectElement().getSubtitle() + ", ";
+            }else{
+                teacherBadComment += examAnswer.getQuestion().getSubjectElement().getSubtitle() + ", ";
+            }
+        }
+
+        int goodIndex = teacherGoodComment.lastIndexOf(", ");
+        int badIndex = teacherBadComment.lastIndexOf(", ");
+
+        teacherGoodComment = teacherGoodComment.substring(0, goodIndex);
+        teacherBadComment = teacherBadComment.substring(0, badIndex);
+
+        if(teacherGoodComment.length() > 0){
+            if(teacherBadComment.length() == 0){
+                teacherGoodComment += " 부분을 잘이해하고 있습니다.";
+            }else{
+                teacherGoodComment += " 부분을 잘이해하고 있고, ";
+            }
+        }
+
+        if(teacherBadComment.length() > 0){
+            teacherBadComment += "부분이 부족합니다.";
+        }
+
+        examPS.updateTeacherComment(teacherGoodComment + teacherBadComment);
 
         // 5. 학생 제출 답안 저장하기
         examAnswerRepository.saveAll(examAnswerList);

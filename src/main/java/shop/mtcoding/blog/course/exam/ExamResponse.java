@@ -27,6 +27,8 @@ public class ExamResponse {
         private String reExamReason;
         private String examPassState;
         private Double score;
+        private String teacherComment;
+        private Integer grade;
 
         public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements) {
             this.paperId = exam.getPaper().getId();
@@ -42,6 +44,8 @@ public class ExamResponse {
             this.reExamReason = exam.getReExamReason();
             this.examPassState = exam.getPassState();
             this.score = exam.getScore();
+            this.teacherComment = exam.getTeacherComment();
+            this.grade = exam.getGrade();
         }
 
         @Data
@@ -97,6 +101,7 @@ public class ExamResponse {
         private String examPassState;
         private String reExamReason;
         private Boolean isNotPass;
+        private Integer grade;
 
         public ResultDTO(Exam exam) {
             this.examId = exam.getId();
@@ -114,7 +119,7 @@ public class ExamResponse {
             }else{
                 this.reExamReason = "/"+exam.getReExamReason();
             }
-
+            this.grade = exam.getGrade();
         }
     }
 
