@@ -47,7 +47,7 @@ public class ExamRequest {
 
         }
 
-        public Exam toEntity(Paper paper, Student student, String passState, Integer score, Integer grade) {
+        public Exam toEntity(Paper paper, Student student, String passState, Double score, Integer grade, String reExamReason) {
             return Exam.builder()
                     .paper(paper)
                     .student(student)
@@ -56,7 +56,7 @@ public class ExamRequest {
                     .score(score)
                     .grade(grade)
                     .examState(paper.getPaperState())
-                    .isAbsent(false)
+                    .reExamReason(reExamReason)
                     .build();
         }
     }

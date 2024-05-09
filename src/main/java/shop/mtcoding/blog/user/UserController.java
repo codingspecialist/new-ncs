@@ -61,8 +61,7 @@ public class UserController {
 
         if(sessionUser.getRole().equals("student")){
             if(sessionUser.getIsCheck()){
-                session.setAttribute("teacher", sessionUser.getRole().equals("teacher"));
-                return "redirect:/api/exam";
+                return "redirect:/api/exam/my";
             }else{
                 return "redirect:/student-check-form";
             }

@@ -32,20 +32,25 @@ public class Exam {
     // 시험지
     @ManyToOne(fetch = FetchType.LAZY)
     private Paper paper;
-
-    // 결석여부
-    private boolean isAbsent;
-
+    
+    // 학생이 같은 과목에 본평가만 볼 수 있다 (통과)
+    // 학생이 같은 과목에 재평가만 볼 수 있다 (결석)
+    // 학생이 같은 과목에 본평가와, 재평가를 볼 수 있다 (본평가 점수 60점 미만 = 미통과)
+    // 점수 통계낼때나, 보여줄때 재평가가 있으면 재평가로 보여줘야 한다.
+    // 재평가는 통과할 때까지 다시 친다.
+    
     private String examState; // 본평가, 재평가
+    private String reExamReason; // 결석 or 미통과(60점이하) - 재평가이유
+
     private String passState; // 통과, 미통과, 평가포기
 
-    private Integer score; // 시험결과 점수
+    private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    public void updatePointAndGrade(Integer score){
+    public void updatePointAndGrade(Double score){
         this.score = score;
         if(score >= 90){
             grade = 5;
@@ -67,13 +72,14 @@ public class Exam {
     }
 
     @Builder
-    public Exam(Long id, Student student, String teacherName, Paper paper, boolean isAbsent, String examState, String passState, Integer score, Integer grade, LocalDateTime createDate) {
+
+    public Exam(Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, LocalDateTime createDate) {
         this.id = id;
         this.student = student;
         this.teacherName = teacherName;
         this.paper = paper;
-        this.isAbsent = isAbsent;
         this.examState = examState;
+        this.reExamReason = reExamReason;
         this.passState = passState;
         this.score = score;
         this.grade = grade;

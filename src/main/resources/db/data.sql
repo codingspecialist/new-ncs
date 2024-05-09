@@ -39,6 +39,8 @@ insert into paper_tb(subject_id, create_date, count, paper_state)
 values(1, now(), 2, '본평가');
 insert into paper_tb(subject_id, create_date, count, paper_state)
 values(2, now(), 5, '본평가');
+insert into paper_tb(subject_id, create_date, count, paper_state)
+values(1, now(), 2, '재평가');
 
 insert into question_tb(no, title, point, answer_number, paper_id, create_date)
 values(1, '다음 중 for문 설명으로 틀린것은?', 50, 4, 1, now());
@@ -56,6 +58,11 @@ values(4, '다음 중 delete 설명으로 틀린것은?', 20, 4, 2, now());
 insert into question_tb(no, title, point, answer_number, paper_id, create_date)
 values(5, '다음 중 dml 설명으로 틀린것은?', 20, 4, 2, now());
 
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(1, '다음 중 스레드 설명으로 틀린것은?', 50, 4, 3, now());
+
+insert into question_tb(no, title, point, answer_number, paper_id, create_date)
+values(2, '다음 중 소켓 설명으로 틀린것은?', 50, 4, 3, now());
 
 insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(1, '반복문이다', 1, now(), false);
@@ -119,4 +126,22 @@ insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(3, '한번만실행할수있다', 7, now(), false);
 insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(4, '반복되지않는다', 7, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 8, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 8, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 8, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 8, now(), true);
+
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(1, '반복문이다', 9, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(2, '표현식이아니다', 9, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(3, '한번만실행할수있다', 9, now(), false);
+insert into question_option_tb(no, content, question_id, create_date, is_right)
+values(4, '반복되지않는다', 9, now(), true);
 

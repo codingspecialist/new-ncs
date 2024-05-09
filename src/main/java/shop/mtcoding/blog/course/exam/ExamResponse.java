@@ -10,9 +10,38 @@ import java.util.List;
 import java.util.Map;
 
 public class ExamResponse {
+    // PK, 번호(교과목번호), 과정명/회차, paper.getSubject(교과목), 시험유형, 학생명, 훈련강사, 결과점수, 통과여부, (통과못했거나, 재평가지로 재평가하기버튼필요)
+    @Data
+    public static class ResultDTO {
+        private Long examId;
+        private Integer subjectNo;
+        private String courseNameAndRound;
+        private String subjectTitle;
+        private String paperState;
+        private String studentName;
+        private String teacherName;
+        private Double examScore;
+        private String examPassState;
+        private String reExamReason;
+        private Boolean isNotPass;
+
+        public ResultDTO(Exam exam) {
+            this.examId = exam.getId();
+            this.subjectNo = exam.getPaper().getSubject().getNo();
+            this.courseNameAndRound = exam.getStudent().getCourse().getTitle() + "/" + exam.getStudent().getCourse().getRound() +"회차";
+            this.subjectTitle = exam.getPaper().getSubject().getTitle();
+            this.paperState = exam.getPaper().getPaperState();
+            this.studentName = exam.getStudent().getName();
+            this.teacherName = exam.getTeacherName();
+            this.examScore = exam.getScore();
+            this.examPassState = exam.getPassState();
+            this.reExamReason = "/본평가 "+exam.getReExamReason();
+            this.isNotPass = exam.getScore() >= 60 ? false : true;
+        }
+    }
 
     @Data
-    public static class ExamStartDTO {
+    public static class StartDTO {
         private Long paperId;
         private String studentName;
         private String teacherName;
@@ -23,7 +52,7 @@ public class ExamResponse {
         private List<QuestionDTO> questions;
         private Integer questionCount;
 
-        public ExamStartDTO(Paper paper, String studentName, List<SubjectElement> subjectElements, List<Question> questions) {
+        public StartDTO(Paper paper, String studentName, List<SubjectElement> subjectElements, List<Question> questions) {
             this.paperId = paper.getId();
             this.studentName = studentName;
             this.teacherName = paper.getSubject().getTeacherName();
