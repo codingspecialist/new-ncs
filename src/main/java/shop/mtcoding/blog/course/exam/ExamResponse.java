@@ -35,8 +35,13 @@ public class ExamResponse {
             this.teacherName = exam.getTeacherName();
             this.examScore = exam.getScore();
             this.examPassState = exam.getPassState();
-            this.reExamReason = "/본평가 "+exam.getReExamReason();
             this.isNotPass = exam.getScore() >= 60 ? false : true;
+            if(exam.getReExamReason().equals("")){
+                this.reExamReason = exam.getReExamReason();
+            }else{
+                this.reExamReason = "/"+exam.getReExamReason();
+            }
+
         }
     }
 
@@ -122,7 +127,7 @@ public class ExamResponse {
             private Integer count; // 문항수
             private String paperState;
             private String teacherName;
-            private Boolean isAttendance;
+            private Boolean isAttendance; // 시험 응시 이력이 있음?
 
             public PaperDTO(Paper paper, Boolean isAttendance) {
                 this.paperId = paper.getId();

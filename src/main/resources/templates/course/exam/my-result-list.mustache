@@ -13,7 +13,6 @@
             <th>훈련강사</th>
             <th>점수</th>
             <th>통과여부</th>
-            <th>재시험</th>
         </tr>
         </thead>
         <tbody>
@@ -27,11 +26,6 @@
                 <td>{{teacherName}}</td>
                 <td>{{examScore}}</td>
                 <td>{{examPassState}}</td>
-                <td>
-                    {{#isNotPass}}
-                        <a class="btn btn-outline-secondary btn-sm" href="#" disabled>재시험응시하기</a>
-                    {{/isNotPass}}
-                </td>
             </tr>
         {{/models}}
         </tbody>

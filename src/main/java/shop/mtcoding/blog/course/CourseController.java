@@ -21,6 +21,7 @@ public class CourseController {
     private final HttpSession session;
     private final CourseService courseService;
 
+    // TODO: 진행상태 -> 스케쥴 등록할지, 직접 변경하는 로직 만들지, 화면 들어올때 연산할지
     // /api/course?page=0
     @GetMapping({"/", "/api/course"})
     public String list(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){

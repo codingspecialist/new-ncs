@@ -3,6 +3,7 @@ package shop.mtcoding.blog.course.exam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
 import shop.mtcoding.blog.course.Course;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
@@ -59,17 +60,21 @@ public class ExamService {
 
         List<Paper> papers = paperRepository.findByCourseId(coursePS.getId());
 
+
         Map<Long, Boolean> attendanceMap = new HashMap<>();
-        papers.stream().forEach(paper -> {
-            Optional<Exam> examPS = examRepository.findByPaperIdAndStudentId(paper.getId(), userPS.getStudent().getId());
-            if(examPS.isPresent()){
+        List<Paper> newPapers = papers.stream().map(paper -> {
+            Optional<Exam> examOP = examRepository.findByPaperIdAndStudentId(paper.getId(), userPS.getStudent().getId());
+
+            // 시험을 쳤는지 안쳤는지 여부
+            if(examOP.isPresent()){
                 attendanceMap.put(paper.getId(), true);
             }else{
                 attendanceMap.put(paper.getId(), false);
             }
-        });
+            return paper;
+        }).toList();
 
-        return new ExamResponse.MyPaperListDTO(userPS.getStudent().getId(), papers, attendanceMap);
+        return new ExamResponse.MyPaperListDTO(userPS.getStudent().getId(), newPapers, attendanceMap);
     }
 
     @Transactional
@@ -127,7 +132,9 @@ public class ExamService {
 
 
     public List<ExamResponse.ResultDTO> 시험결과리스트(User sessionUser) {
+        if(sessionUser.getStudent() == null) throw new Exception403("당신은 학생이 아니에요 : 관리자에게 문의하세요");
         List<Exam> examListPS = examRepository.findByStudentId(sessionUser.getStudent().getId());
+
         // PK, 번호(교과목번호), 과정명/회차, paper.getSubject(교과목), 시험유형, 학생명, 훈련강사, 결과점수, 통과여부, (통과못했거나, 재평가지로 재평가하기버튼필요)
         return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
     }
