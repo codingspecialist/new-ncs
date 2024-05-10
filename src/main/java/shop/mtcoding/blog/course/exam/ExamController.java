@@ -21,35 +21,36 @@ public class ExamController {
     private final HttpSession session;
     private final ExamService examService;
 
+    // 평가 디비
     @GetMapping("/api/exam")
     public String list(){
         return "course/exam/list";
     }
 
-    @GetMapping("/api/exam/my/result")
+    @GetMapping("/api/exam/student/result")
     public String result(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
         List<ExamResponse.ResultDTO> respDTO = examService.시험결과리스트(sessionUser);
         model.addAttribute("models", respDTO);
-        return "course/exam/my-result-list";
+        return "course/exam/student-result-list";
     }
 
-    @GetMapping("/api/exam/{examId}/my/result")
+    @GetMapping("/api/exam/{examId}/student/result")
     public String resultDetail(@PathVariable(value = "examId") Long examId, Model model){
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
         model.addAttribute("model", respDTO);
-        return "course/exam/my-result-detail";
+        return "course/exam/student-result-detail";
     }
 
-    @GetMapping("/api/exam/my/start")
+    @GetMapping("/api/exam/student/start")
     public String start(@RequestParam("paperId") Long paperId, Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
         ExamResponse.StartDTO respDTO = examService.시험치기(sessionUser, paperId);
         model.addAttribute("model", respDTO);
-        return "course/exam/start";
+        return "course/exam/student-start";
     }
 
-    @PostMapping("/api/exam/my")
+    @PostMapping("/api/exam/student")
     public ResponseEntity<?> save(@RequestBody ExamRequest.SaveDTO reqDTO) throws IOException {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -57,14 +58,14 @@ public class ExamController {
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
-    @GetMapping("/api/exam/my")
+    @GetMapping("/api/exam/student")
     public String my(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // TODO: 시험치는 날짜 subject에 evaluationDate 평가일 필요
         ExamResponse.MyPaperListDTO respDTO = examService.나의시험목록(sessionUser.getId());
         model.addAttribute("model", respDTO);
-        return "course/exam/my-list";
+        return "course/exam/student-list";
     }
 
 

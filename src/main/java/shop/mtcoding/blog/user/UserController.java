@@ -32,7 +32,7 @@ public class UserController {
         User userPS =userService.학생인증(reqDTO);
 
         session.setAttribute("sessionUser", userPS);
-        return "redirect:/api/exam/my";
+        return "redirect:/api/exam/student";
     }
 
     @GetMapping("/student-check-form")
@@ -61,7 +61,7 @@ public class UserController {
 
         if(sessionUser.getRole().equals("student")){
             if(sessionUser.getIsCheck()){
-                return "redirect:/api/exam/my";
+                return "redirect:/api/exam/student";
             }else{
                 return "redirect:/student-check-form";
             }

@@ -19,7 +19,7 @@
             <a class="navbar-brand" href="/">Ncs</a>
         {{/teacher}}
         {{^teacher}}
-            <a class="navbar-brand" href="/api/exam/my">Ncs</a>
+            <a class="navbar-brand" href="/api/exam/student">Ncs</a>
         {{/teacher}}
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -29,28 +29,33 @@
             <ul class="navbar-nav">
                 {{#sessionUser}}
                     {{#teacher}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/course">과정DB</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/subject">교과목DB</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/student">학생DB</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/paper">시험지DB</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/exam">평가DB</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/course">과정DB</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/subject">교과목DB</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/student">학생DB</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/paper">시험지DB</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/exam">평가DB</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/document">이수자문서</a>
+                        </li>
                     {{/teacher}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/exam/my">시험응시</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/exam/my/result">시험결과</a>
-                    </li>
+                    {{^teacher}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/exam/student">시험응시</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/exam/student/result">시험결과</a>
+                        </li>
+                    {{/teacher}}
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">로그아웃</a>
                     </li>

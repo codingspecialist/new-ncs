@@ -68,13 +68,13 @@
         console.log(JSON.stringify(requestBody));
 
         $.ajax({
-            url: "/api/exam/my",
+            url: "/api/exam/student",
             type: "post",
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
         }).done((res)=>{
             console.log(res);
-            location.href = "/api/exam/my";
+            location.href = "/api/exam/student";
         }).fail((res)=>{
             alert(res.responseJSON.msg);
         });
