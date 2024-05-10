@@ -83,7 +83,7 @@ public class ExamController {
     @GetMapping("/api/exam/student/start")
     public String start(@RequestParam("paperId") Long paperId, Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
-        ExamResponse.StartDTO respDTO = examService.시험치기(sessionUser, paperId);
+        ExamResponse.StartDTO respDTO = examService.시험응시(sessionUser, paperId);
         model.addAttribute("model", respDTO);
         return "course/exam/student-start";
     }
@@ -101,7 +101,7 @@ public class ExamController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // TODO: 시험치는 날짜 subject에 evaluationDate 평가일 필요
-        ExamResponse.MyPaperListDTO respDTO = examService.나의시험목록(sessionUser.getId());
+        ExamResponse.MyPaperListDTO respDTO = examService.나의시험목록(sessionUser);
         model.addAttribute("model", respDTO);
         return "course/exam/student-list";
     }

@@ -33,7 +33,7 @@ public class Student {
     private Course course;
 
     // 조회 용도로만 사용
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student", fetch = FetchType.LAZY)
     private User user;
 
     @CreationTimestamp

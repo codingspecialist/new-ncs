@@ -77,7 +77,7 @@ public class ExamService {
         return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS);
     }
 
-    public ExamResponse.StartDTO 시험치기(User sessionUser, Long paperId) {
+    public ExamResponse.StartDTO 시험응시(User sessionUser, Long paperId) {
         Paper paperPS = paperRepository.findById(paperId)
                 .orElseThrow(() -> new Exception404("시험지가 존재하지 않아요"));
 
@@ -94,29 +94,23 @@ public class ExamService {
         return new ExamResponse.StartDTO(paperPS, studentName, subjectElementListPS, questionListPS);
     }
 
-    public ExamResponse.MyPaperListDTO 나의시험목록(Long sessionUserId) {
-        User userPS = userRepository.findByStudent(sessionUserId)
-                .orElseThrow(() -> new Exception404("당신은 학생이 아니에요 : 관리자에게 문의하세요."));
+    public ExamResponse.MyPaperListDTO 나의시험목록(User sessionUser) {
+        // 1. 해당 학생이 소속된 과정의 모든 시험지 검색 (쿼리발동)
+        List<Paper> papers = paperRepository.findByCourseId(sessionUser.getStudent().getCourse().getId());
 
-        Course coursePS = userPS.getStudent().getCourse();
-
-        List<Paper> papers = paperRepository.findByCourseId(coursePS.getId());
-
+        // 2. 시험을 검색해서, 해당 시험지로 시험을 쳤는지 안쳤는지 여부 검색 (쿼리발동)
+        List<Exam> examListPS = examRepository.findByStudentId(sessionUser.getStudent().getId());
 
         Map<Long, Boolean> attendanceMap = new HashMap<>();
-        List<Paper> newPapers = papers.stream().map(paper -> {
-            Optional<Exam> examOP = examRepository.findByPaperIdAndStudentId(paper.getId(), userPS.getStudent().getId());
+        examListPS.forEach(exam -> {
+            papers.forEach(paper -> {
+                if(exam.getPaper().getId().equals(paper.getId())){
+                    attendanceMap.put(paper.getId(), true);
+                }
+            });
+        });
 
-            // 시험을 쳤는지 안쳤는지 여부
-            if(examOP.isPresent()){
-                attendanceMap.put(paper.getId(), true);
-            }else{
-                attendanceMap.put(paper.getId(), false);
-            }
-            return paper;
-        }).toList();
-
-        return new ExamResponse.MyPaperListDTO(userPS.getStudent().getId(), newPapers, attendanceMap);
+        return new ExamResponse.MyPaperListDTO(sessionUser.getStudent().getId(), papers, attendanceMap);
     }
 
     @Transactional

@@ -23,7 +23,7 @@ public class UserService {
     public User 로그인(UserRequest.LoginDTO reqDTO){
         User sessionUser = userRepository.findByUsernameAndPassword(reqDTO.getUsername(), reqDTO.getPassword())
                 .orElseThrow(() -> new Exception401("인증되지 않았습니다"));
-        return sessionUser;
+        return sessionUser; // student 정보 포함
     }
 
     @Transactional
@@ -45,11 +45,18 @@ public class UserService {
 
         if(studentPS == null){
             throw new StudentCheckException("등록되지 않은 학생으로 인증되지 않았습니다. 관리자에게 문의하세요.");
+        }else{
+            if(studentPS.getUser() != null){
+                throw new StudentCheckException("이미 인증된 학생입니다");
+            }
         }
+
         User userPS = userRepository.findById(reqDTO.getUserId())
                 .orElseThrow();
         userPS.setStudent(studentPS);
         userPS.setIsCheck(true);
+
+        // 레이지 로딩
 
         return userPS;
     } // 더티체킹 업데이트

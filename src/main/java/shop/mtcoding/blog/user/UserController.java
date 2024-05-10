@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import shop.mtcoding.blog._core.utils.Script;
 
 
 @RequiredArgsConstructor
@@ -25,14 +27,14 @@ public class UserController {
     }
 
     @PostMapping("/student-check")
-    public String studentCheck(UserRequest.StudentCheckDTO reqDTO){
+    public @ResponseBody String studentCheck(UserRequest.StudentCheckDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
 
-        User userPS =userService.학생인증(reqDTO);
+        userService.학생인증(reqDTO);
 
-        session.setAttribute("sessionUser", userPS);
-        return "redirect:/api/exam/student";
+        session.invalidate();
+        return Script.href("/login-form", "인증이 완료되었습니다. 로그인해주세요.");
     }
 
     @GetMapping("/student-check-form")
