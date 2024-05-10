@@ -31,14 +31,14 @@
             {{#model.answers}}
 
                 <tr>
-                    <input type="hidden" class="questionNo" value="{{no}}">
+                    <input type="hidden" class="answerId" value="{{answerId}}">
                     <td>{{no}}</td>
                     <td>{{title}}</td>
                     <td>{{point}}점</td>
                     <td>
                         {{#options}}
-                            {{no}} {{content}} <input type="radio" class="optionNo" name="question-{{questionId}}"
-                                                      {{#isSelect}}checked{{/isSelect}} readonly><br>
+                            {{no}} {{content}} <input type="radio" value="{{no}}" class="optionNo" name="question-{{questionId}}"
+                                                      {{#isSelect}}checked{{/isSelect}}><br>
                         {{/options}}
                     </td>
                     <td>정답 {{answerNumber}}</td>
@@ -50,10 +50,60 @@
         <div class="card">
             <div class="card-header">총평</div>
             <div class="card-body">
-                {{model.teacherComment}}
+                <textarea id="teacherComment" class="form-control">{{model.teacherComment}}</textarea>
+
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" onclick="sendAnswer()">총평수정</button>
             </div>
         </div>
+
     </form>
 </div>
+
+<script>
+
+    function sendAnswer(){
+        let requestBody  = {
+            examId : {{model.examId}},
+            teacherComment : $("#teacherComment").val(),
+            answers: []
+        };
+        let items = $("tbody > tr");
+
+        console.log(items[0]);
+
+        items.each(function (index, element){
+            let answerId = $(element).find(".answerId:first").val();
+            let selectedOptionNo = $(element).find(".optionNo:checked").val();
+            // console.log("문제번호", questionNo);
+            // console.log("정답번호", selectedOptionNo);
+
+            let answer = {
+                answerId: Number(answerId),
+                selectedOptionNo: Number(selectedOptionNo),
+            };
+
+            requestBody.answers.push(answer);
+        });
+
+        console.log(JSON.stringify(requestBody));
+
+        $.ajax({
+            url: "/api/exam/teacher",
+            type: "put",
+            data: JSON.stringify(requestBody),
+            contentType: "application/json; charset=utf-8"
+        }).done((res)=>{
+            console.log(res);
+            alert("총평수정완료");
+            location.reload();
+        }).fail((res)=>{
+            alert(res.responseJSON.msg);
+        });
+    }
+
+
+</script>
 
 {{> layout/footer}}

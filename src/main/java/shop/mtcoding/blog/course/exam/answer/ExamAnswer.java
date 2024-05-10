@@ -26,6 +26,11 @@ public class ExamAnswer {
     private Integer selectedOptionNo;
     private Boolean isCorrect; // true이면 맞춘거임
 
+    public void update(Integer selectedOptionNo, Boolean isCorrect){
+        this.selectedOptionNo = selectedOptionNo;
+        this.isCorrect = isCorrect;
+    }
+
     @Builder
     public ExamAnswer(Long id, Exam exam, Question question, Integer questionNo, Integer selectedOptionNo, Boolean isCorrect) {
         this.id = id;

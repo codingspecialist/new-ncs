@@ -63,6 +63,7 @@ public class ExamResponse {
 
     @Data
     public static class ResultDetailDTO {
+        private Long examId;
         private Long paperId;
         private String studentName;
         private String teacherName;
@@ -80,6 +81,7 @@ public class ExamResponse {
         private Integer grade;
 
         public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements) {
+            this.examId = exam.getId();
             this.paperId = exam.getPaper().getId();
             this.studentName = exam.getStudent().getName();
             this.teacherName = exam.getTeacherName();
@@ -99,6 +101,7 @@ public class ExamResponse {
 
         @Data
         class AnswerDTO {
+            private Long answerId;
             private Long questionId;
             private Integer no;
             private String title;
@@ -109,6 +112,7 @@ public class ExamResponse {
             private List<OptionDTO> options;
 
             public AnswerDTO(ExamAnswer answer) {
+                this.answerId = answer.getId();
                 this.questionId = answer.getQuestion().getId();
                 this.no = answer.getQuestion().getNo();
                 this.title = answer.getQuestion().getTitle();

@@ -5,11 +5,9 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>번호</th>
-            <th>과정명/회차</th>
+            <th>학생명</th>
             <th>교과목</th>
             <th>시험유형/이유</th>
-            <th>학생명</th>
             <th>훈련강사</th>
             <th>점수</th>
             <th>수준</th>
@@ -20,11 +18,9 @@
         <tbody>
         {{#models}}
             <tr>
-                <td>{{subjectNo}}</td>
-                <td>{{courseNameAndRound}}</td>
+                <td><b>{{studentName}}</b></td>
                 <td>{{subjectTitle}}</td>
                 <td>{{examState}}{{reExamReason}}</td>
-                <td>{{studentName}}</td>
                 <td>{{teacherName}}</td>
                 <td>{{examScore}}</td>
                 <td>{{grade}}</td>

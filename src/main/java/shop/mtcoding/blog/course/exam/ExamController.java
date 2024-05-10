@@ -29,6 +29,12 @@ public class ExamController {
     private final CourseService courseService;
     private final SubjectService subjectService;
 
+    @PutMapping("/api/exam/teacher")
+    public ResponseEntity<?> update(@RequestBody ExamRequest.UpdateDTO reqDTO) {
+        examService.시험결과수정(reqDTO);
+        return ResponseEntity.ok(new ApiUtil<>(null));
+    }
+
     @GetMapping("/api/exam/{examId}/teacher/result")
     public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);

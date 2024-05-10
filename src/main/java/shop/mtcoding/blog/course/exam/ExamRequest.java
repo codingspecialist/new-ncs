@@ -13,6 +13,33 @@ import java.util.List;
 public class ExamRequest {
 
     @Data
+    public static class UpdateDTO {
+        private Long examId;
+        private String teacherComment;
+        private List<AnswerDTO> answers;
+
+        @Data
+        public static class AnswerDTO {
+            private Integer answerId;
+            private Integer selectedOptionNo; // 정답 번호 (PK 아님)
+
+            public void update(Question question, ExamAnswer answer) {
+                if (selectedOptionNo == null) throw new ApiException400("모든 문제에 대한 답안을 제출해야 됩니다");
+
+                boolean isCollect;
+                if (question.getAnswerNumber() == selectedOptionNo) {
+                    isCollect = true;
+                } else {
+                    isCollect = false;
+                }
+
+                answer.update(selectedOptionNo, isCollect);
+            }
+
+        }
+    }
+
+    @Data
     public static class SaveDTO {
         private Long paperId;
         private String teacherName;

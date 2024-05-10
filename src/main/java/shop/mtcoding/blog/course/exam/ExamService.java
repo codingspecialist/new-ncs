@@ -35,6 +35,38 @@ public class ExamService {
     private final SubjectElementRepository elementRepository;
     private final QuestionRepository questionRepository;
 
+
+    // 총평 수정하면서, 결과 점수도 같이 수정한다.
+    @Transactional
+    public void 시험결과수정(ExamRequest.UpdateDTO reqDTO) {
+        Exam examPS = examRepository.findById(reqDTO.getExamId())
+                .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
+
+        List<ExamAnswer> examAnswers = examPS.getExamAnswers();
+
+        examAnswers.forEach(answer -> {
+            reqDTO.getAnswers().forEach(answerDTO -> {
+                if(answerDTO.getAnswerId().longValue() == answer.getId().longValue()){
+                    answerDTO.update(answer.getQuestion(), answer);
+                }
+            });
+        });
+
+        // 4. 시험점수, 수준, 통과여부 업데이트 하기
+        double score = examAnswers.stream().mapToInt(value -> value.getIsCorrect() ? value.getQuestion().getPoint() : 0).sum();
+
+        // 5. 재평가지로 시험쳤으면 10%
+        if(examPS.getExamState().equals("재평가")){
+            score = score * 0.9;
+        }
+
+        // 6. 점수 입력 수준 입력
+        examPS.updatePointAndGrade(score);
+
+        // 7. 코멘트 수정
+        examPS.updateTeacherComment(reqDTO.getTeacherComment());
+    }
+
     public ExamResponse.ResultDetailDTO 시험친결과상세보기(Long examId) {
         Exam examPS = examRepository.findById(examId)
                 .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
