@@ -166,16 +166,16 @@ values(1, true, 2, 2, 4);
 
 insert into exam_answer_tb
 (exam_id, is_correct, question_id, question_no, selected_option_no)
-values(1, true, 3, 1, 4);
+values(2, true, 3, 1, 4);
 insert into exam_answer_tb
 (exam_id, is_correct, question_id, question_no, selected_option_no)
-values(1, true, 4, 2, 4);
+values(2, true, 4, 2, 4);
 insert into exam_answer_tb
 (exam_id, is_correct, question_id, question_no, selected_option_no)
-values(1, true, 5, 3, 4);
+values(2, true, 5, 3, 4);
 insert into exam_answer_tb
 (exam_id, is_correct, question_id, question_no, selected_option_no)
-values(1, true, 6, 4, 4);
+values(2, true, 6, 4, 4);
 insert into exam_answer_tb
 (exam_id, is_correct, question_id, question_no, selected_option_no)
-values(1, false, 7, 5, 1);
+values(2, false, 7, 5, 1);
