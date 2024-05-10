@@ -24,6 +24,7 @@ public class MyExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(Exception401.class)
     public @ResponseBody String ex401(Exception401 e){
+        System.out.println(e.getMessage());
         return Script.href("/login-form");
     }
 
@@ -36,7 +37,6 @@ public class MyExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(Exception404.class)
     public @ResponseBody String ex404(Exception404 e){
-        System.out.println("여기 걸리지가 않나?");
         return Script.back(e.getMessage());
     }
 
@@ -44,11 +44,5 @@ public class MyExceptionHandler {
     @ExceptionHandler(Exception500.class)
     public @ResponseBody String ex500(Exception500 e){
         return Script.back(e.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public @ResponseBody String unknown(Exception e){
-        return Script.unknownBack(e.getMessage());
     }
 }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import shop.mtcoding.blog._core.errors.exception.*;
@@ -39,5 +40,12 @@ public class MyApiExceptionHandler {
     public ResponseEntity<?> serverError(ApiException500 e){
         log.error(e.getMessage());
         return new ResponseEntity<>(e.body(), e.status());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> unknown(Exception e){
+        log.error(e.getMessage());
+        e.printStackTrace();
+        return new ResponseEntity<>(new ApiUtil<>(500, "알수없는오류"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -2,11 +2,17 @@ package shop.mtcoding.blog.course.exam;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.blog._core.utils.ApiUtil;
+import shop.mtcoding.blog.course.CourseResponse;
+import shop.mtcoding.blog.course.CourseService;
+import shop.mtcoding.blog.course.subject.SubjectService;
 import shop.mtcoding.blog.user.User;
 
 import java.io.IOException;
@@ -20,12 +26,38 @@ import java.util.List;
 public class ExamController {
     private final HttpSession session;
     private final ExamService examService;
+    private final CourseService courseService;
+    private final SubjectService subjectService;
 
-    // 평가 디비
-    @GetMapping("/api/exam")
-    public String list(){
-        return "course/exam/list";
+    @GetMapping("/api/exam/{examId}/teacher/result")
+    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
+        ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
+        model.addAttribute("model", respDTO);
+        return "course/exam/teacher-result-detail";
     }
+
+    @GetMapping("/api/exam/teacher/result")
+    public String teacherResult(Model model, @RequestParam("subjectId") Long subjectId){
+        List<ExamResponse.ResultDTO> respDTO = examService.교과목별시험결과(subjectId);
+        model.addAttribute("models", respDTO);
+        return "course/exam/teacher-result-list";
+    }
+
+
+    @GetMapping("/api/exam/teacher/course")
+    public String course(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
+        CourseResponse.PagingDTO respDTO = courseService.과정목록(pageable);
+        model.addAttribute("paging", respDTO);
+        return "course/exam/teacher-course-list";
+    }
+
+    @GetMapping("/api/exam/teacher/subject")
+    public String subject(@RequestParam("courseId") Long courseId, Model model){
+        List<ExamResponse.SubjectDTO> respDTO = subjectService.과정별교과목(courseId);
+        model.addAttribute("models", respDTO);
+        return "course/exam/teacher-subject-list";
+    }
+
 
     @GetMapping("/api/exam/student/result")
     public String result(Model model){
@@ -51,7 +83,7 @@ public class ExamController {
     }
 
     @PostMapping("/api/exam/student")
-    public ResponseEntity<?> save(@RequestBody ExamRequest.SaveDTO reqDTO) throws IOException {
+    public ResponseEntity<?> save(@RequestBody ExamRequest.SaveDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         examService.시험결과저장(reqDTO, sessionUser);

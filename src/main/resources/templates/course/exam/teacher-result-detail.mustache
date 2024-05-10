@@ -1,0 +1,59 @@
+{{> layout/header}}
+
+<div class="container p-5">
+    <div class="card mb-3">
+        <div class="card-header">
+            시험일 : {{model.evaluationDate}} <br>
+            시험장소 : {{model.loc}} <br>
+            교과목 : {{model.subjectTitle}} <br>
+            훈련교사 : {{model.teacherName}} <br>
+            훈련교사 : {{model.studentName}} <br>
+            문항수 : {{model.questionCount}} <br>
+            총점 : {{model.score}} <br>
+            수준 : {{model.grade}} <br>
+            통과여부 : {{model.examPassState}} <br>
+        </div>
+    </div>
+
+    <form>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>문제점수</th>
+                <th>항목</th>
+                <th>정답번호</th>
+                <th>채점</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#model.answers}}
+
+                <tr>
+                    <input type="hidden" class="questionNo" value="{{no}}">
+                    <td>{{no}}</td>
+                    <td>{{title}}</td>
+                    <td>{{point}}점</td>
+                    <td>
+                        {{#options}}
+                            {{no}} {{content}} <input type="radio" class="optionNo" name="question-{{questionId}}"
+                                                      {{#isSelect}}checked{{/isSelect}} readonly><br>
+                        {{/options}}
+                    </td>
+                    <td>정답 {{answerNumber}}</td>
+                    <td>{{studentPoint}}점</td>
+                </tr>
+            {{/model.answers}}
+            </tbody>
+        </table>
+        <div class="card">
+            <div class="card-header">총평</div>
+            <div class="card-body">
+                {{model.teacherComment}}
+            </div>
+        </div>
+    </form>
+</div>
+
+{{> layout/footer}}

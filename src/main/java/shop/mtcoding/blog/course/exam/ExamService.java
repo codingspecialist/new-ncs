@@ -152,8 +152,9 @@ public class ExamService {
         int goodIndex = teacherGoodComment.lastIndexOf(", ");
         int badIndex = teacherBadComment.lastIndexOf(", ");
 
-        teacherGoodComment = teacherGoodComment.substring(0, goodIndex);
-        teacherBadComment = teacherBadComment.substring(0, badIndex);
+        if(goodIndex != -1) teacherGoodComment = teacherGoodComment.substring(0, goodIndex);
+
+        if(badIndex != -1) teacherBadComment = teacherBadComment.substring(0, badIndex);
 
         if(teacherGoodComment.length() > 0){
             if(teacherBadComment.length() == 0){
@@ -164,7 +165,7 @@ public class ExamService {
         }
 
         if(teacherBadComment.length() > 0){
-            teacherBadComment += "부분이 부족합니다.";
+            teacherBadComment += " 부분이 부족합니다.";
         }
 
         examPS.updateTeacherComment(teacherGoodComment + teacherBadComment);
@@ -179,6 +180,12 @@ public class ExamService {
         List<Exam> examListPS = examRepository.findByStudentId(sessionUser.getStudent().getId());
 
         // PK, 번호(교과목번호), 과정명/회차, paper.getSubject(교과목), 시험유형, 학생명, 훈련강사, 결과점수, 통과여부, (통과못했거나, 재평가지로 재평가하기버튼필요)
+        return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
+    }
+
+    public List<ExamResponse.ResultDTO> 교과목별시험결과(Long subjectId) {
+        List<Exam> examListPS = examRepository.findBySubjectId(subjectId);
+
         return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
     }
 }

@@ -19,7 +19,9 @@ public class LoginInterceptor implements HandlerInterceptor{
 
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser == null){
-            throw new Exception401("인증되지 않았습니다");
+            response.setContentType("text/html; charset-utf-8");
+            response.getWriter().println(Script.href("/login-form", "인증이 필요합니다"));
+            return false;
         }else{
             String role = sessionUser.getRole();
             if(role.equals("student")){

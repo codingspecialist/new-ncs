@@ -1,16 +1,65 @@
 package shop.mtcoding.blog.course.exam;
 
 import lombok.Data;
+import shop.mtcoding.blog.course.Course;
+import shop.mtcoding.blog.course.CourseResponse;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
+import shop.mtcoding.blog.course.student.Student;
+import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public class ExamResponse {
+
+    @Data
+    public static class SubjectDTO {
+        private Long subjectId;
+        private String code; // 능력단위 코드
+        private String title;
+        private String purpose;
+        private String gubun;
+        private Integer grade;
+        private Integer totalTime;
+        private Integer no; // 과정에서 몇번째로 시작하는 교과목인지에 대한 연번
+        private String learningWay; // 학습 방법
+        private String evaluationWay; // 평가 방법
+        private LocalDate evaluationDate; // 평가일
+        private LocalDate revaluationDate; // 재평가일
+        private LocalDate evaluationScheduleDate; // 평가 예정일
+        private LocalDate revaluationScheduleDate; // 재평가 예정일
+        private LocalDate startDate; // 교과목 시작 날짜
+        private LocalDate endDate; // 교과목 종료 날짜
+        private Long courseId; // 과정 PK
+        private String courseTitle;
+        private Integer courseRound;
+
+        public SubjectDTO(Subject subject) {
+            this.subjectId = subject.getId();
+            this.code = subject.getCode();
+            this.title = subject.getTitle();
+            this.purpose = subject.getPurpose();
+            this.gubun = subject.getGubun();
+            this.grade = subject.getGrade();
+            this.totalTime = subject.getTotalTime();
+            this.no = subject.getNo();
+            this.learningWay = subject.getLearningWay();
+            this.evaluationWay = subject.getEvaluationWay();
+            this.evaluationDate = subject.getEvaluationDate();
+            this.revaluationDate = subject.getRevaluationDate();
+            this.startDate = subject.getStartDate();
+            this.endDate = subject.getEndDate();
+            this.courseId = subject.getCourse().getId();
+            this.courseTitle = subject.getCourse().getTitle();
+            this.courseRound = subject.getCourse().getRound();
+        }
+    }
+
 
     @Data
     public static class ResultDetailDTO {
@@ -106,7 +155,7 @@ public class ExamResponse {
         public ResultDTO(Exam exam) {
             this.examId = exam.getId();
             this.subjectNo = exam.getPaper().getSubject().getNo();
-            this.courseNameAndRound = exam.getStudent().getCourse().getTitle() + "/" + exam.getStudent().getCourse().getRound() +"회차";
+            this.courseNameAndRound = exam.getStudent().getCourse().getTitle() + "/" + exam.getStudent().getCourse().getRound() + "회차";
             this.subjectTitle = exam.getPaper().getSubject().getTitle();
             this.examState = exam.getExamState();
             this.studentName = exam.getStudent().getName();
@@ -114,10 +163,10 @@ public class ExamResponse {
             this.examScore = exam.getScore();
             this.examPassState = exam.getPassState();
             this.isNotPass = exam.getScore() >= 60 ? false : true;
-            if(exam.getReExamReason().equals("")){
+            if (exam.getReExamReason().equals("")) {
                 this.reExamReason = exam.getReExamReason();
-            }else{
-                this.reExamReason = "/"+exam.getReExamReason();
+            } else {
+                this.reExamReason = "/" + exam.getReExamReason();
             }
             this.grade = exam.getGrade();
         }
@@ -189,7 +238,7 @@ public class ExamResponse {
             this.studentId = studentId;
             this.papers = papers.stream().map(paper -> {
 
-                Boolean isAttendance =  attendanceMap.get(paper.getId());
+                Boolean isAttendance = attendanceMap.get(paper.getId());
 
                 return new PaperDTO(paper, isAttendance);
             }).toList();

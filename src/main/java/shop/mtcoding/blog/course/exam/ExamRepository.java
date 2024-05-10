@@ -12,6 +12,9 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     // 시험 결과 보기
     // SELECT * FROM EXAM_TB ex inner join exam_answer_tb an on ex.id = an.exam_id where student_id = 3;
 
+    @Query("select ex from Exam ex join fetch ex.paper p join fetch ex.student st where ex.paper.subject.id = :subjectId")
+    List<Exam> findBySubjectId(@Param("subjectId") Long subjectId);
+
     @Query("select ex from Exam ex where ex.paper.subject.id = :subjectId and ex.student.id = :studentId")
     Optional<Exam> findByOrigin(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId);
 
