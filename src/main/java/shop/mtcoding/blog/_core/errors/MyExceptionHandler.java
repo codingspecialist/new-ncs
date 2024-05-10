@@ -1,17 +1,22 @@
 package shop.mtcoding.blog._core.errors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.blog._core.errors.exception.*;
+import shop.mtcoding.blog._core.errors.exception.api.*;
+import shop.mtcoding.blog._core.utils.ApiUtil;
 import shop.mtcoding.blog._core.utils.Script;
 
 // RuntimeException이 터지면 해당 파일로 오류가 모인다
-@ControllerAdvice // 데이터 응답
+@Slf4j
+@RestControllerAdvice // 데이터 응답
 public class MyExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(StudentCheckException.class)
-    public @ResponseBody String ex401(StudentCheckException e){
+    public @ResponseBody String stcheck(StudentCheckException e){
         return Script.href("/student-check-form", e.getMessage());
     }
 
@@ -39,6 +44,41 @@ public class MyExceptionHandler {
     public @ResponseBody String ex404(Exception404 e){
         return Script.back(e.getMessage());
     }
+
+    @ExceptionHandler(ApiException400.class)
+    public ResponseEntity<?> badRequest(ApiException400 e){
+        return new ResponseEntity<>(e.body(), e.status());
+    }
+
+    @ExceptionHandler(ApiException401.class)
+    public ResponseEntity<?> unAuthorized(ApiException401 e){
+        return new ResponseEntity<>(e.body(), e.status());
+    }
+
+    @ExceptionHandler(ApiException403.class)
+    public ResponseEntity<?> forbidden(ApiException403 e){
+        return new ResponseEntity<>(e.body(), e.status());
+    }
+
+    @ExceptionHandler(ApiException404.class)
+    public ResponseEntity<?> notFound(ApiException404 e){
+        return new ResponseEntity<>(e.body(), e.status());
+    }
+
+    @ExceptionHandler(ApiException500.class)
+    public ResponseEntity<?> serverError(ApiException500 e){
+        log.error(e.getMessage());
+        return new ResponseEntity<>(e.body(), e.status());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> unknown(Exception e){
+        log.error(e.getMessage());
+        e.printStackTrace();
+        return new ResponseEntity<>(new ApiUtil<>(500, "알수없는오류"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception500.class)

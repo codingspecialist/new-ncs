@@ -13,11 +13,13 @@ values('최주호', 'S2002', 1, '2024-06-08', '2024-06-13', '2024-06-13', '2024-
 
 
 insert into student_tb(birthday, course_id, create_date, name, state)
-values('900101', 1, now(), '김성재', 'ENROLLED');
+values('900101', 1, now(), '김주혁', 'ENROLLED');
 insert into student_tb(birthday, course_id, create_date, name, state)
-values('800101', 1, now(), '류재성', 'ENROLLED');
+values('800101', 1, now(), '설동훈', 'ENROLLED');
 insert into student_tb(birthday, course_id, create_date, name, state)
 values('700101', 1, now(), '박동기', 'ENROLLED');
+insert into student_tb(birthday, course_id, create_date, name, state)
+values('600101', 1, now(), '최주호', 'ENROLLED');
 
 
 insert into subject_element_tb(create_date, no, subject_id, subtitle)

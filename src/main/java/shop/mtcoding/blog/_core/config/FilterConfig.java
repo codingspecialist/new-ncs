@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import shop.mtcoding.blog._core.filter.CorsFilter;
 
 
+
 @Configuration
 public class FilterConfig {
 

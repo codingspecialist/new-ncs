@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog._core.errors.exception.StudentCheckException;
+import shop.mtcoding.blog._core.errors.exception.api.ApiException400;
 import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.course.student.StudentRepository;
 
