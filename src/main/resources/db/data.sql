@@ -1,4 +1,5 @@
 insert into user_tb(username, password, email, name, role, is_check, student_id, created_at) values('ssar', '1234', 'ssar@nate.com', '최주호', 'teacher', true, null, now());
+insert into user_tb(username, password, email, name, role, is_check, student_id, created_at) values('cos', '1234', 'cos@nate.com', '박동기', 'student', true, 3, now());
 
 
 insert into course_tb(code, course_status, start_date, end_date, level, purpose, round, main_teacher_name, title, total_day, total_time, create_date)
@@ -145,3 +146,36 @@ values(3, '한번만실행할수있다', 9, now(), false);
 insert into question_option_tb(no, content, question_id, create_date, is_right)
 values(4, '반복되지않는다', 9, now(), true);
 
+insert into exam_tb
+(create_date, exam_state, grade, paper_id, pass_state, re_exam_reason, score, student_id, teacher_comment, teacher_name)
+values
+(now(), '본평가', 5, 1, '통과', '', 100, 3, '아주 잘했어요. 굳입니다.', '최주호');
+
+insert into exam_tb
+(create_date, exam_state, grade, paper_id, pass_state, re_exam_reason, score, student_id, teacher_comment, teacher_name)
+values
+(now(), '본평가', 4, 2, '통과', '', 80, 3, '조금 부족했어요. 굳입니다.', '최주호');
+
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, true, 1, 1, 4);
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, true, 2, 2, 4);
+
+
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, true, 3, 1, 4);
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, true, 4, 2, 4);
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, true, 5, 3, 4);
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, true, 6, 4, 4);
+insert into exam_answer_tb
+(exam_id, is_correct, question_id, question_no, selected_option_no)
+values(1, false, 7, 5, 1);
