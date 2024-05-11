@@ -7,11 +7,18 @@
             시험장소 : {{model.loc}} <br>
             교과목 : {{model.subjectTitle}} <br>
             훈련교사 : {{model.teacherName}} <br>
-            훈련교사 : {{model.studentName}} <br>
+            훈련생 : {{model.studentName}} <br>
             문항수 : {{model.questionCount}} <br>
             총점 : {{model.score}} <br>
             수준 : {{model.grade}} <br>
             통과여부 : {{model.examPassState}} <br>
+        </div>
+        <div class="card-body">
+            <div>
+                {{#model.subjectElements}}
+                    <div><i>{{.}}</i></div>
+                {{/model.subjectElements}}
+            </div>
         </div>
     </div>
 
