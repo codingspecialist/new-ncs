@@ -7,13 +7,16 @@
 
 <div class="container p-5">
     <h1>선생님 안녕하세요. 사인을 저장해주세요.</h1>
-    <canvas id="signature-pad" width="400" height="200"></canvas> <!-- 서명 공간 -->
+    <canvas id="signature-pad" width="200" height="200"></canvas> <!-- 서명 공간 -->
     <button type="button" class="btn btn-primary" onclick="saveSignature()">저장</button>
 </div>
 
 <script>
     let canvas = document.getElementById('signature-pad');
     let context = canvas.getContext('2d');
+
+    context.lineWidth = 4;  // 선의 굵기를 5픽셀로 설정
+    context.strokeStyle = '#000000'; // 선의 색상을 검정으로 설정, 필요에 따라 색상 변경 가능
 
     let drawing = false;
     let lastX = 0;
@@ -46,20 +49,21 @@
 
     function saveSignature() {
         const dataUrl = canvas.toDataURL(); // 서명을 이미지로 변환
+        console.log(dataUrl);
 
         let requestBody = {
             sign: dataUrl
         }
 
         $.ajax({
-            url: `/api/teacher/sign`,
+            url: `/teacher/sign`,
             method: "put",
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
         }).done((res) => {
             console.log(res);
             alert("저장완료");
-            location.href = '/login-form';
+            //location.href = '/login-form';
         }).fail((res) => {
             alert(res.responseJSON.msg);
             console.log(res.responseJSON.msg);

@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 
                 if(!sessionUser.getIsCheck()){
                     response.setContentType("text/html; charset-utf-8");
-                    response.getWriter().println(Script.href("/api/student/check-form", "학생인증이 필요합니다"));
+                    response.getWriter().println(Script.href("/student/check-form", "학생인증이 필요합니다"));
                     return false;
                 }
 
@@ -34,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 
                 if(sessionUser.getSign() == null){
                     response.setContentType("text/html; charset-utf-8");
-                    response.getWriter().println(Script.href("/api/teacher/sign-form", "사인이 필요합니다"));
+                    response.getWriter().println(Script.href("/teacher/sign-form", "사인이 필요합니다"));
                     return false;
                 }
                 return true;

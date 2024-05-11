@@ -7,6 +7,7 @@ import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
+import shop.mtcoding.blog.user.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -76,8 +77,9 @@ public class ExamResponse {
         private Double score;
         private String teacherComment;
         private Integer grade;
+        private String teacherSign;
 
-        public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements) {
+        public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements, User teacher) {
             this.examId = exam.getId();
             this.paperId = exam.getPaper().getId();
             this.studentName = exam.getStudent().getName();
@@ -94,6 +96,7 @@ public class ExamResponse {
             this.score = exam.getScore();
             this.teacherComment = exam.getTeacherComment();
             this.grade = exam.getGrade();
+            this.teacherSign = teacher.getSign();
         }
 
         @Data

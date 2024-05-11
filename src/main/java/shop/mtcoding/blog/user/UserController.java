@@ -27,7 +27,7 @@ public class UserController {
         return "user/login-form";
     }
 
-    @PostMapping("/api/student/check")
+    @PostMapping("/student/check")
     public @ResponseBody String studentCheck(UserRequest.StudentCheckDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
@@ -38,7 +38,7 @@ public class UserController {
         return Script.href("/login-form", "인증이 완료되었습니다. 로그인해주세요.");
     }
 
-    @GetMapping("/api/student/check-form")
+    @GetMapping("/student/check-form")
     public String studentCheckForm(){
         return "user/student-check-form";
     }
@@ -49,14 +49,14 @@ public class UserController {
 
         if(reqDTO.getRole().equals("student")){
             session.setAttribute("sessionUser", sessionUser);
-            return "redirect:/api/student/check-form";
+            return "redirect:/student/check-form";
         }else{
             session.setAttribute("sessionUser", sessionUser);
-            return "redirect:/api/teacher/sign-form";
+            return "redirect:/teacher/sign-form";
         }
     }
 
-    @PutMapping("/api/teacher/sign")
+    @PutMapping("/teacher/sign")
     public ResponseEntity<?> sign(@RequestBody UserRequest.TeacherSignDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser.getRole().equals("student")) throw new ApiException401("당신은 선생님이 아니에요");
@@ -65,7 +65,7 @@ public class UserController {
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
-    @GetMapping("/api/teacher/sign-form")
+    @GetMapping("/teacher/sign-form")
     public String teacherSignForm(){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
@@ -81,7 +81,7 @@ public class UserController {
             if(sessionUser.getIsCheck()){
                 return "redirect:/api/student/exam";
             }else{
-                return "redirect:/api/student/check-form";
+                return "redirect:/student/check-form";
             }
         }else{
             return "redirect:/";

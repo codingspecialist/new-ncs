@@ -73,7 +73,10 @@ public class ExamService {
         List<SubjectElement> subjectElementListPS =
                 elementRepository.findBySubjectId(examPS.getPaper().getSubject().getId());
 
-        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS);
+        User teacher = userRepository.findByTeacherName(examPS.getTeacherName())
+                .orElseThrow(() -> new Exception404("해당 시험에 선생님이 존재하지 않아서 사인을 찾을 수 없어요"));
+
+        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS, teacher);
     }
 
     public ExamResponse.StartDTO 시험응시(User sessionUser, Long paperId) {

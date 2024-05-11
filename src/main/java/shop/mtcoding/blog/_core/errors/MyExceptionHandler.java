@@ -17,7 +17,7 @@ public class MyExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(StudentCheckException.class)
     public @ResponseBody String stcheck(StudentCheckException e){
-        return Script.href("/student-check-form", e.getMessage());
+        return Script.href("/student/check-form", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
