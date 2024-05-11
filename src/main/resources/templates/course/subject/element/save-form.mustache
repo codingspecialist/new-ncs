@@ -48,12 +48,12 @@
         console.log(subjectElements);
 
         $.ajax({
-            url: `/api/subject/${subjectId}/element/save`,
+            url: `/api/teacher/subject/${subjectId}/element/save`,
             method: "post",
             data: JSON.stringify(subjectElements),
             contentType: "application/json; charset=utf-8"
         }).done((res) => {
-            location.href = `/api/subject/${subjectId}/element`;
+            location.href = `/api/teacher/subject/${subjectId}/element`;
         }).fail((res) => {
             console.log(res.responseJSON.msg);
         });

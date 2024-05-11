@@ -2,10 +2,11 @@ package shop.mtcoding.blog.user;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import shop.mtcoding.blog._core.errors.exception.api.ApiException401;
+import shop.mtcoding.blog._core.utils.ApiUtil;
 import shop.mtcoding.blog._core.utils.Script;
 
 
@@ -26,7 +27,7 @@ public class UserController {
         return "user/login-form";
     }
 
-    @PostMapping("/student-check")
+    @PostMapping("/api/student/check")
     public @ResponseBody String studentCheck(UserRequest.StudentCheckDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser==null) return "redirect:/login-form";
@@ -37,10 +38,8 @@ public class UserController {
         return Script.href("/login-form", "인증이 완료되었습니다. 로그인해주세요.");
     }
 
-    @GetMapping("/student-check-form")
+    @GetMapping("/api/student/check-form")
     public String studentCheckForm(){
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser==null) return "redirect:/login-form";
         return "user/student-check-form";
     }
 
@@ -50,10 +49,27 @@ public class UserController {
 
         if(reqDTO.getRole().equals("student")){
             session.setAttribute("sessionUser", sessionUser);
-            return "redirect:/student-check-form";
+            return "redirect:/api/student/check-form";
+        }else{
+            session.setAttribute("sessionUser", sessionUser);
+            return "redirect:/api/teacher/sign-form";
         }
+    }
 
-        return "redirect:/login-form";
+    @PutMapping("/api/teacher/sign")
+    public ResponseEntity<?> sign(@RequestBody UserRequest.TeacherSignDTO reqDTO){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser.getRole().equals("student")) throw new ApiException401("당신은 선생님이 아니에요");
+        userService.사인저장(reqDTO, sessionUser);
+        session.invalidate();
+        return ResponseEntity.ok(new ApiUtil<>(null));
+    }
+
+    @GetMapping("/api/teacher/sign-form")
+    public String teacherSignForm(){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser==null) return "redirect:/login-form";
+        return "user/teacher-sign-form";
     }
 
     @PostMapping("/login")
@@ -63,12 +79,11 @@ public class UserController {
 
         if(sessionUser.getRole().equals("student")){
             if(sessionUser.getIsCheck()){
-                return "redirect:/api/exam/student";
+                return "redirect:/api/student/exam";
             }else{
-                return "redirect:/student-check-form";
+                return "redirect:/api/student/check-form";
             }
         }else{
-            session.setAttribute("teacher", sessionUser.getRole().equals("teacher"));
             return "redirect:/";
         }
 

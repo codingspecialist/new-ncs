@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
-import shop.mtcoding.blog.course.Course;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswerRepository;
 import shop.mtcoding.blog.course.student.Student;
@@ -211,6 +210,9 @@ public class ExamService {
 
     public List<ExamResponse.ResultDTO> 교과목별시험결과(Long subjectId) {
         List<Exam> examListPS = examRepository.findBySubjectId(subjectId);
+
+        // 시험지를 학생 이름 순으로 정렬
+        Collections.sort(examListPS, Comparator.comparing(exam -> exam.getStudent().getName()));
 
         return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
     }

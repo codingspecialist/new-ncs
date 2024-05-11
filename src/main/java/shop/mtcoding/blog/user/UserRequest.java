@@ -5,6 +5,11 @@ import lombok.Data;
 public class UserRequest {
 
     @Data
+    public static class TeacherSignDTO {
+        private String sign;
+    }
+
+    @Data
     public static class StudentCheckDTO {
         private Long userId;
         private String name;
@@ -27,6 +32,7 @@ public class UserRequest {
                     .name(name)
                     .role(role)
                     .isCheck(false) // 인증안됨
+                    .isTeacher(role.equals("teacher") ? true : false)
                     .build();
         }
     }

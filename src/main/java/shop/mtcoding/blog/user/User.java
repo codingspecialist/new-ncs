@@ -22,7 +22,11 @@ public class User {
     private String password;
     private String email;
     private String name; // 선생님 이름 or 학생 이름
+
+    @Lob
+    private String sign; // 선생님이라면 서명 (base64 저장)
     private String role; // student, teacher
+    private Boolean isTeacher;
     private Boolean isCheck; // 인증 여부
 
     @CreationTimestamp // pc -> db (날짜주입)
@@ -34,13 +38,15 @@ public class User {
     private Student student; // role이 student이면 연결된 객체 필요!! 선생이 먼저 학생을 등록해야 가입가능
 
     @Builder
-    public User(Long id, String username, String password, String email, String name, String role, Boolean isCheck, Timestamp createdAt, Student student) {
+    public User(Long id, String username, String password, String email, String name, String sign, String role, Boolean isTeacher, Boolean isCheck, Timestamp createdAt, Student student) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
+        this.sign = sign;
         this.role = role;
+        this.isTeacher = isTeacher;
         this.isCheck = isCheck;
         this.createdAt = createdAt;
         this.student = student;

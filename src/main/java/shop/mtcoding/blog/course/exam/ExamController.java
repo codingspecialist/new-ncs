@@ -15,7 +15,6 @@ import shop.mtcoding.blog.course.CourseService;
 import shop.mtcoding.blog.course.subject.SubjectService;
 import shop.mtcoding.blog.user.User;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,20 +28,20 @@ public class ExamController {
     private final CourseService courseService;
     private final SubjectService subjectService;
 
-    @PutMapping("/api/exam/teacher")
+    @PutMapping("/api/teacher/exam/update")
     public ResponseEntity<?> update(@RequestBody ExamRequest.UpdateDTO reqDTO) {
         examService.시험결과수정(reqDTO);
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
-    @GetMapping("/api/exam/{examId}/teacher/result")
+    @GetMapping("/api/teacher/exam/{examId}/result")
     public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
         model.addAttribute("model", respDTO);
         return "course/exam/teacher-result-detail";
     }
 
-    @GetMapping("/api/exam/teacher/result")
+    @GetMapping("/api/teacher/exam/result")
     public String teacherResult(Model model, @RequestParam("subjectId") Long subjectId){
         List<ExamResponse.ResultDTO> respDTO = examService.교과목별시험결과(subjectId);
         model.addAttribute("models", respDTO);
@@ -50,14 +49,14 @@ public class ExamController {
     }
 
 
-    @GetMapping("/api/exam/teacher/course")
+    @GetMapping("/api/teacher/exam/course")
     public String course(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
         CourseResponse.PagingDTO respDTO = courseService.과정목록(pageable);
         model.addAttribute("paging", respDTO);
         return "course/exam/teacher-course-list";
     }
 
-    @GetMapping("/api/exam/teacher/subject")
+    @GetMapping("/api/teacher/exam/subject")
     public String subject(@RequestParam("courseId") Long courseId, Model model){
         List<ExamResponse.SubjectDTO> respDTO = subjectService.과정별교과목(courseId);
         model.addAttribute("models", respDTO);
@@ -65,7 +64,7 @@ public class ExamController {
     }
 
 
-    @GetMapping("/api/exam/student/result")
+    @GetMapping("/api/student/exam/result")
     public String result(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
         List<ExamResponse.ResultDTO> respDTO = examService.시험결과리스트(sessionUser);
@@ -73,14 +72,14 @@ public class ExamController {
         return "course/exam/student-result-list";
     }
 
-    @GetMapping("/api/exam/{examId}/student/result")
+    @GetMapping("/api/student/exam/{examId}/result")
     public String resultDetail(@PathVariable(value = "examId") Long examId, Model model){
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
         model.addAttribute("model", respDTO);
         return "course/exam/student-result-detail";
     }
 
-    @GetMapping("/api/exam/student/start")
+    @GetMapping("/api/student/exam/start")
     public String start(@RequestParam("paperId") Long paperId, Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
         ExamResponse.StartDTO respDTO = examService.시험응시(sessionUser, paperId);
@@ -88,7 +87,7 @@ public class ExamController {
         return "course/exam/student-start";
     }
 
-    @PostMapping("/api/exam/student")
+    @PostMapping("/api/student/exam/save")
     public ResponseEntity<?> save(@RequestBody ExamRequest.SaveDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -96,8 +95,8 @@ public class ExamController {
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
-    @GetMapping("/api/exam/student")
-    public String my(Model model){
+    @GetMapping("/api/student/exam")
+    public String exam(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // TODO: 시험치는 날짜 subject에 evaluationDate 평가일 필요

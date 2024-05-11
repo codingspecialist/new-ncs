@@ -1,10 +1,7 @@
 package shop.mtcoding.blog.course.exam;
 
 import lombok.Data;
-import shop.mtcoding.blog.course.Course;
-import shop.mtcoding.blog.course.CourseResponse;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
-import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.Paper;
@@ -143,7 +140,10 @@ public class ExamResponse {
     // PK, 번호(교과목번호), 과정명/회차, paper.getSubject(교과목), 시험유형, 학생명, 훈련강사, 결과점수, 통과여부, (통과못했거나, 재평가지로 재평가하기버튼필요)
     @Data
     public static class ResultDTO {
+        // 교과목 번호, 교과목 내 시험 순서
         private Long examId;
+        private Long paperId; // 몇번째 시험지에 몇번 학생? (1,2)
+        private Integer studentNo; // 학생번호 필요 다음 버튼 클릭할때!!
         private Integer subjectNo;
         private String courseNameAndRound;
         private String subjectTitle;
@@ -158,6 +158,8 @@ public class ExamResponse {
 
         public ResultDTO(Exam exam) {
             this.examId = exam.getId();
+            this.paperId = exam.getPaper().getId();
+            this.studentNo = 1;
             this.subjectNo = exam.getPaper().getSubject().getNo();
             this.courseNameAndRound = exam.getStudent().getCourse().getTitle() + "/" + exam.getStudent().getCourse().getRound() + "회차";
             this.subjectTitle = exam.getPaper().getSubject().getTitle();

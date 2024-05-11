@@ -16,7 +16,7 @@
         </div>
 
         <div class="card-body">
-            <form id="save-form" action="/api/course/{{model.currentCourseId}}/subject/save?screen={{screen}}"
+            <form id="save-form" action="/api/teacher/course/{{model.currentCourseId}}/subject/save?screen={{screen}}"
             method="post"
             enctype="application/x-www-form-urlencoded">
             <div class="mb-3">
@@ -80,7 +80,7 @@
     $("#select-option").change(() => {
         let currentCourseId = $("#select-option").val();
         let screen = $("#screen").val();
-        $("#save-form").prop("action", `/api/course/${currentCourseId}/subject/save?screen=${screen}`);
+        $("#save-form").prop("action", `/api/teacher/course/${currentCourseId}/subject/save?screen=${screen}`);
     });
 
     $("#select-option").css("color", "blue");

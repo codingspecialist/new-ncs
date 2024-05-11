@@ -7,8 +7,8 @@
 
     <div class="d-flex justify-content-end">
         <div>
-            <a id="subject-save-form" href="/api/subject/save-form?courseId={{model.courseId}}" class="btn btn-primary mr-3">교과목등록</a>
-            <a id="student-save-form" href="/api/student/save-form?courseId={{model.courseId}}" class="btn btn-primary">학생등록</a>
+            <a id="subject-save-form" href="/api/teacher/subject/save-form?courseId={{model.courseId}}" class="btn btn-primary mr-3">교과목등록</a>
+            <a id="student-save-form" href="/api/teacher/student/save-form?courseId={{model.courseId}}" class="btn btn-primary">학생등록</a>
         </div>
     </div>
 
@@ -60,7 +60,7 @@
                     <tr>
                         <td>{{no}}</td>
                         <td>{{code}}</td>
-                        <td><a href="/api/subject/{{subjectId}}/element">{{title}}</td>
+                        <td><a href="/api/teacher/subject/{{subjectId}}/element">{{title}}</td>
                         <td>{{gubun}}</td>
                         <td>{{grade}}</td>
                         <td>{{totalTime}}</td>

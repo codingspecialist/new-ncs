@@ -30,40 +30,40 @@ public class PaperController {
     private final PaperService paperService;
     private final SubjectService subjectService;
 
-    @PostMapping("/api/paper/{paperId}/question/save")
+    @PostMapping("/api/teacher/paper/{paperId}/question/save")
     public ResponseEntity<?> questionSave(@RequestBody PaperRequest.QuestionSaveDTO reqDTO){
         paperService.문제등록(reqDTO);
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
-    @GetMapping("/api/paper/save-form")
+    @GetMapping("/api/teacher/paper/save-form")
     public String saveForm(Model model) {
         List<SubjectResponse.DTO> respDTO = subjectService.모든교과목목록();
         model.addAttribute("models", respDTO);
         return "paper/save-form";
     }
 
-    @PostMapping("/api/paper/save")
+    @PostMapping("/api/teacher/paper/save")
     public String save(PaperRequest.SaveDTO reqDTO) {
         paperService.시험지등록(reqDTO);
-        return "redirect:/api/paper";
+        return "redirect:/api/teacher/paper";
     }
 
-    @GetMapping("/api/paper")
+    @GetMapping("/api/teacher/paper")
     public String list(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable) {
         PaperResponse.PagingDTO respDTO = paperService.시험지목록(pageable);
         model.addAttribute("paging", respDTO);
         return "paper/list";
     }
 
-    @GetMapping("/api/paper/{paperId}")
+    @GetMapping("/api/teacher/paper/{paperId}")
     public String detail(@PathVariable(value = "paperId") Long paperId, Model model) {
         PaperResponse.QuestionListDTO respDTO = paperService.문제목록(paperId);
         model.addAttribute("model", respDTO);
         return "paper/detail";
     }
 
-    @GetMapping("/api/paper/{paperId}/question")
+    @GetMapping("/api/teacher/paper/{paperId}/question")
     public String questionSaveForm(@PathVariable(name = "paperId") Long paperId, Model model){
         QuestionDBResponse.ExpectedNextDTO respDTO = paperService.다음예상문제(paperId);
         model.addAttribute("expectNo", respDTO.getExpectNo());

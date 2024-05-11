@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
-import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.utils.Script;
 import shop.mtcoding.blog.user.User;
 
@@ -19,26 +18,27 @@ public class LoginInterceptor implements HandlerInterceptor{
 
         User sessionUser = (User) session.getAttribute("sessionUser");
         if(sessionUser == null){
-            response.setContentType("text/html; charset-utf-8");
-            response.getWriter().println(Script.href("/login-form", "인증이 필요합니다"));
-            return false;
+            throw new Exception401("인증이 필요합니다");
         }else{
             String role = sessionUser.getRole();
             if(role.equals("student")){
-                if(url.startsWith("/api/exam")){
-                    
-                    if(sessionUser.getIsCheck() == false){
-                        response.setContentType("text/html; charset-utf-8");
-                        response.getWriter().println(Script.href("/student-check-form", "학생인증이 필요합니다"));
-                        return false;
-                    }else{
-                        return true;
-                    }
-                }else{
-                    throw new Exception403("해당 리소스에 접근할 권한이 없습니다");
+
+                if(!sessionUser.getIsCheck()){
+                    response.setContentType("text/html; charset-utf-8");
+                    response.getWriter().println(Script.href("/api/student/check-form", "학생인증이 필요합니다"));
+                    return false;
                 }
+
+                return true;
+            }else{ // 선생님이면!!
+
+                if(sessionUser.getSign() == null){
+                    response.setContentType("text/html; charset-utf-8");
+                    response.getWriter().println(Script.href("/api/teacher/sign-form", "사인이 필요합니다"));
+                    return false;
+                }
+                return true;
             }
         }
-        return true;
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
 import shop.mtcoding.blog._core.errors.exception.StudentCheckException;
-import shop.mtcoding.blog._core.errors.exception.api.ApiException400;
 import shop.mtcoding.blog.course.student.Student;
 import shop.mtcoding.blog.course.student.StudentRepository;
 
@@ -52,7 +51,7 @@ public class UserService {
         }
 
         User userPS = userRepository.findById(reqDTO.getUserId())
-                .orElseThrow();
+                .orElseThrow(() -> new Exception400("잘못된 요청입니다. 없는 회원이에요."));
         userPS.setStudent(studentPS);
         userPS.setIsCheck(true);
 
@@ -60,4 +59,11 @@ public class UserService {
 
         return userPS;
     } // 더티체킹 업데이트
+
+    @Transactional
+    public void 사인저장(UserRequest.TeacherSignDTO reqDTO, User sessionUser) {
+        User userPS = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception400("잘못된 요청입니다. 없는 회원이에요."));
+        userPS.setSign(reqDTO.getSign());
+    } // 더티체킹
 }

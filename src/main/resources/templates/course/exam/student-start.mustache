@@ -1,13 +1,25 @@
 {{> layout/header}}
 
 <div class="container p-5">
-    <div>
-        시험일 : {{model.evaluationDate}} <br>
-        시험장소 : {{model.loc}} <br>
-        교과목 : {{model.subjectTitle}} <br>
-        훈련교사 : {{model.teacherName}} <br>
-        훈련교사 : {{model.studentName}} <br>
-        문항수 : {{model.questionCount}} <br>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <div>
+                시험일 : {{model.evaluationDate}} <br>
+                시험장소 : {{model.loc}} <br>
+                교과목 : {{model.subjectTitle}} <br>
+                훈련교사 : {{model.teacherName}} <br>
+                훈련생 : {{model.studentName}} <br>
+                문항수 : {{model.questionCount}} <br>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                {{#model.subjectElements}}
+                    <div><i>{{.}}</i></div>
+                {{/model.subjectElements}}
+            </div>
+        </div>
     </div>
 
     <form>
@@ -30,7 +42,8 @@
                     <td>{{point}}</td>
                     <td>
                         {{#options}}
-                            {{no}} {{content}} <input type="radio" class="optionNo" name="question-{{questionId}}" value="{{no}}"><br>
+                            {{no}} {{content}} <input type="radio" class="optionNo" name="question-{{questionId}}"
+                                                      value="{{no}}"><br>
                         {{/options}}
                     </td>
                 </tr>
@@ -43,15 +56,15 @@
 
 <script>
 
-    function sendAnswer(){
-        let requestBody  = {
-            paperId : {{model.paperId}},
+    function sendAnswer() {
+        let requestBody = {
+            paperId: {{model.paperId}},
             teacherName: "{{model.teacherName}}",
             answers: []
         };
         let items = $("tbody > tr");
 
-        items.each(function (index, element){
+        items.each(function (index, element) {
             let questionNo = $(element).find(".questionNo:first").val();
             let selectedOptionNo = $(element).find(".optionNo:checked").val();
             // console.log("문제번호", questionNo);
@@ -68,14 +81,14 @@
         console.log(JSON.stringify(requestBody));
 
         $.ajax({
-            url: "/api/exam/student",
+            url: "/api/student/exam/save",
             type: "post",
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
-        }).done((res)=>{
+        }).done((res) => {
             console.log(res);
-            location.href = "/api/exam/student";
-        }).fail((res)=>{
+            location.href = "/api/student/exam";
+        }).fail((res) => {
             alert(res.responseJSON.msg);
         });
     }

@@ -1,17 +1,26 @@
 {{> layout/header}}
 
 <div class="container p-5">
+    <ul class="pagination d-flex justify-content-end">
+        <li class="page-item"><a class="page-link" href="#">이전학생</a></li>
+        <li class="page-item"><a class="page-link" href="#">다음학생</a></li>
+    </ul>
     <div class="card mb-3">
         <div class="card-header">
-            시험일 : {{model.evaluationDate}} <br>
-            시험장소 : {{model.loc}} <br>
-            교과목 : {{model.subjectTitle}} <br>
-            훈련교사 : {{model.teacherName}} <br>
-            훈련교사 : {{model.studentName}} <br>
-            문항수 : {{model.questionCount}} <br>
-            총점 : {{model.score}} <br>
-            수준 : {{model.grade}} <br>
-            통과여부 : {{model.examPassState}} <br>
+            <div class="d-flex justify-content-between">
+                <div>
+                    시험일 : {{model.evaluationDate}} <br>
+                    시험장소 : {{model.loc}} <br>
+                    교과목 : {{model.subjectTitle}} <br>
+                    훈련교사 : {{model.teacherName}} <br>
+                    훈련생 : {{model.studentName}} <br>
+                    문항수 : {{model.questionCount}} <br>
+                    총점 : {{model.score}} <br>
+                    수준 : {{model.grade}} <br>
+                    통과여부 : {{model.examPassState}} <br>
+                </div>
+                <div>연번 : 1</div>
+            </div>
         </div>
     </div>
 
@@ -54,7 +63,7 @@
 
             </div>
             <div class="card-footer d-flex justify-content-end">
-                <button type="button" class="btn btn-primary" onclick="sendAnswer()">총평수정</button>
+                <button type="button" class="btn btn-primary" onclick="sendAnswer()">총평저장</button>
             </div>
         </div>
 
@@ -90,7 +99,7 @@
         console.log(JSON.stringify(requestBody));
 
         $.ajax({
-            url: "/api/exam/teacher",
+            url: "/api/teacher/exam/update",
             type: "put",
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"

@@ -37,7 +37,7 @@
                 <div id="questionBox">
                     <div class="mt-1 mb-3 pl-2 questionItem">
                         <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="1" readonly>
-                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="" required>
                         <div class="form-check">
                             <input class="form-check-input optionRight" type="checkbox" value="1">
                             <label class="form-check-label">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="mt-1 mb-3 pl-2 questionItem">
                         <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="2" readonly>
-                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="" required>
                         <div class="form-check">
                             <input class="form-check-input optionRight" type="checkbox" value="2">
                             <label class="form-check-label">
@@ -57,7 +57,7 @@
                     </div>
                     <div class="mt-1 mb-3 pl-2 questionItem">
                         <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="3" readonly>
-                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="" required>
                         <div class="form-check">
                             <input class="form-check-input optionRight" type="checkbox" value="3">
                             <label class="form-check-label">
@@ -67,7 +67,7 @@
                     </div>
                     <div class="mt-1 mb-3 pl-2 questionItem">
                         <input type="hidden" class="form-control optionNo" placeholder="옵션번호" value="4" readonly>
-                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="">
+                        <input type="text" class="form-control optionContent" placeholder="옵션내용" value="" required>
                         <div class="form-check">
                             <input class="form-check-input optionRight" type="checkbox" value="4">
                             <label class="form-check-label">
@@ -110,19 +110,18 @@
                 optionContent: $(element).find(".optionContent").val(),
                 optionRight: $(element).find(".optionRight").is(':checked')
             };
+
             requestBody.options.push(option);
         });
 
-        console.log(requestBody);
-
         $.ajax({
-            url: `/api/paper/${paperId}/question/save`,
+            url: `/api/teacher/paper/${paperId}/question/save`,
             method: "post",
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
         }).done((res) => {
             console.log(res);
-            location.href = "/api/paper/"+paperId;
+            location.href = "/api/teacher/paper/"+paperId;
         }).fail((res) => {
             alert(res.responseJSON.msg);
             console.log(res.responseJSON.msg);
