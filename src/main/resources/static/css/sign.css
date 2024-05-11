@@ -1,0 +1,22 @@
+.sign-table {
+    background-color: white;
+}
+
+.sign-box {
+    border : 1px solid #4b4949;
+    width: 100px;
+    height: 100px;
+}
+.sign-header {
+    border : 1px solid #4b4949;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+}
+
+.sign-fit {
+    filter: saturate(200%) contrast(150%);
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}

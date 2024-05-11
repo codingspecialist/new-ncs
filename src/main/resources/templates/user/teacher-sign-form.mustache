@@ -7,8 +7,12 @@
 
 <div class="container p-5">
     <h1>선생님 안녕하세요. 사인을 저장해주세요.</h1>
-    <canvas id="signature-pad" width="200" height="200"></canvas> <!-- 서명 공간 -->
-    <button type="button" class="btn btn-primary" onclick="saveSignature()">저장</button>
+    <div>
+        <canvas id="signature-pad" width="200" height="200"></canvas> <!-- 서명 공간 -->
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" onclick="saveSignature()">저장</button>
+    </div>
 </div>
 
 <script>
@@ -49,7 +53,7 @@
 
     function saveSignature() {
         const dataUrl = canvas.toDataURL(); // 서명을 이미지로 변환
-        console.log(dataUrl);
+        //console.log(dataUrl);
 
         let requestBody = {
             sign: dataUrl
@@ -61,9 +65,7 @@
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
         }).done((res) => {
-            console.log(res);
-            alert("저장완료");
-            //location.href = '/login-form';
+            location.href = '/login-form';
         }).fail((res) => {
             alert(res.responseJSON.msg);
             console.log(res.responseJSON.msg);
