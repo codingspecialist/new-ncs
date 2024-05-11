@@ -12,12 +12,11 @@
             <th>점수</th>
             <th>수준</th>
             <th>통과여부</th>
-            <th>상세보기</th>
         </tr>
         </thead>
         <tbody>
         {{#models}}
-            <tr>
+            <tr class="click-tr" onclick="location.href='/api/teacher/exam/{{examId}}/result'">
                 <td><b>{{studentName}}</b></td>
                 <td>{{subjectTitle}}</td>
                 <td>{{examState}}{{reExamReason}}</td>
@@ -25,7 +24,6 @@
                 <td>{{examScore}}</td>
                 <td>{{grade}}</td>
                 <td>{{examPassState}}</td>
-                <td><a class="btn btn-outline-primary btn-sm" href="/api/teacher/exam/{{examId}}/result">상세보기</a></td>
             </tr>
         {{/models}}
         </tbody>

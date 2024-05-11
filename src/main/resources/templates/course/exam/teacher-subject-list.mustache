@@ -21,10 +21,10 @@
         </thead>
         <tbody>
         {{#models}}
-            <tr>
+            <tr class="click-tr" onclick="location.href='/api/teacher/exam/result?subjectId={{subjectId}}'">
                 <td>{{no}}</td>
                 <td>{{code}}</td>
-                <td><a href="/api/teacher/exam/result?subjectId={{subjectId}}">{{title}}</a></td>
+                <td>{{title}}</td>
                 <td>{{gubun}}</td>
                 <td>{{grade}}</td>
                 <td>{{totalTime}}</td>

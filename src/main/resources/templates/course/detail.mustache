@@ -57,10 +57,10 @@
                 </thead>
                 <tbody>
                 {{#model.subjects}}
-                    <tr>
+                    <tr class="click-tr" onclick="location.href='/api/teacher/subject/{{subjectId}}/element'">
                         <td>{{no}}</td>
                         <td>{{code}}</td>
-                        <td><a href="/api/teacher/subject/{{subjectId}}/element">{{title}}</td>
+                        <td>{{title}}</td>
                         <td>{{gubun}}</td>
                         <td>{{grade}}</td>
                         <td>{{totalTime}}</td>

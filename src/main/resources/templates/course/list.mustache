@@ -24,9 +24,9 @@
         </thead>
         <tbody>
         {{#paging.courses}}
-            <tr>
+            <tr class="click-tr" onclick="location.href='/api/teacher/course/{{id}}'">
                 <td>{{code}}</td>
-                <td><a href="/api/teacher/course/{{id}}">{{title}}</a></td>
+                <td>{{title}}</td>
                 <td>{{round}}</td>
                 <td>{{level}}</td>
                 <td>{{purpose}}</td>

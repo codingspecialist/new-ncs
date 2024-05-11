@@ -18,9 +18,9 @@
         </thead>
         <tbody>
         {{#paging.papers}}
-            <tr>
+            <tr class="click-tr" onclick="location.href='/api/teacher/paper/{{paperId}}'">
                 <td>{{paperId}}</td>
-                <td><a href="/api/teacher/paper/{{paperId}}">{{subjectTitle}}</a></td>
+                <td>{{subjectTitle}}</td>
                 <td>{{count}}</td>
                 <td>{{paperState}}</td>
                 <td>{{courseTitle}}/{{courseRound}}회차</td>

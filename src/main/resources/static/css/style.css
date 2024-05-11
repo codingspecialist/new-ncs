@@ -1,0 +1,8 @@
+
+.click-tr {
+    cursor: pointer;
+}
+
+.table-hover tbody .click-tr:hover td {
+    background-color: #e1f1fd;
+}
