@@ -1,3 +1,10 @@
+canvas {
+    border: 1px solid black; /* 캔버스 경계 표시 */
+}
+
+.modal-body {
+    width: 100%;  /* 부모 컨테이너의 너비를 꽉 채우도록 설정 */
+}
 
 .click-tr {
     cursor: pointer;

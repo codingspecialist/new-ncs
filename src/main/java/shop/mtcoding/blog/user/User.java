@@ -27,7 +27,7 @@ public class User {
     private String sign; // 선생님이라면 서명 (base64 저장)
     private String role; // student, teacher
     private Boolean isTeacher;
-    private Boolean isCheck; // 인증 여부
+    private Boolean isCheck; // 학생 인증 여부
 
     @CreationTimestamp // pc -> db (날짜주입)
     private Timestamp createdAt;

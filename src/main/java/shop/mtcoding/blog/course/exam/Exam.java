@@ -50,7 +50,12 @@ public class Exam {
     private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
 
+    @Lob
+    private String studentSign;
+    private LocalDateTime studentSignUpdateAt;
+
     private String teacherComment;
+    private LocalDateTime commentUpdatedAt;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private List<ExamAnswer> examAnswers = new ArrayList<>();
@@ -61,6 +66,16 @@ public class Exam {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    public void updateSign(String studentSign){
+        this.studentSign = studentSign;
+        this.studentSignUpdateAt = LocalDateTime.now();
+    }
+
+    public void updateTeacherComment(String teacherComment) {
+        this.teacherComment = teacherComment;
+        this.commentUpdatedAt = LocalDateTime.now(); // 총평 남겼다는 인증 시간
+    }
 
     public void updatePointAndGrade(Double score){
         this.score = score;
@@ -84,7 +99,7 @@ public class Exam {
     }
 
     @Builder
-    public Exam(Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, LocalDateTime createDate, String teacherComment) {
+    public Exam(Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, String studentSign, String teacherComment, LocalDateTime commentUpdatedAt, LocalDateTime createDate) {
         this.id = id;
         this.student = student;
         this.teacherName = teacherName;
@@ -94,11 +109,9 @@ public class Exam {
         this.passState = passState;
         this.score = score;
         this.grade = grade;
+        this.studentSign = studentSign;
+        this.teacherComment = teacherComment;
+        this.commentUpdatedAt = commentUpdatedAt;
         this.createDate = createDate;
-        this.teacherComment = teacherComment;
-    }
-
-    public void updateTeacherComment(String teacherComment) {
-        this.teacherComment = teacherComment;
     }
 }

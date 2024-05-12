@@ -78,6 +78,8 @@ public class ExamResponse {
         private String teacherComment;
         private Integer grade;
         private String teacherSign;
+        private String studentSign;
+        private Boolean isStudentSign;
 
         public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements, User teacher) {
             this.examId = exam.getId();
@@ -97,6 +99,8 @@ public class ExamResponse {
             this.teacherComment = exam.getTeacherComment();
             this.grade = exam.getGrade();
             this.teacherSign = teacher.getSign();
+            this.studentSign = exam.getStudentSign();
+            this.isStudentSign = exam.getStudentSign() == null ? false : true;
         }
 
         @Data

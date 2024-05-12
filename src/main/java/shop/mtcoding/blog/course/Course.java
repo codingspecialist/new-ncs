@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String code; // 과정ID
+    private Long id; // PK
+    private String code; // 과정ID (국가에서 쓰는 것) 한과정이 5번 실행되면, 과정아이디 같다.
     private String title; // 과정명
     private Integer level; // 훈련수준
     private Integer round; // 1회차, 2회차

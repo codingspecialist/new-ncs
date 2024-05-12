@@ -1,14 +1,9 @@
 {{> layout/header}}
-<style>
-    canvas {
-        border: 1px solid black; /* 캔버스 경계 표시 */
-    }
-</style>
 
 <div class="container p-5">
     <h1>선생님 안녕하세요. 사인을 저장해주세요.</h1>
     <div>
-        <canvas id="signature-pad" width="200" height="200"></canvas> <!-- 서명 공간 -->
+        <canvas id="signature-pad" width="300" height="300"></canvas> <!-- 서명 공간 -->
     </div>
     <div>
         <button type="button" class="btn btn-primary" onclick="saveSignature()">저장</button>
@@ -23,18 +18,38 @@
     context.strokeStyle = '#000000'; // 선의 색상을 검정으로 설정, 필요에 따라 색상 변경 가능
 
     let drawing = false;
+    let outside = false;
     let lastX = 0;
     let lastY = 0;
+
 
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseout', stopDrawing);
+    canvas.addEventListener('mouseout', function(e) {
+        console.log("마우스 나감 : "+drawing);
+        if (drawing) {
+            stopDrawing(e, true);
+        }
+    });
+    canvas.addEventListener('mouseenter', function(e) {
+        console.log("마우스 들어옴 : "+drawing);
+        if (outside && drawing) {
+            startDrawing(e, true); // 마우스가 캔바스 밖으로 나갔다가 돌아왔을 때 재시작
+        }
+    });
 
-    function startDrawing(e) {
+
+    function cancelSignature() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function startDrawing(e, continueDrawing = false) {
         drawing = true;
-        lastX = e.offsetX;
-        lastY = e.offsetY;
+        if (!continueDrawing) {
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        }
     }
 
     function draw(e) {
@@ -47,8 +62,11 @@
         lastY = e.offsetY;
     }
 
-    function stopDrawing() {
-        drawing = false;
+    function stopDrawing(e, leftCanvas = false) {
+        if (!leftCanvas) {
+            drawing = false;
+        }
+        outside = leftCanvas;
     }
 
     function saveSignature() {

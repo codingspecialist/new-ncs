@@ -3,10 +3,13 @@
 }
 
 .sign-box {
+    white-space: nowrap;
+    text-align: center;
     border : 1px solid #4b4949;
     width: 100px;
     height: 100px;
 }
+
 .sign-header {
     border : 1px solid #4b4949;
     width: 100px;

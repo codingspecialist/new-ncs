@@ -37,7 +37,7 @@ public class ExamService {
 
     // 총평 수정하면서, 결과 점수도 같이 수정한다.
     @Transactional
-    public void 시험결과수정(ExamRequest.UpdateDTO reqDTO) {
+    public void 총평남기기(ExamRequest.UpdateDTO reqDTO) {
         Exam examPS = examRepository.findById(reqDTO.getExamId())
                 .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
 
@@ -62,7 +62,7 @@ public class ExamService {
         // 6. 점수 입력 수준 입력
         examPS.updatePointAndGrade(score);
 
-        // 7. 코멘트 수정
+        // 7. 코멘트 수정 (총평 남기기, 총평 남긴 시간 남기기)
         examPS.updateTeacherComment(reqDTO.getTeacherComment());
     }
 
@@ -218,5 +218,13 @@ public class ExamService {
         Collections.sort(examListPS, Comparator.comparing(exam -> exam.getStudent().getName()));
 
         return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
+    }
+
+    @Transactional
+    public void 학생사인저장(ExamRequest.StudentSignDTO reqDTO, User sessionUser) {
+        Exam examPS = examRepository.findById(reqDTO.getExamId())
+                .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
+
+        examPS.updateSign(reqDTO.getSign());
     }
 }

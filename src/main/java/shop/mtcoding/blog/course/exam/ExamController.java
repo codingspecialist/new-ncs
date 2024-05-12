@@ -1,5 +1,7 @@
 package shop.mtcoding.blog.course.exam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +30,16 @@ public class ExamController {
     private final CourseService courseService;
     private final SubjectService subjectService;
 
+    @PutMapping("/api/student/exam/sign")
+    public ResponseEntity<?> sign(@RequestBody ExamRequest.StudentSignDTO reqDTO){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        examService.학생사인저장(reqDTO, sessionUser);
+        return ResponseEntity.ok(new ApiUtil<>(null));
+    }
+
     @PutMapping("/api/teacher/exam/update")
     public ResponseEntity<?> update(@RequestBody ExamRequest.UpdateDTO reqDTO) {
-        examService.시험결과수정(reqDTO);
+        examService.총평남기기(reqDTO);
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
@@ -65,7 +74,7 @@ public class ExamController {
 
 
     @GetMapping("/api/student/exam/result")
-    public String result(Model model){
+    public String studentExamResultList(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
         List<ExamResponse.ResultDTO> respDTO = examService.시험결과리스트(sessionUser);
         model.addAttribute("models", respDTO);
@@ -73,14 +82,18 @@ public class ExamController {
     }
 
     @GetMapping("/api/student/exam/{examId}/result")
-    public String resultDetail(@PathVariable(value = "examId") Long examId, Model model){
+    public String studentExamResultDetail(@PathVariable(value = "examId") Long examId, Model model) throws JsonProcessingException {
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
+
+        String data = new ObjectMapper().writeValueAsString(respDTO);
+        System.out.println(data);
+
         model.addAttribute("model", respDTO);
         return "course/exam/student-result-detail";
     }
 
     @GetMapping("/api/student/exam/start")
-    public String start(@RequestParam("paperId") Long paperId, Model model){
+    public String studentExamStart(@RequestParam("paperId") Long paperId, Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
         ExamResponse.StartDTO respDTO = examService.시험응시(sessionUser, paperId);
         model.addAttribute("model", respDTO);
@@ -88,7 +101,7 @@ public class ExamController {
     }
 
     @PostMapping("/api/student/exam/save")
-    public ResponseEntity<?> save(@RequestBody ExamRequest.SaveDTO reqDTO) {
+    public ResponseEntity<?> studentExamSave(@RequestBody ExamRequest.SaveDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         examService.시험결과저장(reqDTO, sessionUser);
@@ -96,7 +109,7 @@ public class ExamController {
     }
 
     @GetMapping("/api/student/exam")
-    public String exam(Model model){
+    public String studentExamPaperList(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // TODO: 시험치는 날짜 subject에 evaluationDate 평가일 필요

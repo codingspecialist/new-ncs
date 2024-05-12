@@ -88,4 +88,9 @@ public class ExamRequest {
         }
     }
 
+    @Data
+    public static class StudentSignDTO {
+        private Long examId;
+        private String sign;
+    }
 }

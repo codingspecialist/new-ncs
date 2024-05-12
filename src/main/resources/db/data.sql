@@ -5,7 +5,7 @@ values('cos', '1234', 'cos@nate.com', '박동기', 'student', true, 3, now(), fa
 
 
 insert into course_tb(code, course_status, start_date, end_date, level, purpose, round, main_teacher_name, title, total_day, total_time, create_date)
-values('C1004', 'NOT_STARTED', '2024-06-01', '2025-03-07', 5, '마이크로 아키텍쳐에 대해서 이해한다.', 1, '최주호', 'MSA기반 자바과정', 150, 1200, now());
+values('A1001', 'NOT_STARTED', '2024-06-01', '2025-03-07', 5, '마이크로 아키텍쳐에 대해서 이해한다.', 1, '최주호', 'MSA기반 자바과정', 150, 1200, now());
 
 
 insert into subject_tb(teacher_name, code, course_id, start_date, end_date, evaluation_date,  revaluation_date, evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)

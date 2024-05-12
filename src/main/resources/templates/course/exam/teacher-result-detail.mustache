@@ -59,7 +59,7 @@
                 <th>채점</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="exam-body">
             {{#model.answers}}
 
                 <tr>
@@ -101,11 +101,11 @@
             teacherComment : $("#teacherComment").val(),
             answers: []
         };
-        let items = $("tbody > tr");
+        let items = $(".exam-body > tr");
 
-        console.log(items[0]);
 
         items.each(function (index, element){
+            console.log(element);
             let answerId = $(element).find(".answerId:first").val();
             let selectedOptionNo = $(element).find(".optionNo:checked").val();
             // console.log("문제번호", questionNo);
