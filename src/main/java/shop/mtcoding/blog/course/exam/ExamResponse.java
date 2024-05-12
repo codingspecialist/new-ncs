@@ -80,10 +80,11 @@ public class ExamResponse {
         private String teacherSign;
         private String studentSign;
         private Boolean isStudentSign;
+        private Integer studentNo;
         private Long prevExamId; // 해당 교과목에 이전 학생 id
         private Long nextExamId; // 해당 교과목에 다음 학생 id
 
-        public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements, User teacher) {
+        public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements, User teacher, Long prevExamId, Long nextExamId) {
             this.examId = exam.getId();
             this.paperId = exam.getPaper().getId();
             this.studentName = exam.getStudent().getName();
@@ -103,6 +104,9 @@ public class ExamResponse {
             this.teacherSign = teacher.getSign();
             this.studentSign = exam.getStudentSign();
             this.isStudentSign = exam.getStudentSign() == null ? false : true;
+            this.studentNo = exam.getStudent().getStudentNo();
+            this.prevExamId = prevExamId;
+            this.nextExamId = nextExamId;
         }
 
         @Data
@@ -165,10 +169,10 @@ public class ExamResponse {
         private Boolean isNotPass;
         private Integer grade;
 
-        public ResultDTO(Exam exam, int index) {
+        public ResultDTO(Exam exam) {
             this.examId = exam.getId();
             this.paperId = exam.getPaper().getId();
-            this.studentNo = index + 1;
+            this.studentNo = exam.getStudent().getStudentNo();
             this.subjectNo = exam.getPaper().getSubject().getNo();
             this.courseNameAndRound = exam.getStudent().getCourse().getTitle() + "/" + exam.getStudent().getCourse().getRound() + "회차";
             this.subjectTitle = exam.getPaper().getSubject().getTitle();

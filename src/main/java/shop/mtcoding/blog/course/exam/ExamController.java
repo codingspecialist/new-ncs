@@ -42,7 +42,7 @@ public class ExamController {
     }
 
     @GetMapping("/api/teacher/exam/{examId}/result")
-    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, @RequestParam("studentNo") Integer studentNo,Model model){
+    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
         model.addAttribute("model", respDTO);
         return "course/exam/teacher-result-detail";

@@ -2,8 +2,15 @@
 
 <div class="container p-5">
     <ul class="pagination d-flex justify-content-end">
-        <li class="page-item"><a class="page-link" href="#">이전학생</a></li>
-        <li class="page-item"><a class="page-link" href="#">다음학생</a></li>
+        {{#model.prevExamId}}
+            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.prevExamId}}/result">이전학생</a></li>
+        {{/model.prevExamId}}
+
+        {{#model.nextExamId}}
+            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.nextExamId}}/result">다음학생</a></li>
+            <input type="hidden" value="{{model.nextExamId}}" id="nextExamId">
+        {{/model.nextExamId}}
+
     </ul>
     <div class="card mb-3">
         <div class="card-header">
@@ -20,7 +27,7 @@
                     통과여부 : {{model.examPassState}} <br>
                 </div>
                 <div>
-                    <div class="d-flex justify-content-end mb-3">연번 : 1</div>
+                    <div class="d-flex justify-content-end mb-3">연번 : {{model.studentNo}}</div>
                     <div class="d-flex">
                         <table class="sign-table">
                             <tr>
@@ -100,6 +107,10 @@
 <script>
 
     function sendAnswer(){
+
+        let nextExamId = $("#nextExamId").val();
+        console.log("nextExamId", nextExamId);
+
         let requestBody  = {
             examId : {{model.examId}},
             teacherComment : $("#teacherComment").val(),
@@ -131,9 +142,13 @@
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
         }).done((res)=>{
-            console.log(res);
-            alert("총평수정완료");
-            location.reload();
+            if(nextExamId !== undefined){
+                alert("총평 저장 완료");
+                location.href = `/api/teacher/exam/${nextExamId}/result`;
+            }else{
+                alert("총평 저장 완료 - 마지막페이지입니다");
+                location.reload();
+            }
         }).fail((res)=>{
             alert(res.responseJSON.msg);
         });

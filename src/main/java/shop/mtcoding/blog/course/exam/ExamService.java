@@ -20,8 +20,6 @@ import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -73,7 +71,6 @@ public class ExamService {
                 .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
 
         Long subjectId = examPS.getPaper().getSubject().getId();
-        Long courseId = examPS.getPaper().getSubject().getCourse().getId();
 
         List<SubjectElement> subjectElementListPS =
                 elementRepository.findBySubjectId(subjectId);
@@ -81,7 +78,16 @@ public class ExamService {
         User teacher = userRepository.findByTeacherName(examPS.getTeacherName())
                 .orElseThrow(() -> new Exception404("해당 시험에 선생님이 존재하지 않아서 사인을 찾을 수 없어요"));
 
-        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS, teacher);
+        // subjectId
+        Integer currentStudentNo = examPS.getStudent().getStudentNo();
+
+        Long prevExamId = examRepository.findByStudentNoPrevExamId(subjectId, currentStudentNo-1);
+        Long nextExamId = examRepository.findByStudentNoPrevExamId(subjectId, currentStudentNo+1);
+
+        System.out.println("이전 examId : "+prevExamId);
+        System.out.println("다음 examId : "+nextExamId);
+
+        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS, teacher, prevExamId, nextExamId);
     }
 
     public ExamResponse.StartDTO 시험응시(User sessionUser, Long paperId) {
@@ -213,22 +219,14 @@ public class ExamService {
         if(sessionUser.getStudent() == null) throw new Exception403("당신은 학생이 아니에요 : 관리자에게 문의하세요");
         List<Exam> examListPS = examRepository.findByStudentId(sessionUser.getStudent().getId());
 
-        List<ExamResponse.ResultDTO> respDTOs = IntStream.range(0, examListPS.size())
-                .mapToObj(index -> new ExamResponse.ResultDTO(examListPS.get(index), index))
-                .collect(Collectors.toList());
-
-        return respDTOs;
+        return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
     }
 
-    // 학생이름으로 정렬
+    // 학생 연번으로 정렬
     public List<ExamResponse.ResultDTO> 교과목별시험결과(Long subjectId) {
         List<Exam> examListPS = examRepository.findBySubjectId(subjectId);
 
-        List<ExamResponse.ResultDTO> respDTOs = IntStream.range(0, examListPS.size())
-                .mapToObj(index -> new ExamResponse.ResultDTO(examListPS.get(index), index))
-                .collect(Collectors.toList());
-
-        return respDTOs;
+        return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
     }
 
     @Transactional
