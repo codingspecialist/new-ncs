@@ -80,6 +80,8 @@ public class ExamResponse {
         private String teacherSign;
         private String studentSign;
         private Boolean isStudentSign;
+        private Long prevExamId; // 해당 교과목에 이전 학생 id
+        private Long nextExamId; // 해당 교과목에 다음 학생 id
 
         public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements, User teacher) {
             this.examId = exam.getId();
@@ -163,10 +165,10 @@ public class ExamResponse {
         private Boolean isNotPass;
         private Integer grade;
 
-        public ResultDTO(Exam exam) {
+        public ResultDTO(Exam exam, int index) {
             this.examId = exam.getId();
             this.paperId = exam.getPaper().getId();
-            this.studentNo = 1;
+            this.studentNo = index + 1;
             this.subjectNo = exam.getPaper().getSubject().getNo();
             this.courseNameAndRound = exam.getStudent().getCourse().getTitle() + "/" + exam.getStudent().getCourse().getRound() + "회차";
             this.subjectTitle = exam.getPaper().getSubject().getTitle();

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    @Query("select st from Student st where st.course.id = :courseId")
+    @Query("select st from Student st where st.course.id = :courseId order by st.name asc")
     List<Student> findByCourseId(@Param("courseId") Long courseId);
 
     Student findByNameAndBirthday(@Param("name") String name, @Param("courseId") String courseId);

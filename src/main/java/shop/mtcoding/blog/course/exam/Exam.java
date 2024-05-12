@@ -52,7 +52,7 @@ public class Exam {
 
     @Lob
     private String studentSign;
-    private LocalDateTime studentSignUpdateAt;
+    private LocalDateTime studentSignUpdatedAt;
 
     private String teacherComment;
     private LocalDateTime commentUpdatedAt;
@@ -69,7 +69,7 @@ public class Exam {
 
     public void updateSign(String studentSign){
         this.studentSign = studentSign;
-        this.studentSignUpdateAt = LocalDateTime.now();
+        this.studentSignUpdatedAt = LocalDateTime.now();
     }
 
     public void updateTeacherComment(String teacherComment) {

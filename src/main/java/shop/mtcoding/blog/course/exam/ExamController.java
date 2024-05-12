@@ -1,6 +1,5 @@
 package shop.mtcoding.blog.course.exam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +42,7 @@ public class ExamController {
     }
 
     @GetMapping("/api/teacher/exam/{examId}/result")
-    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
+    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, @RequestParam("studentNo") Integer studentNo,Model model){
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
         model.addAttribute("model", respDTO);
         return "course/exam/teacher-result-detail";
@@ -75,13 +74,13 @@ public class ExamController {
     @GetMapping("/api/student/exam/result")
     public String studentExamResultList(Model model){
         User sessionUser = (User) session.getAttribute("sessionUser");
-        List<ExamResponse.ResultDTO> respDTO = examService.시험결과리스트(sessionUser);
+        List<ExamResponse.ResultDTO> respDTO = examService.학생별시험결과(sessionUser);
         model.addAttribute("models", respDTO);
         return "course/exam/student-result-list";
     }
 
     @GetMapping("/api/student/exam/{examId}/result")
-    public String studentExamResultDetail(@PathVariable(value = "examId") Long examId, Model model) throws JsonProcessingException {
+    public String studentExamResultDetail(@PathVariable(value = "examId") Long examId, Model model)  {
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
 
         model.addAttribute("model", respDTO);

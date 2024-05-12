@@ -5,6 +5,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
+            <th>연번</th>
             <th>학생명</th>
             <th>교과목</th>
             <th>시험유형/이유</th>
@@ -16,8 +17,9 @@
         </thead>
         <tbody>
         {{#models}}
-            <tr class="click-tr" onclick="location.href='/api/teacher/exam/{{examId}}/result'">
-                <td><b>{{studentName}}</b></td>
+            <tr class="click-tr" onclick="location.href='/api/teacher/exam/{{examId}}/result?studentNo={{studentNo}}'">
+                <td>{{studentNo}}</td>
+                <td>{{studentName}}</td>
                 <td>{{subjectTitle}}</td>
                 <td>{{examState}}{{reExamReason}}</td>
                 <td>{{teacherName}}</td>

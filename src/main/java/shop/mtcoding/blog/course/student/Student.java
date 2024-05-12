@@ -32,6 +32,8 @@ public class Student {
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
+    private Integer studentNo; // 교과목 1에 학생번호 1 (유니크 복합키)
+
     // 조회 용도로만 사용
     @OneToOne(mappedBy = "student", fetch = FetchType.LAZY)
     private User user;
@@ -39,8 +41,13 @@ public class Student {
     @CreationTimestamp
     private LocalDateTime createDate;
 
+    // 학생이 입력될 때 마다 자동으로 이름순으로 번호 업데이트
+    public void updateStudentNo(Integer studentNo){
+        this.studentNo = studentNo;
+    }
+
     @Builder
-    public Student(Long id, String name, String birthday, StudentEnum state, LocalDate dropOutDate, String dropOutReason, String comment, Integer grade, Course course, LocalDateTime createDate) {
+    public Student(Long id, String name, String birthday, StudentEnum state, LocalDate dropOutDate, String dropOutReason, String comment, Integer grade, Course course, Integer studentNo, User user, LocalDateTime createDate) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -50,6 +57,8 @@ public class Student {
         this.comment = comment;
         this.grade = grade;
         this.course = course;
+        this.studentNo = studentNo;
+        this.user = user;
         this.createDate = createDate;
     }
 }
