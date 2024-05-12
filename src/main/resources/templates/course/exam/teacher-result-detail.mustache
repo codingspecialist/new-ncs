@@ -31,7 +31,11 @@
                                 <td class="sign-box">
                                     <img class="sign-fit" src="{{model.teacherSign}}">
                                 </td>
-                                <td class="sign-box"></td>
+                                <td class="sign-box">
+                                    {{#model.isStudentSign}}
+                                        <img class="sign-fit" src="{{model.studentSign}}">
+                                    {{/model.isStudentSign}}
+                                </td>
                             </tr>
                         </table>
                     </div>

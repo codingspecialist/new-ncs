@@ -1,7 +1,6 @@
 package shop.mtcoding.blog.course.exam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -84,9 +83,6 @@ public class ExamController {
     @GetMapping("/api/student/exam/{examId}/result")
     public String studentExamResultDetail(@PathVariable(value = "examId") Long examId, Model model) throws JsonProcessingException {
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
-
-        String data = new ObjectMapper().writeValueAsString(respDTO);
-        System.out.println(data);
 
         model.addAttribute("model", respDTO);
         return "course/exam/student-result-detail";
