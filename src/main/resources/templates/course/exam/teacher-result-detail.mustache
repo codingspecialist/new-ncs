@@ -3,11 +3,13 @@
 <div class="container p-5">
     <ul class="pagination d-flex justify-content-end">
         {{#model.prevExamId}}
-            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.prevExamId}}/result">이전학생</a></li>
+            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.prevExamId}}/result">이전학생</a>
+            </li>
         {{/model.prevExamId}}
 
         {{#model.nextExamId}}
-            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.nextExamId}}/result">다음학생</a></li>
+            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.nextExamId}}/result">다음학생</a>
+            </li>
             <input type="hidden" value="{{model.nextExamId}}" id="nextExamId">
         {{/model.nextExamId}}
 
@@ -80,7 +82,8 @@
                     <td>{{point}}점</td>
                     <td>
                         {{#options}}
-                            {{no}} {{content}} <input type="radio" value="{{no}}" class="optionNo" name="question-{{questionId}}"
+                            {{no}} {{content}} <input type="radio" value="{{no}}" class="optionNo"
+                                                      name="question-{{questionId}}"
                                                       {{#isSelect}}checked{{/isSelect}}><br>
                         {{/options}}
                     </td>
@@ -106,20 +109,20 @@
 
 <script>
 
-    function sendAnswer(){
+    function sendAnswer() {
 
         let nextExamId = $("#nextExamId").val();
         console.log("nextExamId", nextExamId);
 
-        let requestBody  = {
-            examId : {{model.examId}},
-            teacherComment : $("#teacherComment").val(),
+        let requestBody = {
+            examId: {{model.examId}},
+            teacherComment: $("#teacherComment").val(),
             answers: []
         };
         let items = $(".exam-body > tr");
 
 
-        items.each(function (index, element){
+        items.each(function (index, element) {
             console.log(element);
             let answerId = $(element).find(".answerId:first").val();
             let selectedOptionNo = $(element).find(".optionNo:checked").val();
@@ -141,15 +144,15 @@
             type: "put",
             data: JSON.stringify(requestBody),
             contentType: "application/json; charset=utf-8"
-        }).done((res)=>{
-            if(nextExamId !== undefined){
+        }).done((res) => {
+            if (nextExamId !== undefined) {
                 alert("총평 저장 완료");
                 location.href = `/api/teacher/exam/${nextExamId}/result`;
-            }else{
+            } else {
                 alert("총평 저장 완료 - 마지막페이지입니다");
                 location.reload();
             }
-        }).fail((res)=>{
+        }).fail((res) => {
             alert(res.responseJSON.msg);
         });
     }

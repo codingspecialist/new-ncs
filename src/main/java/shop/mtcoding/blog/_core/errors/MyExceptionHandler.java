@@ -71,18 +71,16 @@ public class MyExceptionHandler {
         return new ResponseEntity<>(e.body(), e.status());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> unknown(Exception e){
-        log.error(e.getMessage());
-        e.printStackTrace();
-        return new ResponseEntity<>(new ApiUtil<>(500, "알수없는오류"), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-
-
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception500.class)
     public @ResponseBody String ex500(Exception500 e){
         return Script.back(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> unknown(Exception e){
+        log.error(e.getMessage());
+        e.printStackTrace();
+        return new ResponseEntity<>(new ApiUtil<>(500, "오류 : 관리자에게 문의하세요"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
