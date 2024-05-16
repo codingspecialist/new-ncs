@@ -42,10 +42,20 @@ public class ExamController {
     }
 
     @GetMapping("/api/teacher/exam/{examId}/result")
-    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
+    public String teacherResultDetailNotPass(@PathVariable(value = "examId") Long examId, Model model){
+
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
         model.addAttribute("model", respDTO);
         return "course/exam/teacher-result-detail";
+    }
+
+    // notpass 미이수평가보러가기
+    @GetMapping("/api/teacher/exam/{examId}/result/notpass")
+    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
+
+        ExamResponse.ResultDetailDTO respDTO = examService.미이수시험친결과상세보기(examId);
+        model.addAttribute("model", respDTO);
+        return "course/exam/teacher-result-detail-notpass";
     }
 
     @GetMapping("/api/teacher/exam/result")

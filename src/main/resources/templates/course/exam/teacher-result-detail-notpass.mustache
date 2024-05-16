@@ -1,26 +1,7 @@
 {{> layout/header}}
 
 <div class="container p-5">
-    {{#model.fExamId}}
-        <div class="d-flex justify-content-end">
-            <a class="btn btn-warning" href="/api/teacher/exam/{{model.fExamId}}/result/notpass">본평가 보러가기</a>
-        </div>
-        <hr>
-    {{/model.fExamId}}
-
-
-    <ul class="pagination d-flex justify-content-end">
-        {{#model.prevExamId}}
-            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.prevExamId}}/result">이전학생</a>
-            </li>
-        {{/model.prevExamId}}
-
-        {{#model.nextExamId}}
-            <li class="page-item"><a class="page-link" href="/api/teacher/exam/{{model.nextExamId}}/result">다음학생</a>
-            </li>
-            <input type="hidden" value="{{model.nextExamId}}" id="nextExamId">
-        {{/model.nextExamId}}
-
+    <h3>통과하지 못한 본평가 시험입니다.</h3>
     </ul>
     <div class="card mb-3">
         <div class="card-header">

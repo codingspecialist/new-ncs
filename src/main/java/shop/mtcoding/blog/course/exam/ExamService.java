@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
+import shop.mtcoding.blog._core.errors.exception.Exception500;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
 import shop.mtcoding.blog.course.exam.answer.ExamAnswerRepository;
 import shop.mtcoding.blog.course.student.Student;
@@ -71,6 +72,7 @@ public class ExamService {
                 .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
 
         Long subjectId = examPS.getPaper().getSubject().getId();
+        Long studentId = examPS.getStudent().getId();
 
         List<SubjectElement> subjectElementListPS =
                 elementRepository.findBySubjectId(subjectId);
@@ -78,16 +80,36 @@ public class ExamService {
         User teacher = userRepository.findByTeacherName(examPS.getTeacherName())
                 .orElseThrow(() -> new Exception404("해당 시험에 선생님이 존재하지 않아서 사인을 찾을 수 없어요"));
 
-        // subjectId
+        // 현재 학생 번호 찾기
         Integer currentStudentNo = examPS.getStudent().getStudentNo();
 
-        Long prevExamId = examRepository.findByStudentNoPrevExamId(subjectId, currentStudentNo-1);
-        Long nextExamId = examRepository.findByStudentNoPrevExamId(subjectId, currentStudentNo+1);
+        // NOTE: 다음 학생 번호, 이전 학생 번호로 ExamId 찾기 (만약에 재평가와 본평가가 있으면 재평가만 불러오기)
+        Long prevExamId = examRepository.findByStudentNoToExamId(subjectId, currentStudentNo-1, true);
+        Long nextExamId = examRepository.findByStudentNoToExamId(subjectId, currentStudentNo+1, true);
 
-        System.out.println("이전 examId : "+prevExamId);
-        System.out.println("다음 examId : "+nextExamId);
+        Long fExamId = null;
+        if(examPS.getExamState().equals("재평가")){
+            Exam reExamPS = examRepository.findByOrigin(subjectId, studentId, false)
+                    .orElseThrow(() -> new Exception500("재평가 본평가 저장 프로세스 오류 : 관리자 문의"));
+            fExamId = reExamPS.getId();
+        }
 
-        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS, teacher, prevExamId, nextExamId);
+        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS, teacher, prevExamId, nextExamId, fExamId);
+    }
+
+    public ExamResponse.ResultDetailDTO 미이수시험친결과상세보기(Long examId) {
+        Exam examPS = examRepository.findById(examId)
+                .orElseThrow(() -> new Exception404("응시한 시험이 존재하지 않아요"));
+
+        Long subjectId = examPS.getPaper().getSubject().getId();
+
+        List<SubjectElement> subjectElementListPS =
+                elementRepository.findBySubjectId(subjectId);
+
+        User teacher = userRepository.findByTeacherName(examPS.getTeacherName())
+                .orElseThrow(() -> new Exception404("해당 시험에 선생님이 존재하지 않아서 사인을 찾을 수 없어요"));
+
+        return new ExamResponse.ResultDetailDTO(examPS, subjectElementListPS, teacher, null, null, null);
     }
 
     public ExamResponse.StartDTO 시험응시(User sessionUser, Long paperId) {
@@ -137,9 +159,11 @@ public class ExamService {
         // 2. 재평가인데, 이전 시험(Exam)이 있으면 60점미만 미통과, 없으면 결석
         String reExamReason = "";
         if(paper.getPaperState().equals("재평가")){
-            Optional<Exam> examOP = examRepository.findByOrigin(paper.getSubject().getId(), student.getId());
+            Optional<Exam> examOP = examRepository.findByOrigin(paper.getSubject().getId(), student.getId(), true);
 
             if(examOP.isPresent()){
+                // 1. 재평가가 저장되면, 본평가를 사용안함으로 변경
+                examOP.get().isNotUse();
                 reExamReason = "미통과";
             }else{
                 reExamReason = "결석";
@@ -226,7 +250,9 @@ public class ExamService {
     public List<ExamResponse.ResultDTO> 교과목별시험결과(Long subjectId) {
         List<Exam> examListPS = examRepository.findBySubjectId(subjectId);
 
-        return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
+        List<Exam> trueExamListPS = examListPS.stream().filter(exam -> exam.getIsUse()).toList();
+
+        return trueExamListPS.stream().map(ExamResponse.ResultDTO::new).toList();
     }
 
     @Transactional

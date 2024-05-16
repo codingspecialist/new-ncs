@@ -9,17 +9,16 @@ import java.util.Optional;
 
 public interface ExamRepository extends JpaRepository<Exam, Long> {
 
-    @Query("select ex.id from Exam ex where ex.student.studentNo = :nextStudentNo and ex.paper.subject.id = :subjectId")
-    Long findByStudentNoNextExamId(@Param("subjectId") Long subjectId, @Param("nextStudentNo") Integer nextStudentNo);
-
-    @Query("select ex.id from Exam ex where ex.student.studentNo = :prevStudentNo and ex.paper.subject.id = :subjectId")
-    Long findByStudentNoPrevExamId(@Param("subjectId") Long subjectId, @Param("prevStudentNo") Integer prevStudentNo);
+    @Query("select ex.id from Exam ex where ex.student.studentNo = :prevStudentNo and ex.paper.subject.id = :subjectId and ex.isUse = :isUse")
+    Long findByStudentNoToExamId(@Param("subjectId") Long subjectId, @Param("prevStudentNo") Integer prevStudentNo, @Param("isUse") Boolean isUse);
 
     @Query("select ex from Exam ex join fetch ex.paper p join fetch ex.student st where ex.paper.subject.id = :subjectId order by st.studentNo asc")
     List<Exam> findBySubjectId(@Param("subjectId") Long subjectId);
 
-    @Query("select ex from Exam ex where ex.paper.subject.id = :subjectId and ex.student.id = :studentId")
-    Optional<Exam> findByOrigin(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId);
+
+    @Query("select ex from Exam ex where ex.paper.subject.id = :subjectId and ex.student.id = :studentId and ex.isUse = :isUse")
+    Optional<Exam> findByOrigin(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId, @Param("isUse") Boolean isUse);
+
 
     @Query("select ex from Exam ex join fetch ex.paper p join fetch ex.student st where ex.student.id = :studentId order by p.subject.no asc")
     List<Exam> findByStudentId(@Param("studentId") Long studentId);

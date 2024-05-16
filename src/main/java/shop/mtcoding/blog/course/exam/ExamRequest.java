@@ -76,6 +76,7 @@ public class ExamRequest {
 
         public Exam toEntity(Paper paper, Student student, String passState, Double score, Integer grade, String reExamReason) {
             return Exam.builder()
+                    .isUse(true)
                     .paper(paper)
                     .student(student)
                     .teacherName(teacherName)

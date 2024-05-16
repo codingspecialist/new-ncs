@@ -50,6 +50,8 @@ public class Exam {
     private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
 
+    private Boolean isUse;
+
     @Lob
     private String studentSign;
     private LocalDateTime studentSignUpdatedAt;
@@ -98,8 +100,12 @@ public class Exam {
         }
     }
 
+    public void isNotUse(){
+        this.isUse = false;
+    }
+
     @Builder
-    public Exam(Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, String studentSign, String teacherComment, LocalDateTime commentUpdatedAt, LocalDateTime createDate) {
+    public Exam(Boolean isUse, Long id, Student student, String teacherName, Paper paper, String examState, String reExamReason, String passState, Double score, Integer grade, String studentSign, String teacherComment, LocalDateTime commentUpdatedAt, LocalDateTime createDate) {
         this.id = id;
         this.student = student;
         this.teacherName = teacherName;
@@ -113,5 +119,6 @@ public class Exam {
         this.teacherComment = teacherComment;
         this.commentUpdatedAt = commentUpdatedAt;
         this.createDate = createDate;
+        this.isUse = isUse;
     }
 }
