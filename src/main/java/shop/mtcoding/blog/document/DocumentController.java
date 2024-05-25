@@ -14,6 +14,11 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
+    @GetMapping("/api/teacher/document/course/{courseId}/subject/{subjectId}/no1")
+    public String no1(Model model){
+        return "document/no1";
+    }
+
     @GetMapping("/api/teacher/document/course")
     public String course(Model model){
 

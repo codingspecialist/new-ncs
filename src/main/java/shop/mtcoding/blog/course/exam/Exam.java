@@ -50,7 +50,8 @@ public class Exam {
     private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
 
-    private Boolean isUse;
+    // default : true
+    private Boolean isUse; // 사용유무 (본평가를 쳤는데, 재평가를 치게 되면 본평가는 false로 변경됨)
 
     @Lob
     private String studentSign;
