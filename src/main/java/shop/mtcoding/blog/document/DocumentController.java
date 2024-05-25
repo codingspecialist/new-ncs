@@ -16,6 +16,7 @@ public class DocumentController {
 
     @GetMapping("/api/teacher/document/course/{courseId}/subject/{subjectId}/no1")
     public String no1(Model model){
+        DocumentResponse.No1DTO respDTO = documentService.no1();
         return "document/no1";
     }
 

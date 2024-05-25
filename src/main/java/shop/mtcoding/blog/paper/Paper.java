@@ -6,8 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.subject.Subject;
+import shop.mtcoding.blog.paper.question.Question;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 1. 시험지는 순수해야 한다. 연관관계를 맺지 말자.
@@ -38,6 +41,13 @@ public class Paper {
 
     private Integer count; // 문항수
     private String paperState; // 본평가지, 재평가지
+
+    @OneToMany(mappedBy = "paper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Question> questions = new ArrayList<>();
+
+    public void addQuestion(Question question){
+        this.questions.add(question);
+    }
 
     @CreationTimestamp
     private LocalDateTime createDate;

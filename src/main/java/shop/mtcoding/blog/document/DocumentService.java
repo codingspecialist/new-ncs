@@ -27,4 +27,8 @@ public class DocumentService {
         List<Subject> subjectListPS = subjectRepository.findByCourseId(courseId);
         return subjectListPS.stream().map(DocumentResponse.SubjectDTO::new).toList();
     }
+
+    public DocumentResponse.No1DTO no1() {
+        return null;
+    }
 }
