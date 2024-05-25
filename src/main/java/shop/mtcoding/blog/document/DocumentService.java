@@ -12,6 +12,8 @@ import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.PaperRepository;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.QuestionRepository;
+import shop.mtcoding.blog.user.User;
+import shop.mtcoding.blog.user.UserRepository;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class DocumentService {
     private final SubjectRepository subjectRepository;
     private final QuestionRepository questionRepository;
     private final PaperRepository paperRepository;
+    private final UserRepository userRepository;
 
     public List<DocumentResponse.CourseDTO> 과정목록(){
         List<Course> courseListPS =  courseRepository.findAll();
@@ -39,8 +42,13 @@ public class DocumentService {
         Subject subjectPS = subjectRepository.findById(subjectId).orElseThrow(
                 () -> new Exception404("해당 교과목이 없어요")
         );
+
+        User teacherPS = userRepository.findByTeacherName(subjectPS.getTeacherName())
+                .orElseThrow(() -> new Exception404("해당 선생님이 존재하지 않아요"));
+
+
         Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, "본평가");
         List<Question> questionListPS = questionRepository.findByPaperId(paperPS.getId());
-        return new DocumentResponse.No1DTO(subjectPS, questionListPS);
+        return new DocumentResponse.No1DTO(subjectPS, questionListPS, teacherPS.getSign());
     }
 }

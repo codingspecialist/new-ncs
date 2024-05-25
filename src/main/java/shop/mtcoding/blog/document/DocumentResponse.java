@@ -56,9 +56,10 @@ public class DocumentResponse {
         private List<String> examRates; // 평가 배점 (1차, 2차), 결시자는 2차 평가와 같다.
         private String equipment; // 평가환경 장비
         private List<QuestionDTO> questions;
+        private String sign;
 
         // 교과목 조회, 교과목의 본평가 시험지로 출제된 문제 목록 조회
-        public No1DTO(Subject subject, List<Question> questions) {
+        public No1DTO(Subject subject, List<Question> questions, String sign) {
             this.courseTitle = subject.getCourse().getTitle();
             this.courseRound = subject.getCourse().getRound();
             this.courseStartDate = subject.getCourse().getStartDate().toString();
@@ -73,6 +74,7 @@ public class DocumentResponse {
             this.examRates = Arrays.asList("본평가 배점 : 평가점수 X 100%", "재평가 배점 : 평가점수 X 90%", "결시자 배점 : 평가점수 X 90%");
             this.equipment = "인터넷이 설치되어 있는 PC";
             this.questions = questions.stream().map(QuestionDTO::new).toList();
+            this.sign = sign;
         }
 
         @Data

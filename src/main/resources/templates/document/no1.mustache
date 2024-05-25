@@ -14,6 +14,19 @@
         font-size: 20px;
         font-weight: bold;
     }
+
+    .content {
+        padding: 8px;
+        position: relative; /* Make the content position relative for absolute positioning of the image */
+    }
+
+    .signature-img {
+        position: absolute;
+        top: -10px; /* Adjust the position as needed */
+        left: 50px; /* Adjust the position as needed */
+        width: 50px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+    }
 </style>
 
 <div class="container p-5">
@@ -30,23 +43,28 @@
             <!-- Page 1 Content -->
             <tr class="title-row">
                 <th>과정명 (훈련기간)</th>
-                <td colspan="5">자바&Springboot 크로스 플랫폼(풀스택)융합 응용SW개발자 양성과정<br>(2023.11.27. ~ 2024.05.23.)</td>
+                <td colspan="5">{{model.courseTitle}} {{model.courseRound}}회차<br>({{model.courseStartDate}}
+                    ~ {{model.courseEndDate}})
+                </td>
             </tr>
             <tr class="header-row">
                 <th>교과목명</th>
-                <td>Javascript</td>
+                <td>{{model.subjectTitle}}</td>
                 <th>평가방법</th>
-                <td>선다형</td>
+                <td>{{model.subjectEvaluationWay}}</td>
                 <th>평가자</th>
-                <td>최 주 호 (인)</td>
+                <td class="content">
+                    {{model.subjectTeacherName}} <span class="signature">(인)</span>
+                    <img src="{{model.sign}}" class="signature-img" alt="signature">
+                </td>
             </tr>
             <tr class="sub-header-row">
                 <th>채점일시</th>
-                <td>2024.02.20.</td>
+                <td>{{model.subjectEvaluationDate}}</td>
                 <th>평가장소</th>
-                <td>3호</td>
+                <td>{{model.loc}}</td>
                 <th>평가일시</th>
-                <td>2024.02.20.</td>
+                <td>{{model.subjectEvaluationDate}}</td>
             </tr>
 
             <tr>
@@ -55,15 +73,19 @@
                     <table class="table table-bordered m-0">
                         <tr>
                             <th>주제</th>
-                            <td>Variable <br> Javascript Fundamental <br></td>
+                            <td>
+                                {{#model.subjectElements}}
+                                    {{.}} <br>
+                                {{/model.subjectElements}}
+                            </td>
                         </tr>
                         <tr>
                             <th>제출형태</th>
-                            <td colspan="2">선다형 평가를 최종완성해서 시험지로 제출</td>
+                            <td colspan="2">{{model.submitWay}}</td>
                         </tr>
                         <tr>
                             <th>제출기한</th>
-                            <td colspan="2">2024.02.16.</td>
+                            <td colspan="2">{{model.subjectEvaluationDate}}</td>
                         </tr>
                         <tr>
                             <th>피평가자유의사항</th>
@@ -73,14 +95,14 @@
                             <th>평가배점</th>
                             <td>
                                 본평가, 재평가, 결시자에 관련한 평가 배점 방법은 아래와 같다. <br>
-                                1차 평가 배점 : 평가점수 X 100%<br>
-                                2차 재평가 배점 : 평가점수 X 90%<br>
-                                3차 재평가 배점 : 평가점수 X 80%<br>
+                                {{#model.examRates}}
+                                    {{.}} <br>
+                                {{/model.examRates}}
                             </td>
                         </tr>
                         <tr>
                             <th>평가환경 및 장비</th>
-                            <td colspan="2">인터넷, 문서제작 도구가 설치되어 있는 PC</td>
+                            <td colspan="2">{{model.equipment}}</td>
                         </tr>
                     </table>
                 </td>
@@ -92,12 +114,11 @@
                 <td colspan="5">
 
                     <table class="table table-bordered m-0">
-                        <tr>
-                            <td>1. JavaScript에서 fetch 메서드는 무엇을 하는 기능인가요? (5점)</td>
-                        </tr>
-                        <tr>
-                            <td>2. JavaScript에서 fetch 메서드는 무엇을 하는 기능인가요? (5점)</td>
-                        </tr>
+                        {{#model.questions}}
+                            <tr>
+                                <td>{{no}}. {{title}} ({{point}}점)</td>
+                            </tr>
+                        {{/model.questions}}
                     </table>
 
                 </td>
@@ -108,34 +129,17 @@
                 <td colspan="5">
                     <table class="table table-hover m-0">
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>JavaScript에서 fetch 메서드는 무엇을 하는 기능인가요?</td>
-                            <td>
-                                1 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio"><br>
-                                2 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio"><br>
-                                3 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio"><br>
-                                4 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio" checked><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>JavaScript에서 fetch 메서드는 무엇을 하는 기능인가요?</td>
-                            <td>
-                                1 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio"><br>
-                                2 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio"><br>
-                                3 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio"><br>
-                                4 웹 페이지의 HTML 내용을 가져옵니다.
-                                <input type="radio" checked><br>
-                            </td>
-                        </tr>
+                        {{#model.questions}}
+                            <tr>
+                                <td>{{no}}</td>
+                                <td>{{title}}</td>
+                                <td>
+                                    {{#options}}
+                                        {{no}} {{title}}  <input type="radio" {{#isRight}}checked{{/isRight}}><br>
+                                    {{/options}}
+                                </td>
+                            </tr>
+                        {{/model.questions}}
                         </tbody>
                     </table>
                 </td>
