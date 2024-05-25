@@ -79,6 +79,13 @@
 
             </div>
 
+            <div class="card-header">
+                <div><b>평가기준을 입력해주세요</b></div>
+                <div class="mt-1">
+                    <input type="text" class="form-control" placeholder="평가기준" value="" id="questionPurpose">
+                </div>
+            </div>
+
         </div>
 
         <button type="button" onclick="saveQuestion()" class="btn btn-primary form-control">문제 등록</button>
@@ -99,6 +106,7 @@
             questionNo : $("#questionNo").val(),
             questionTitle : $("#questionTitle").val(),
             questionPoint : $("#questionPoint").val(),
+            questionPurpose : $("#questionPurpose").val(),
             questionAnswerNumber : selectedAnswerNumber,
             options : []
         };

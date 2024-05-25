@@ -38,7 +38,7 @@ public class DocumentController {
     }
 
     @GetMapping("/api/teacher/document/course/{courseId}/subject/{subjectId}")
-    public String subject(@PathVariable("courseId") Long courseId, @PathVariable("courseId") Long subjectId, Model model){
+    public String subject(@PathVariable("courseId") Long courseId, @PathVariable("subjectId") Long subjectId, Model model){
         model.addAttribute("courseId", courseId);
         model.addAttribute("subjectId", subjectId);
         return "document/document-list";

@@ -15,18 +15,6 @@
         font-weight: bold;
     }
 
-    .content {
-        padding: 8px;
-        position: relative; /* Make the content position relative for absolute positioning of the image */
-    }
-
-    .signature-img {
-        position: absolute;
-        top: -10px; /* Adjust the position as needed */
-        left: 50px; /* Adjust the position as needed */
-        width: 50px; /* Adjust the width as needed */
-        height: auto; /* Maintain aspect ratio */
-    }
 </style>
 
 <div class="container p-5">
@@ -116,7 +104,9 @@
                     <table class="table table-bordered m-0">
                         {{#model.questions}}
                             <tr>
-                                <td>{{no}}. {{title}} ({{point}}점)</td>
+                                <td><span
+                                        class="circle-number">{{no}}</span>
+                                    {{questionPurpose}} </td>
                             </tr>
                         {{/model.questions}}
                     </table>
@@ -132,10 +122,10 @@
                         {{#model.questions}}
                             <tr>
                                 <td>{{no}}</td>
-                                <td>{{title}}</td>
+                                <td>{{title}} ({{point}}점)</td>
                                 <td>
                                     {{#options}}
-                                        {{no}} {{title}}  <input type="radio" {{#isRight}}checked{{/isRight}}><br>
+                                        {{no}}. {{title}}  <input type="radio" {{#isRight}}checked{{/isRight}}><br>
                                     {{/options}}
                                 </td>
                             </tr>

@@ -13,3 +13,16 @@ canvas {
 .table-hover tbody .click-tr:hover td {
     background-color: #e1f1fd;
 }
+
+.circle-number {
+    display: inline-block;
+    width: 20px;
+    height: 25px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid #000;
+}

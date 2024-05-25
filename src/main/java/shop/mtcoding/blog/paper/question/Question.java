@@ -36,6 +36,8 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     private Paper paper;
 
+    private String questionPurpose;
+
     @CreationTimestamp
     private LocalDateTime createDate;
 
@@ -47,13 +49,14 @@ public class Question {
     }
 
     @Builder
-    public Question(Long id, Integer no, String title, Integer point, Integer answerNumber, Paper paper, LocalDateTime createDate, SubjectElement subjectElement) {
+    public Question(Long id, Integer no, String questionPurpose, String title, Integer point, Integer answerNumber, Paper paper, LocalDateTime createDate, SubjectElement subjectElement) {
         this.id = id;
         this.no = no;
         this.title = title;
         this.point = point;
         this.answerNumber = answerNumber;
         this.paper = paper;
+        this.questionPurpose = questionPurpose;
         this.createDate = createDate;
         this.subjectElement = subjectElement;
     }

@@ -83,6 +83,7 @@ public class DocumentResponse {
             private String title;
             private Integer point;
             private Integer answerNumber;
+            private String questionPurpose;
             private List<OptionDTO> options;
 
             public QuestionDTO(Question question) {
@@ -90,6 +91,7 @@ public class DocumentResponse {
                 this.title = question.getTitle();
                 this.point = question.getPoint();
                 this.answerNumber = question.getAnswerNumber();
+                this.questionPurpose = question.getQuestionPurpose();
                 this.options = question.getQuestionOptions().stream().map(OptionDTO::new).toList();;
             }
 
