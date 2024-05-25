@@ -76,7 +76,7 @@ public class DocumentResponse {
         }
 
         @Data
-        public class QuestionDTO {
+        class QuestionDTO {
             private Integer no;
             private String title;
             private Integer point;
@@ -92,7 +92,7 @@ public class DocumentResponse {
             }
 
             @Data
-            public class OptionDTO {
+            class OptionDTO {
                 private Integer no;
                 private String content;
                 private Boolean isRight;

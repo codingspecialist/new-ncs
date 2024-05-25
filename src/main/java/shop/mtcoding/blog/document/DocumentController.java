@@ -15,8 +15,9 @@ public class DocumentController {
     private final DocumentService documentService;
 
     @GetMapping("/api/teacher/document/course/{courseId}/subject/{subjectId}/no1")
-    public String no1(Model model){
-        DocumentResponse.No1DTO respDTO = documentService.no1();
+    public String no1(@PathVariable Long courseId, @PathVariable Long subjectId, Model model){
+        DocumentResponse.No1DTO respDTO = documentService.no1(subjectId);
+        model.addAttribute("model", respDTO);
         return "document/no1";
     }
 
