@@ -1,5 +1,6 @@
 package shop.mtcoding.blog.user;
 
+import io.sentry.Sentry;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

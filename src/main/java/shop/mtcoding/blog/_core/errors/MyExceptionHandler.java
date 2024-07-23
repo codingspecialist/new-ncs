@@ -1,5 +1,6 @@
 package shop.mtcoding.blog._core.errors;
 
+import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,18 +69,21 @@ public class MyExceptionHandler {
     @ExceptionHandler(ApiException500.class)
     public ResponseEntity<?> serverError(ApiException500 e){
         log.error(e.getMessage());
+        Sentry.captureException(e);
         return new ResponseEntity<>(e.body(), e.status());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception500.class)
     public @ResponseBody String ex500(Exception500 e){
+        Sentry.captureException(e);
         return Script.back(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> unknown(Exception e){
         log.error(e.getMessage());
+        Sentry.captureException(e);
         e.printStackTrace();
         return new ResponseEntity<>(new ApiUtil<>(500, "오류 : 관리자에게 문의하세요"), HttpStatus.INTERNAL_SERVER_ERROR);
     }

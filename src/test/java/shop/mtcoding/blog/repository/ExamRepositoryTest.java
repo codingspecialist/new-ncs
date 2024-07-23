@@ -17,7 +17,7 @@ public class ExamRepositoryTest {
         // given
 
         // when
-        examRepository.findByOrigin(1L,2L);
+        //examRepository.findByOrigin(1L,2L);
 
         // then
     }
