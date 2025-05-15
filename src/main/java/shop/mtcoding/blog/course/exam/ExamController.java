@@ -28,8 +28,15 @@ public class ExamController {
     private final CourseService courseService;
     private final SubjectService subjectService;
 
+    @PostMapping("/api/teacher/exam/absent")
+    public ResponseEntity<?> 결석입력(@RequestBody ExamRequest.AbsentDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        examService.결석입력(reqDTO, sessionUser);
+        return ResponseEntity.ok(new ApiUtil<>(null));
+    }
+
     @PutMapping("/api/student/exam/sign")
-    public ResponseEntity<?> sign(@RequestBody ExamRequest.StudentSignDTO reqDTO){
+    public ResponseEntity<?> sign(@RequestBody ExamRequest.StudentSignDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         examService.학생사인저장(reqDTO, sessionUser);
         return ResponseEntity.ok(new ApiUtil<>(null));
@@ -41,26 +48,9 @@ public class ExamController {
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
-    @GetMapping("/api/teacher/exam/{examId}/result")
-    public String teacherResultDetailNotPass(@PathVariable(value = "examId") Long examId, Model model){
-
-
-        ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
-        model.addAttribute("model", respDTO);
-        return "course/exam/teacher-result-detail";
-    }
-
-    // notpass 미이수평가보러가기
-    @GetMapping("/api/teacher/exam/{examId}/result/notpass")
-    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model){
-
-        ExamResponse.ResultDetailDTO respDTO = examService.미이수시험친결과상세보기(examId);
-        model.addAttribute("model", respDTO);
-        return "course/exam/teacher-result-detail-notpass";
-    }
 
     @GetMapping("/api/teacher/exam/result")
-    public String teacherResult(Model model, @RequestParam("subjectId") Long subjectId){
+    public String teacherResult(Model model, @RequestParam("subjectId") Long subjectId) {
         List<ExamResponse.ResultDTO> respDTO = examService.교과목별시험결과(subjectId);
         model.addAttribute("models", respDTO);
         return "course/exam/teacher-result-list";
@@ -68,14 +58,14 @@ public class ExamController {
 
 
     @GetMapping("/api/teacher/exam/course")
-    public String course(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable){
+    public String course(Model model, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id", page = 0) Pageable pageable) {
         CourseResponse.PagingDTO respDTO = courseService.과정목록(pageable);
         model.addAttribute("paging", respDTO);
         return "course/exam/teacher-course-list";
     }
 
     @GetMapping("/api/teacher/exam/subject")
-    public String subject(@RequestParam("courseId") Long courseId, Model model){
+    public String subject(@RequestParam("courseId") Long courseId, Model model) {
         List<ExamResponse.SubjectDTO> respDTO = subjectService.과정별교과목(courseId);
         model.addAttribute("models", respDTO);
         return "course/exam/teacher-subject-list";
@@ -83,15 +73,32 @@ public class ExamController {
 
 
     @GetMapping("/api/student/exam/result")
-    public String studentExamResultList(Model model){
+    public String studentExamResultList(Model model) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         List<ExamResponse.ResultDTO> respDTO = examService.학생별시험결과(sessionUser);
         model.addAttribute("models", respDTO);
         return "course/exam/student-result-list";
     }
 
+    // notpass 미이수평가보러가기
+    @GetMapping("/api/teacher/exam/{examId}/result/notpass")
+    public String teacherResultDetailNotPass(@PathVariable(value = "examId") Long examId, Model model) {
+
+        ExamResponse.ResultDetailDTO respDTO = examService.미이수시험친결과상세보기(examId);
+        model.addAttribute("model", respDTO);
+        return "course/exam/teacher-result-detail-notpass";
+    }
+
+    @GetMapping("/api/teacher/exam/{examId}/result")
+    public String teacherResultDetail(@PathVariable(value = "examId") Long examId, Model model) {
+        ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
+        model.addAttribute("model", respDTO);
+        return "course/exam/teacher-result-detail";
+    }
+
+
     @GetMapping("/api/student/exam/{examId}/result")
-    public String studentExamResultDetail(@PathVariable(value = "examId") Long examId, Model model)  {
+    public String studentExamResultDetail(@PathVariable(value = "examId") Long examId, Model model) {
         ExamResponse.ResultDetailDTO respDTO = examService.시험친결과상세보기(examId);
 
         model.addAttribute("model", respDTO);
@@ -99,7 +106,7 @@ public class ExamController {
     }
 
     @GetMapping("/api/student/exam/start")
-    public String studentExamStart(@RequestParam("paperId") Long paperId, Model model){
+    public String studentExamStart(@RequestParam("paperId") Long paperId, Model model) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         ExamResponse.StartDTO respDTO = examService.시험응시(sessionUser, paperId);
         model.addAttribute("model", respDTO);
@@ -115,7 +122,7 @@ public class ExamController {
     }
 
     @GetMapping("/api/student/exam")
-    public String studentExamPaperList(Model model){
+    public String studentExamPaperList(Model model) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // TODO: 시험치는 날짜 subject에 evaluationDate 평가일 필요

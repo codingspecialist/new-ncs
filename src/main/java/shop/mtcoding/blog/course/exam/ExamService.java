@@ -21,6 +21,7 @@ import shop.mtcoding.blog.user.User;
 import shop.mtcoding.blog.user.UserRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,6 +37,38 @@ public class ExamService {
     private final QuestionRepository questionRepository;
 
 
+    @Transactional
+    public void 결석입력(ExamRequest.AbsentDTO reqDTO, User sessionUser) {
+        // 1. 유저가 선생님인지 검증
+        if (!"teacher".equals(sessionUser.getRole())) {
+            throw new Exception403("권한이 없습니다.");
+        }
+
+        // 2. 학생/시험지 조회
+        Student student = studentRepository.findById(reqDTO.getStudentId())
+                .orElseThrow(() -> new Exception404("학생을 찾을 수 없습니다."));
+
+        Paper paper = paperRepository.findById(reqDTO.getPaperId())
+                .orElseThrow(() -> new Exception404("시험지를 찾을 수 없습니다."));
+
+        // 3. Exam 생성
+        Exam exam = Exam.builder()
+                .student(student)
+                .paper(paper)
+                .teacherName(paper.getSubject().getTeacherName())
+                .examState(paper.getPaperState()) // 본평가 or 재평가
+                .reExamReason("결석")
+                .teacherComment("결석")
+                .score(0.0)
+                .passState("미통과")
+                .isUse(true)
+                .grade(1)
+                .build();
+
+        examRepository.save(exam);
+    }
+
+
     // 총평 수정하면서, 결과 점수도 같이 수정한다.
     @Transactional
     public void 총평남기기(ExamRequest.UpdateDTO reqDTO) {
@@ -46,7 +79,7 @@ public class ExamService {
 
         examAnswers.forEach(answer -> {
             reqDTO.getAnswers().forEach(answerDTO -> {
-                if(answerDTO.getAnswerId().longValue() == answer.getId().longValue()){
+                if (answerDTO.getAnswerId().longValue() == answer.getId().longValue()) {
                     answerDTO.update(answer.getQuestion(), answer);
                 }
             });
@@ -56,7 +89,7 @@ public class ExamService {
         double score = examAnswers.stream().mapToInt(value -> value.getIsCorrect() ? value.getQuestion().getPoint() : 0).sum();
 
         // 5. 재평가지로 시험쳤으면 10%
-        if(examPS.getExamState().equals("재평가")){
+        if (examPS.getExamState().equals("재평가")) {
             score = score * 0.9;
         }
 
@@ -84,11 +117,11 @@ public class ExamService {
         Integer currentStudentNo = examPS.getStudent().getStudentNo();
 
         // NOTE: 다음 학생 번호, 이전 학생 번호로 ExamId 찾기 (만약에 재평가와 본평가가 있으면 재평가만 불러오기)
-        Long prevExamId = examRepository.findByStudentNoToExamId(subjectId, currentStudentNo-1, true);
-        Long nextExamId = examRepository.findByStudentNoToExamId(subjectId, currentStudentNo+1, true);
+        Long prevExamId = examRepository.findByStudentNoToExamId(subjectId, currentStudentNo - 1, true);
+        Long nextExamId = examRepository.findByStudentNoToExamId(subjectId, currentStudentNo + 1, true);
 
         Long fExamId = null;
-        if(examPS.getExamState().equals("재평가")){
+        if (examPS.getExamState().equals("재평가")) {
             Exam reExamPS = examRepository.findByOrigin(subjectId, studentId, false)
                     .orElseThrow(() -> new Exception500("재평가 본평가 저장 프로세스 오류 : 관리자 문의"));
             fExamId = reExamPS.getId();
@@ -116,6 +149,7 @@ public class ExamService {
         Paper paperPS = paperRepository.findById(paperId)
                 .orElseThrow(() -> new Exception404("시험지가 존재하지 않아요"));
 
+
         List<SubjectElement> subjectElementListPS =
                 elementRepository.findBySubjectId(paperPS.getSubject().getId());
 
@@ -130,23 +164,46 @@ public class ExamService {
     }
 
     public ExamResponse.MyPaperListDTO 나의시험목록(User sessionUser) {
-        // 1. 해당 학생이 소속된 과정의 모든 시험지 검색 (쿼리발동)
-        List<Paper> papers = paperRepository.findByCourseId(sessionUser.getStudent().getCourse().getId());
+        Long courseId = sessionUser.getStudent().getCourse().getId();
+        Long studentId = sessionUser.getStudent().getId();
 
-        // 2. 시험을 검색해서, 해당 시험지로 시험을 쳤는지 안쳤는지 여부 검색 (쿼리발동)
-        List<Exam> examListPS = examRepository.findByStudentId(sessionUser.getStudent().getId());
+        // 1. 과정 내 모든 시험지 가져오기
+        List<Paper> allPapers = paperRepository.findByCourseId(courseId);
 
+        // 2. 해당 학생이 응시한 모든 시험
+        List<Exam> myExams = examRepository.findByStudentId(studentId);
+
+        // 3. 재평가 허용 대상 subjectId 추출
+        Set<Long> eligibleRetestSubjectIds = myExams.stream()
+                .filter(exam -> exam.getPaper().getPaperState().equals("본평가"))
+                .filter(exam -> {
+                    boolean lowScore = exam.getScore() != null && exam.getScore() < 60;
+                    boolean badReason = "미통과".equals(exam.getReExamReason()) || "결석".equals(exam.getReExamReason());
+                    return lowScore || badReason;
+                })
+                .map(exam -> exam.getPaper().getSubject().getId())
+                .collect(Collectors.toSet());
+
+        // 4. 시험지 필터링
+        List<Paper> filteredPapers = allPapers.stream()
+                .filter(paper -> {
+                    if (paper.getPaperState().equals("본평가")) {
+                        return true; // 본평가는 항상 노출
+                    } else if (paper.getPaperState().equals("재평가")) {
+                        Long subjectId = paper.getSubject().getId();
+                        return eligibleRetestSubjectIds.contains(subjectId); // 조건 충족 시에만 노출
+                    }
+                    return false;
+                })
+                .toList();
+
+        // 5. 응시 여부 매핑
         Map<Long, Boolean> attendanceMap = new HashMap<>();
-        examListPS.forEach(exam -> {
-            papers.forEach(paper -> {
-                if(exam.getPaper().getId().equals(paper.getId())){
-                    attendanceMap.put(paper.getId(), true);
-                }
-            });
-        });
+        myExams.forEach(exam -> attendanceMap.put(exam.getPaper().getId(), true));
 
-        return new ExamResponse.MyPaperListDTO(sessionUser.getStudent().getId(), papers, attendanceMap);
+        return new ExamResponse.MyPaperListDTO(studentId, filteredPapers, attendanceMap);
     }
+
 
     @Transactional
     public void 시험결과저장(ExamRequest.SaveDTO reqDTO, User sessionUser) {
@@ -156,22 +213,18 @@ public class ExamService {
 
         Student student = studentRepository.findByUserId(sessionUser.getId());
 
-        // 2. 재평가인데, 이전 시험(Exam)이 있으면 60점미만 미통과, 없으면 결석
-        String reExamReason = "";
-        if(paper.getPaperState().equals("재평가")){
+        // 2. 재평가인데, 이전 시험(Exam)이 있으면 이전 시험 isNotUse로 변경
+        if (paper.getPaperState().equals("재평가")) {
             Optional<Exam> examOP = examRepository.findByOrigin(paper.getSubject().getId(), student.getId(), true);
 
-            if(examOP.isPresent()){
+            if (examOP.isPresent()) {
                 // 1. 재평가가 저장되면, 본평가를 사용안함으로 변경
                 examOP.get().isNotUse();
-                reExamReason = "미통과";
-            }else{
-                reExamReason = "결석";
             }
         }
 
 
-        Exam exam = reqDTO.toEntity(paper, student, paper.getPaperState(), 0.0, 0, reExamReason);
+        Exam exam = reqDTO.toEntity(paper, student, paper.getPaperState(), 0.0, 0, "");
         Exam examPS = examRepository.save(exam);
 
         // 2. 정답지 가져오기
@@ -183,7 +236,7 @@ public class ExamService {
         questionList.forEach(question -> {
             // 순회하면서 채점
             reqDTO.getAnswers().forEach(answerDTO -> {
-                if(answerDTO.getQuestionNo() == question.getNo()){
+                if (answerDTO.getQuestionNo() == question.getNo()) {
                     examAnswerList.add(answerDTO.toEntity(question, examPS));
                 }
             });
@@ -193,21 +246,22 @@ public class ExamService {
         double score = examAnswerList.stream().mapToInt(value -> value.getIsCorrect() ? value.getQuestion().getPoint() : 0).sum();
 
         // 5. 재평가지로 시험쳤으면 10%
-        if(paper.getPaperState().equals("재평가")){
+        if (paper.getPaperState().equals("재평가")) {
             score = score * 0.9;
         }
 
         // 6. 점수 입력 수준 입력
         examPS.updatePointAndGrade(score);
+        
 
         // 7. 총평 자동화
         String teacherGoodComment = "";
         String teacherBadComment = "";
 
         for (ExamAnswer examAnswer : examAnswerList) {
-            if(examAnswer.getIsCorrect()){
+            if (examAnswer.getIsCorrect()) {
                 teacherGoodComment += examAnswer.getQuestion().getSubjectElement().getSubtitle() + ", ";
-            }else{
+            } else {
                 teacherBadComment += examAnswer.getQuestion().getSubjectElement().getSubtitle() + ", ";
             }
         }
@@ -215,19 +269,19 @@ public class ExamService {
         int goodIndex = teacherGoodComment.lastIndexOf(", ");
         int badIndex = teacherBadComment.lastIndexOf(", ");
 
-        if(goodIndex != -1) teacherGoodComment = teacherGoodComment.substring(0, goodIndex);
+        if (goodIndex != -1) teacherGoodComment = teacherGoodComment.substring(0, goodIndex);
 
-        if(badIndex != -1) teacherBadComment = teacherBadComment.substring(0, badIndex);
+        if (badIndex != -1) teacherBadComment = teacherBadComment.substring(0, badIndex);
 
-        if(teacherGoodComment.length() > 0){
-            if(teacherBadComment.length() == 0){
+        if (teacherGoodComment.length() > 0) {
+            if (teacherBadComment.length() == 0) {
                 teacherGoodComment += " 부분을 잘이해하고 있습니다.";
-            }else{
+            } else {
                 teacherGoodComment += " 부분을 잘이해하고 있고, ";
             }
         }
 
-        if(teacherBadComment.length() > 0){
+        if (teacherBadComment.length() > 0) {
             teacherBadComment += " 부분이 부족합니다.";
         }
 
@@ -240,7 +294,7 @@ public class ExamService {
 
     // 교과목 연번으로 정렬
     public List<ExamResponse.ResultDTO> 학생별시험결과(User sessionUser) {
-        if(sessionUser.getStudent() == null) throw new Exception403("당신은 학생이 아니에요 : 관리자에게 문의하세요");
+        if (sessionUser.getStudent() == null) throw new Exception403("당신은 학생이 아니에요 : 관리자에게 문의하세요");
         List<Exam> examListPS = examRepository.findByStudentId(sessionUser.getStudent().getId());
 
         return examListPS.stream().map(ExamResponse.ResultDTO::new).toList();
@@ -248,11 +302,60 @@ public class ExamService {
 
     // 학생 연번으로 정렬
     public List<ExamResponse.ResultDTO> 교과목별시험결과(Long subjectId) {
-        List<Exam> examListPS = examRepository.findBySubjectId(subjectId);
+        // 1. 시험지 목록 가져오기
+        List<Paper> paperList = paperRepository.findBySubjectId(subjectId);
+        if (paperList.isEmpty()) return List.of();
 
-        List<Exam> trueExamListPS = examListPS.stream().filter(exam -> exam.getIsUse()).toList();
+        // 2. 본평가 시험지만 추출
+        Paper mainPaper = paperList.stream()
+                .filter(p -> "본평가".equals(p.getPaperState()))
+                .findFirst()
+                .orElseThrow(() -> new Exception404("본평가 시험지가 없습니다."));
 
-        return trueExamListPS.stream().map(ExamResponse.ResultDTO::new).toList();
+        // 3. 과정에 속한 수강생 모두 조회
+        Long courseId = mainPaper.getSubject().getCourse().getId();
+        List<Student> students = studentRepository.findByCourseId(courseId);
+
+        // 4. 해당 과목의 모든 시험 응시 기록
+        List<Exam> allExams = examRepository.findBySubjectId(subjectId);
+
+        List<ExamResponse.ResultDTO> resultList = new ArrayList<>();
+
+        for (Student student : students) {
+            // 4-1. 그 학생이 응시한 시험 (isUse=true인 것)
+            Optional<Exam> activeExamOP = allExams.stream()
+                    .filter(e -> e.getStudent().getId().equals(student.getId()))
+                    .filter(Exam::getIsUse)
+                    .findFirst();
+
+            if (activeExamOP.isPresent()) {
+                resultList.add(new ExamResponse.ResultDTO(activeExamOP.get()));
+            } else {
+                // 시험을 안 친 경우 → 비영속 ResultDTO 생성
+                ExamResponse.ResultDTO dto = new ExamResponse.ResultDTO();
+                dto.setExamId(0L);
+                dto.setPaperId(mainPaper.getId());
+                dto.setStudentNo(student.getStudentNo());
+                dto.setSubjectNo(0);
+                dto.setCourseNameAndRound(student.getCourse().getTitle() + "/" + student.getCourse().getRound() + "회차");
+                dto.setSubjectTitle(mainPaper.getSubject().getTitle());
+                dto.setExamState("본평가");
+                dto.setStudentName(student.getName());
+                dto.setTeacherName(mainPaper.getSubject().getTeacherName());
+                dto.setExamScore(0.0);
+                dto.setExamPassState("미응시");
+                dto.setReExamReason("");
+                dto.setIsNotPass(true);
+                dto.setGrade(0);
+                dto.setIsUse(false);
+                dto.setIsNotStart(true);
+                dto.setStudentId(student.getId());
+                resultList.add(dto);
+            }
+        }
+
+        resultList.sort(Comparator.comparing(ExamResponse.ResultDTO::getStudentNo));
+        return resultList;
     }
 
     @Transactional

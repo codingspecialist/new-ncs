@@ -84,6 +84,7 @@ public class ExamResponse {
         private Long prevExamId; // 해당 교과목에 이전 학생 id
         private Long nextExamId; // 해당 교과목에 다음 학생 id
         private Long fExamId;
+        private Boolean isAbsent;
 
         public ResultDetailDTO(Exam exam, List<SubjectElement> subjectElements, User teacher, Long prevExamId, Long nextExamId, Long fExamId) {
             this.examId = exam.getId();
@@ -108,7 +109,8 @@ public class ExamResponse {
             this.studentNo = exam.getStudent().getStudentNo();
             this.prevExamId = prevExamId;
             this.nextExamId = nextExamId;
-            this.fExamId  = fExamId;
+            this.fExamId = fExamId;
+            this.isAbsent = exam.getReExamReason().equals("결석");
         }
 
         @Data
@@ -167,12 +169,21 @@ public class ExamResponse {
         private String teacherName;
         private Double examScore;
         private String examPassState;
+
         private String reExamReason;
+        private Boolean isAbsent;
         private Boolean isNotPass;
         private Integer grade;
         private Boolean isUse;
 
+        private Boolean isNotStart;
+        private Long studentId;
+
+        public ResultDTO() {
+        }
+
         public ResultDTO(Exam exam) {
+            this.studentId = exam.getStudent().getId();
             this.examId = exam.getId();
             this.paperId = exam.getPaper().getId();
             this.studentNo = exam.getStudent().getStudentNo();
@@ -192,6 +203,7 @@ public class ExamResponse {
             }
             this.grade = exam.getGrade();
             this.isUse = exam.getIsUse();
+            this.isAbsent = exam.getReExamReason().equals("결석");
         }
     }
 

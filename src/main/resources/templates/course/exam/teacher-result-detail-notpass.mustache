@@ -1,8 +1,10 @@
 {{> layout/header}}
 
+
 <div class="container p-5">
     <h3>통과하지 못한 본평가 시험입니다.</h3>
-    </ul>
+
+
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -74,7 +76,7 @@
                         {{#options}}
                             {{no}} {{content}} <input type="radio" value="{{no}}" class="optionNo"
                                                       name="question-{{questionId}}"
-                                                      {{#isSelect}}checked{{/isSelect}}><br>
+                                                      {{#isSelect}}checked{{/isSelect}} disabled><br>
                         {{/options}}
                     </td>
                     <td>정답 {{answerNumber}}</td>
@@ -86,11 +88,8 @@
         <div class="card">
             <div class="card-header">총평</div>
             <div class="card-body">
-                <textarea id="teacherComment" class="form-control">{{model.teacherComment}}</textarea>
-
-            </div>
-            <div class="card-footer d-flex justify-content-end">
-                <button type="button" class="btn btn-primary" onclick="sendAnswer()">총평저장</button>
+                <textarea id="teacherComment" class="form-control bg-light text-muted"
+                          readonly>{{model.teacherComment}}</textarea>
             </div>
         </div>
 

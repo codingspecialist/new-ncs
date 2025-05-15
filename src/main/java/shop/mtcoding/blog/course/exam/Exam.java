@@ -35,17 +35,17 @@ public class Exam {
     // 시험지
     @ManyToOne(fetch = FetchType.LAZY)
     private Paper paper;
-    
+
     // 학생이 같은 과목에 본평가만 볼 수 있다 (통과)
     // 학생이 같은 과목에 재평가만 볼 수 있다 (결석)
     // 학생이 같은 과목에 본평가와, 재평가를 볼 수 있다 (본평가 점수 60점 미만 = 미통과)
     // 점수 통계낼때나, 보여줄때 재평가가 있으면 재평가로 보여줘야 한다.
     // 재평가는 통과할 때까지 다시 친다.
-    
-    private String examState; // 본평가, 재평가
-    private String reExamReason; // 결석 or 미통과(60점이하) - 재평가이유
 
-    private String passState; // 통과, 미통과, 평가포기
+    private String examState; // 본평가, 재평가
+    private String reExamReason; // 결석 or 미통과(60점미만) - 재평가이유
+
+    private String passState; // 통과, 미통과, 결석
 
     private Double score; // 시험결과 점수 (재평가라면 10% 감점)
     private Integer grade; // 시험결과 수준
@@ -63,14 +63,14 @@ public class Exam {
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private List<ExamAnswer> examAnswers = new ArrayList<>();
 
-    public void addAnswer(ExamAnswer answer){
+    public void addAnswer(ExamAnswer answer) {
         this.examAnswers.add(answer);
     }
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    public void updateSign(String studentSign){
+    public void updateSign(String studentSign) {
         this.studentSign = studentSign;
         this.studentSignUpdatedAt = LocalDateTime.now();
     }
@@ -80,28 +80,29 @@ public class Exam {
         this.commentUpdatedAt = LocalDateTime.now(); // 총평 남겼다는 인증 시간
     }
 
-    public void updatePointAndGrade(Double score){
+    public void updatePointAndGrade(Double score) {
         this.score = score;
-        if(score >= 90){
+        if (score >= 90) {
             grade = 5;
-        }else if(score >= 80){
+        } else if (score >= 80) {
             grade = 4;
-        }else if(score >= 70){
+        } else if (score >= 70) {
             grade = 3;
-        }else if(score >= 60){
+        } else if (score >= 60) {
             grade = 2;
-        }else{
+        } else {
             grade = 1;
         }
 
-        if(grade > 1){
+        if (grade > 1) {
             passState = "통과";
-        }else{
+        } else {
             passState = "미통과";
+            reExamReason = "60점미만";
         }
     }
 
-    public void isNotUse(){
+    public void isNotUse() {
         this.isUse = false;
     }
 

@@ -12,4 +12,6 @@ public interface PaperRepository extends JpaRepository<Paper, Long> {
     List<Paper> findByCourseId(@Param("courseId") Long courseId);
 
     Paper findBySubjectIdAndPaperState(@Param("subjectId") Long subjectId, @Param("paperState") String paperState);
+
+    List<Paper> findBySubjectId(@Param("subjectId") Long subjectId);
 }

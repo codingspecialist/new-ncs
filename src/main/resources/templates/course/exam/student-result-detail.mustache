@@ -125,6 +125,7 @@
     </form>
 </div>
 
+
 <script>
     let canvas = document.getElementById('signature-pad');
     let context = canvas.getContext('2d');
@@ -141,14 +142,14 @@
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseout', function(e) {
-        console.log("마우스 나감 : "+drawing);
+    canvas.addEventListener('mouseout', function (e) {
+        console.log("마우스 나감 : " + drawing);
         if (drawing) {
             stopDrawing(e, true);
         }
     });
-    canvas.addEventListener('mouseenter', function(e) {
-        console.log("마우스 들어옴 : "+drawing);
+    canvas.addEventListener('mouseenter', function (e) {
+        console.log("마우스 들어옴 : " + drawing);
         if (outside && drawing) {
             startDrawing(e, true); // 마우스가 캔바스 밖으로 나갔다가 돌아왔을 때 재시작
         }

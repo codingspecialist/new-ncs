@@ -13,6 +13,13 @@ import java.util.List;
 public class ExamRequest {
 
     @Data
+    public static class AbsentDTO {
+        private Long studentId;
+        private Long paperId;
+    }
+
+
+    @Data
     public static class UpdateDTO {
         private Long examId;
         private String teacherComment;
