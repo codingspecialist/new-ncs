@@ -3,9 +3,14 @@ package shop.mtcoding.blog.document;
 import lombok.Data;
 import shop.mtcoding.blog._core.utils.MyUtil;
 import shop.mtcoding.blog.course.Course;
+import shop.mtcoding.blog.course.exam.Exam;
+import shop.mtcoding.blog.course.exam.answer.ExamAnswer;
 import shop.mtcoding.blog.course.subject.Subject;
+import shop.mtcoding.blog.course.subject.element.SubjectElement;
+import shop.mtcoding.blog.paper.Paper;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
+import shop.mtcoding.blog.user.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +84,7 @@ public class DocumentResponse {
 
         @Data
         class QuestionDTO {
+            private Long questionId;
             private Integer no;
             private String title;
             private Integer point;
@@ -87,12 +93,14 @@ public class DocumentResponse {
             private List<OptionDTO> options;
 
             public QuestionDTO(Question question) {
+                this.questionId = question.getId();
                 this.no = question.getNo();
                 this.title = question.getTitle();
                 this.point = question.getPoint();
                 this.answerNumber = question.getAnswerNumber();
                 this.questionPurpose = question.getQuestionPurpose();
-                this.options = question.getQuestionOptions().stream().map(OptionDTO::new).toList();;
+                this.options = question.getQuestionOptions().stream().map(OptionDTO::new).toList();
+                ;
             }
 
             @Data
@@ -105,6 +113,162 @@ public class DocumentResponse {
                     this.no = option.getNo();
                     this.content = option.getContent();
                     this.isRight = option.getIsRight();
+                }
+            }
+        }
+    }
+
+
+    @Data
+    public static class No3DTO {
+        private String teacherName;
+        private String evaluationDate; // 평가일 (subject)
+        private String loc; // 평가장소 (임시)
+        private String subjectTitle; // 교과목 (subject)
+        private List<String> subjectElements;
+        private Integer questionCount;
+        private String teacherSign;
+        private Integer grade;
+        private List<QuestionDTO> questions;
+
+        public No3DTO(Paper paper, List<SubjectElement> subjectElements, List<Question> questions, User teacher) {
+            this.teacherName = paper.getSubject().getTeacherName();
+            this.evaluationDate = paper.getSubject().getEvaluationDate().toString();
+            this.loc = "3호";
+            this.subjectTitle = paper.getSubject().getTitle();
+            this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();
+            this.questionCount = paper.getCount();
+            this.teacherSign = teacher.getSign();
+            this.grade = paper.getSubject().getGrade();
+            this.questions = questions.stream().map(QuestionDTO::new).toList();
+        }
+
+        @Data
+        class QuestionDTO {
+            private Long questionId;
+            private Integer no;
+            private String title;
+            private Integer point;
+            private Integer answerNumber;
+            private String questionPurpose;
+            private List<OptionDTO> options;
+
+            public QuestionDTO(Question question) {
+                this.questionId = question.getId();
+                this.no = question.getNo();
+                this.title = question.getTitle();
+                this.point = question.getPoint();
+                this.answerNumber = question.getAnswerNumber();
+                this.questionPurpose = question.getQuestionPurpose();
+                this.options = question.getQuestionOptions().stream().map(OptionDTO::new).toList();
+                ;
+            }
+
+            @Data
+            class OptionDTO {
+                private Integer no;
+                private String content;
+                private Boolean isRight;
+
+                public OptionDTO(QuestionOption option) {
+                    this.no = option.getNo();
+                    this.content = option.getContent();
+                    this.isRight = option.getIsRight();
+                }
+            }
+        }
+    }
+
+    @Data
+    public static class No4DTO {
+        private Long subjectId;
+        private Long courseId;
+        private Long examId;
+        private Long paperId;
+        private String studentName;
+        private String teacherName;
+        private String evaluationDate; // 평가일 (subject)
+        private String loc; // 평가장소 (임시)
+        private String subjectTitle; // 교과목 (subject)
+        private List<String> subjectElements;
+        private List<AnswerDTO> answers;
+        private Integer questionCount;
+        private String examState;
+        private String reExamReason;
+        private String examPassState;
+        private Double score;
+        private String teacherComment;
+        private Integer grade;
+        private String teacherSign;
+        private String studentSign;
+        private Boolean isStudentSign;
+        private Integer studentNo;
+        private Long prevExamId; // 해당 교과목에 이전 학생 id
+        private Long nextExamId; // 해당 교과목에 다음 학생 id
+
+        public No4DTO(Exam exam, List<SubjectElement> subjectElements, User teacher, Long prevExamId, Long nextExamId) {
+            this.subjectId = exam.getPaper().getSubject().getId();
+            this.courseId = exam.getPaper().getSubject().getCourse().getId();
+            this.examId = exam.getId();
+            this.paperId = exam.getPaper().getId();
+            this.studentName = exam.getStudent().getName();
+            this.teacherName = exam.getTeacherName();
+            this.evaluationDate = exam.getPaper().getSubject().getEvaluationDate().toString();
+            this.loc = "3호";
+            this.subjectTitle = exam.getPaper().getSubject().getTitle();
+            this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();
+            this.answers = exam.getExamAnswers().stream().map(AnswerDTO::new).toList();
+            this.questionCount = exam.getPaper().getCount();
+            this.examState = exam.getExamState();
+            this.reExamReason = exam.getReExamReason();
+            this.examPassState = exam.getPassState();
+            this.score = exam.getScore();
+            this.teacherComment = exam.getTeacherComment();
+            this.grade = exam.getGrade();
+            this.teacherSign = teacher.getSign();
+            this.studentSign = exam.getStudentSign();
+            this.isStudentSign = exam.getStudentSign() == null ? false : true;
+            this.studentNo = exam.getStudent().getStudentNo();
+            this.prevExamId = prevExamId;
+            this.nextExamId = nextExamId;
+        }
+
+        @Data
+        class AnswerDTO {
+            private Long answerId;
+            private Long questionId;
+            private Integer no;
+            private String title;
+            private Integer point;
+            private Integer answerNumber; // 정답 번호
+            private Integer selectedOptionNo; // 학생 선택 번호
+            private Integer studentPoint;
+            private List<OptionDTO> options;
+
+            public AnswerDTO(ExamAnswer answer) {
+                this.answerId = answer.getId();
+                this.questionId = answer.getQuestion().getId();
+                this.no = answer.getQuestion().getNo();
+                this.title = answer.getQuestion().getTitle();
+                this.point = answer.getQuestion().getPoint();
+                this.answerNumber = answer.getQuestion().getAnswerNumber();
+                this.selectedOptionNo = answer.getSelectedOptionNo();
+                this.studentPoint = answer.getIsCorrect() ? point : 0;
+                this.options = answer.getQuestion().getQuestionOptions().stream().map(option -> new AnswerDTO.OptionDTO(option, selectedOptionNo)).toList();
+            }
+
+            @Data
+            class OptionDTO {
+                private Long optionId;
+                private Integer no;
+                private String content;
+                private Boolean isSelect; // 해당 옵션이 선택되었는지 여부
+
+                public OptionDTO(QuestionOption option, Integer selectedOptionNo) {
+                    this.optionId = option.getId();
+                    this.no = option.getNo();
+                    this.content = option.getContent();
+                    this.isSelect = no == selectedOptionNo ? true : false;
                 }
             }
         }

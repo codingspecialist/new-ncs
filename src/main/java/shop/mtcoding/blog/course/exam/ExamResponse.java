@@ -58,7 +58,7 @@ public class ExamResponse {
         }
     }
 
-
+    // 관리자가 보는 시험결과
     @Data
     public static class ResultDetailDTO {
         private Long examId;
@@ -154,6 +154,7 @@ public class ExamResponse {
         }
     }
 
+    // 학생이 보는 시험결과 (List로 보이는 화면)
     // PK, 번호(교과목번호), 과정명/회차, paper.getSubject(교과목), 시험유형, 학생명, 훈련강사, 결과점수, 통과여부, (통과못했거나, 재평가지로 재평가하기버튼필요)
     @Data
     public static class ResultDTO {

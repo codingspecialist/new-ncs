@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface ExamRepository extends JpaRepository<Exam, Long> {
 
+    @Query("select ex from Exam ex left join fetch ex.paper p join fetch p.subject sb where sb.id = :subjectId and ex.isUse = true")
+    List<Exam> findBySubjectIdAndIsUse(@Param("subjectId") Long subjectId);
+
     @Query("select ex.id from Exam ex where ex.student.studentNo = :prevStudentNo and ex.paper.subject.id = :subjectId and ex.isUse = :isUse")
     Long findByStudentNoToExamId(@Param("subjectId") Long subjectId, @Param("prevStudentNo") Integer prevStudentNo, @Param("isUse") Boolean isUse);
 
