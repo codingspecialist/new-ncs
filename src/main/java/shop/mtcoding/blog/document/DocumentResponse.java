@@ -42,7 +42,7 @@ public class DocumentResponse {
             public RubricDTO(Question question) {
                 this.subjectElement = question.getSubjectElement().getSubtitle();
                 this.questionPurpose = question.getQuestionPurpose();
-                this.questionFail = question.getQuestionPurpose() + " X";
+                this.questionFail = "미흡하다.";
             }
         }
     }
