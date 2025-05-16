@@ -36,6 +36,13 @@ public class DocumentService {
     private final SubjectElementRepository elementRepository;
     private final ExamRepository examRepository;
 
+    public DocumentResponse.No2DTO no2(Long courseId, Long subjectId) {
+        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, "본평가");
+        List<Question> questionList = questionRepository.findByPaperId(paperPS.getId());
+
+        return new DocumentResponse.No2DTO(paperPS.getSubject(), questionList);
+    }
+
     public DocumentResponse.No4DTO no4(Long courseId, Long subjectId, Long examId) {
         Exam examPS = null;
         if (examId == 0) {

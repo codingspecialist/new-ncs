@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import shop.mtcoding.blog.course.exam.ExamService;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
 public class DocumentController {
 
     private final DocumentService documentService;
-    private final ExamService examService;
 
     @GetMapping("/api/teacher/document/course/{courseId}/subject/{subjectId}/no1")
     public String no1(@PathVariable Long courseId, @PathVariable Long subjectId, Model model) {
@@ -26,8 +24,8 @@ public class DocumentController {
 
     @GetMapping("/api/teacher/document/course/{courseId}/subject/{subjectId}/no2")
     public String no2(@PathVariable Long courseId, @PathVariable Long subjectId, Model model) {
-        //DocumentResponse.No1DTO respDTO = documentService.no1(subjectId);
-        //model.addAttribute("model", respDTO);
+        DocumentResponse.No2DTO respDTO = documentService.no2(courseId, subjectId);
+        model.addAttribute("model", respDTO);
         return "document/no2";
     }
 

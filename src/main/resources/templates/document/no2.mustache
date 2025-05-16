@@ -43,8 +43,7 @@
     <div class="mb-4">
         <h5 class="section-title">※ 훈련목표</h5>
         <p>
-            인증 필터, 인증 설정, UserService 구현, UserModel 구현, 회원가입 구현, 로그인 인증 구현, Session 제어 등을 수행함을 통하여<br>
-            인증/인가 개념을 이해하고 실습할 수 있다.
+            {{model.subjectPurpose}}
         </p>
     </div>
 
@@ -59,15 +58,11 @@
             </thead>
             <tbody>
             <tr>
-                <td>Springboot Security</td>
+                <td>{{model.subjectTitle}}</td>
                 <td class="text-start">
-                    - 인증 필터<br>
-                    - 인증 설정<br>
-                    - UserService 구현<br>
-                    - UserModel 구현<br>
-                    - 회원가입 구현<br>
-                    - 로그인 인증 구현<br>
-                    - Session 제어
+                    {{#model.subjectElements}}
+                        - {{.}}<br>
+                    {{/model.subjectElements}}
                 </td>
             </tr>
             </tbody>
@@ -79,44 +74,27 @@
         <table class="table table-bordered rubric-table">
             <thead>
             <tr>
-                <th>수행과제</th>
-                <th>평가기준</th>
-                <th>우수(100점)</th>
-                <th>미흡(60점)</th>
+                <th style="width: 15%">수행과제</th>
+                <th style="width: 15%">평가기준</th>
+                <th style="width: 35%">우수(100점)</th>
+                <th style="width: 35%">미흡(60점)</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td rowspan="6">Spring Security</td>
-                <td>Spring Boot 기본 설정</td>
-                <td>Spring Boot 기본 설정이 잘 구현되어 있음</td>
-                <td>Spring Boot 기본 설정이 미흡함</td>
+                <td rowspan="6">{{model.subjectTitle}}</td>
+                <td>{{model.rubricFirst.subjectElement}}</td>
+                <td>{{model.rubricFirst.questionPurpose}}</td>
+                <td>{{model.rubricFirst.questionFail}}</td>
             </tr>
-            <tr>
-                <td>User 엔티티 생성</td>
-                <td>회원가입에 필요한 User 엔티티가 잘 구현되어 있음</td>
-                <td>회원가입에 필요한 User 엔티티 구현이 부족함</td>
-            </tr>
-            <tr>
-                <td>UserMapper 구현</td>
-                <td>UserMapper 및 관련 설정이 잘 구현되어 있음</td>
-                <td>UserMapper 및 관련 설정이 누락되었거나 오류가 있음</td>
-            </tr>
-            <tr>
-                <td>회원 가입 구현</td>
-                <td>회원 가입 프로세스가 정상적으로 동작함</td>
-                <td>회원 가입 기능이 정상적으로 동작하지 않음</td>
-            </tr>
-            <tr>
-                <td>로그인 구현</td>
-                <td>로그인 기능이 정상적으로 작동함</td>
-                <td>로그인 기능에 오류가 있거나 작동하지 않음</td>
-            </tr>
-            <tr>
-                <td>세션 제어 구현</td>
-                <td>로그인 이후 세션이 잘 관리되고 있음</td>
-                <td>세션 관리가 제대로 되지 않음</td>
-            </tr>
+
+            {{#model.rubrics}}
+                <tr>
+                    <td>{{subjectElement}}</td>
+                    <td>{{questionPurpose}}</td>
+                    <td>{{questionFail}}</td>
+                </tr>
+            {{/model.rubrics}}
             </tbody>
         </table>
 

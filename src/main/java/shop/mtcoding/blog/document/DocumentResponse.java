@@ -18,6 +18,36 @@ import java.util.List;
 public class DocumentResponse {
 
     @Data
+    public static class No2DTO {
+        private String subjectPurpose; // 훈련목표
+        private String subjectTitle; // 교과목명
+        private List<String> subjectElements; // 세부내용들
+        private RubricDTO rubricFirst;
+        private List<RubricDTO> rubrics;
+
+        public No2DTO(Subject subject, List<Question> questions) {
+            this.subjectPurpose = subject.getPurpose();
+            this.subjectTitle = subject.getTitle();
+            this.subjectElements = subject.getElements().stream().map(subjectElement -> subjectElement.getSubtitle()).toList();
+            this.rubricFirst = new RubricDTO(questions.get(0));
+            this.rubrics = questions.stream().skip(1).map(question -> new RubricDTO(question)).toList();
+        }
+
+        @Data
+        class RubricDTO {
+            private String subjectElement;
+            private String questionPurpose;
+            private String questionFail;
+
+            public RubricDTO(Question question) {
+                this.subjectElement = question.getSubjectElement().getSubtitle();
+                this.questionPurpose = question.getQuestionPurpose();
+                this.questionFail = question.getQuestionPurpose() + " X";
+            }
+        }
+    }
+
+    @Data
     public static class CourseDTO {
         private Long courseId;
         private String courseTitle;
