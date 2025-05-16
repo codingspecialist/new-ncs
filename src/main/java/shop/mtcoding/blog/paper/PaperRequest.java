@@ -6,6 +6,7 @@ import shop.mtcoding.blog.course.subject.element.SubjectElement;
 import shop.mtcoding.blog.paper.question.Question;
 import shop.mtcoding.blog.paper.question.option.QuestionOption;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class PaperRequest {
@@ -21,7 +22,7 @@ public class PaperRequest {
         private String questionPurpose;
         List<OptionDTO> options;
 
-        public Question toEntity(Paper paper, SubjectElement subjectElement){
+        public Question toEntity(Paper paper, SubjectElement subjectElement) {
             return Question.builder()
                     .no(questionNo)
                     .title(questionTitle)
@@ -39,7 +40,7 @@ public class PaperRequest {
             private String optionContent;
             private Boolean optionRight;
 
-            public QuestionOption toEntity(Question question){
+            public QuestionOption toEntity(Question question) {
                 return QuestionOption.builder()
                         .no(optionNo)
                         .content(optionContent)
@@ -54,13 +55,17 @@ public class PaperRequest {
     public static class SaveDTO {
         private Long subjectId;
         private Integer count;
-        private String paperState;
+        private String paperState; // 평가 // 재평가
+        private LocalDate evaluationDate;
+        private String evaluationWay;
 
-        public Paper toEntity(Subject subject){
+        public Paper toEntity(Subject subject) {
             return Paper.builder()
                     .subject(subject)
                     .count(count)
                     .paperState(paperState)
+                    .evaluationDate(evaluationDate)
+                    .evaluationWay(evaluationWay)
                     .build();
         }
     }

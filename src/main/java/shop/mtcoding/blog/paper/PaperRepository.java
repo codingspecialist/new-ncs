@@ -11,7 +11,8 @@ public interface PaperRepository extends JpaRepository<Paper, Long> {
     @Query("select p from Paper p join fetch p.subject sb where p.subject.course.id = :courseId")
     List<Paper> findByCourseId(@Param("courseId") Long courseId);
 
-    Paper findBySubjectIdAndPaperState(@Param("subjectId") Long subjectId, @Param("paperState") String paperState);
+    @Query("select p from Paper p where p.subject.id = :subjectId and p.isReEvaluation = :isReEvaluation")
+    Paper findBySubjectIdAndPaperState(@Param("subjectId") Long subjectId, @Param("isReEvaluation") Boolean isReEvaluation);
 
     List<Paper> findBySubjectId(@Param("subjectId") Long subjectId);
 }

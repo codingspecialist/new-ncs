@@ -41,7 +41,7 @@ public class DocumentService {
     }
 
     public DocumentResponse.No2DTO no2(Long courseId, Long subjectId) {
-        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, "본평가");
+        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, false);
         List<Question> questionList = questionRepository.findByPaperId(paperPS.getId());
 
         return new DocumentResponse.No2DTO(paperPS.getSubject(), questionList);
@@ -83,7 +83,7 @@ public class DocumentService {
     }
 
     public DocumentResponse.No3DTO no3(Long courseId, Long subjectId) {
-        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, "본평가");
+        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, false);
         List<Question> questionListPS = questionRepository.findByPaperId(paperPS.getId());
 
         List<SubjectElement> subjectElementListPS =
@@ -110,12 +110,13 @@ public class DocumentService {
                 () -> new Exception404("해당 교과목이 없어요")
         );
 
+
         User teacherPS = userRepository.findByTeacherName(subjectPS.getTeacherName())
                 .orElseThrow(() -> new Exception404("해당 선생님이 존재하지 않아요"));
 
 
-        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, "본평가");
+        Paper paperPS = paperRepository.findBySubjectIdAndPaperState(subjectId, false);
         List<Question> questionListPS = questionRepository.findByPaperId(paperPS.getId());
-        return new DocumentResponse.No1DTO(subjectPS, questionListPS, teacherPS.getSign());
+        return new DocumentResponse.No1DTO(subjectPS, questionListPS, teacherPS.getSign(), paperPS);
     }
 }

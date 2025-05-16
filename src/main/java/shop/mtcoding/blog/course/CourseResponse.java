@@ -126,8 +126,8 @@ public class CourseResponse {
                 this.state = student.getState().getValue();
                 this.dropOutDate = student.getDropOutDate() == null ? "" : student.getDropOutDate().toString();
                 this.dropOutReason = student.getDropOutReason() == null ? "" : student.getDropOutReason();
-                this.comment = student.getComment()  == null ? "" : student.getComment();
-                this.grade = student.getGrade()  == null ? "" : student.getGrade().toString();
+                this.comment = student.getComment() == null ? "" : student.getComment();
+                this.grade = student.getGrade() == null ? "" : student.getGrade().toString();
                 this.courseId = student.getCourse().getId();
             }
         }
@@ -162,9 +162,10 @@ public class CourseResponse {
                 this.totalTime = subject.getTotalTime();
                 this.no = subject.getNo();
                 this.learningWay = subject.getLearningWay();
-                this.evaluationWay = subject.getEvaluationWay();
-                this.evaluationDate = subject.getEvaluationDate();
-                this.revaluationDate = subject.getRevaluationDate();
+                // TODO: 수정해야함
+                this.evaluationWay = "TODO1";
+                this.evaluationDate = LocalDate.now();
+                this.revaluationDate = LocalDate.now();
                 this.startDate = subject.getStartDate();
                 this.endDate = subject.getEndDate();
                 this.courseId = subject.getCourse().getId();

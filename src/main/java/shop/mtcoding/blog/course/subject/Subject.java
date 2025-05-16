@@ -35,9 +35,7 @@ public class Subject {
     private Integer totalTime; // 교과목 시간
     private Integer no; // 과정에서 몇번째로 시작하는 교과목인지에 대한 순번
     private String learningWay; // 교수 학습 방법
-    private String evaluationWay; // 평가 방법 (move -> Paper)
-    private LocalDate evaluationDate; // 평가일 (move -> Paper)
-    private LocalDate revaluationDate; // 재평가일 (move -> Paper)
+
     private LocalDate startDate; // 교과목 시작일
     private LocalDate endDate; // 교과목 종료일
     private String teacherName; // 교과목 훈련교사 이름
@@ -64,7 +62,7 @@ public class Subject {
     private LocalDateTime createDate;
 
     @Builder
-    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, String evaluationWay, LocalDate evaluationDate, LocalDate revaluationDate, LocalDate startDate, LocalDate endDate, String teacherName, Course course, LocalDateTime createDate) {
+    public Subject(Long id, String code, String title, String purpose, String gubun, Integer grade, Integer totalTime, Integer no, String learningWay, LocalDate startDate, LocalDate endDate, String teacherName, Course course, LocalDateTime createDate) {
         this.id = id;
         this.code = code;
         this.title = title;
@@ -74,9 +72,6 @@ public class Subject {
         this.totalTime = totalTime;
         this.no = no;
         this.learningWay = learningWay;
-        this.evaluationWay = evaluationWay;
-        this.evaluationDate = evaluationDate;
-        this.revaluationDate = revaluationDate;
         this.startDate = startDate;
         this.endDate = endDate;
         this.teacherName = teacherName;

@@ -21,7 +21,7 @@ public class PaperResponse {
 
         public QuestionListDTO(Paper paper, List<SubjectElement> subjectElements, List<Question> questions) {
             this.paperId = paper.getId();
-            this.evaluationDate = paper.getSubject().getEvaluationDate().toString();
+            this.evaluationDate = paper.getEvaluationDate().toString();
             this.loc = "3호";
             this.subjectTitle = paper.getSubject().getTitle();
             this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();
@@ -58,7 +58,6 @@ public class PaperResponse {
             }
         }
     }
-
 
 
     @Data

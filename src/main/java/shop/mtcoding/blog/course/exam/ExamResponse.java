@@ -47,9 +47,10 @@ public class ExamResponse {
             this.totalTime = subject.getTotalTime();
             this.no = subject.getNo();
             this.learningWay = subject.getLearningWay();
-            this.evaluationWay = subject.getEvaluationWay();
-            this.evaluationDate = subject.getEvaluationDate();
-            this.revaluationDate = subject.getRevaluationDate();
+            // TODO : 수정해야함
+            this.evaluationWay = "TODO1";
+            this.evaluationDate = LocalDate.now();
+            this.revaluationDate = LocalDate.now();
             this.startDate = subject.getStartDate();
             this.endDate = subject.getEndDate();
             this.courseId = subject.getCourse().getId();
@@ -91,7 +92,7 @@ public class ExamResponse {
             this.paperId = exam.getPaper().getId();
             this.studentName = exam.getStudent().getName();
             this.teacherName = exam.getTeacherName();
-            this.evaluationDate = exam.getPaper().getSubject().getEvaluationDate().toString();
+            this.evaluationDate = exam.getPaper().getEvaluationDate().toString();
             this.loc = "3호";
             this.subjectTitle = exam.getPaper().getSubject().getTitle();
             this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();
@@ -224,7 +225,7 @@ public class ExamResponse {
             this.paperId = paper.getId();
             this.studentName = studentName;
             this.teacherName = paper.getSubject().getTeacherName();
-            this.evaluationDate = paper.getSubject().getEvaluationDate().toString();
+            this.evaluationDate = paper.getEvaluationDate().toString();
             this.loc = "3호";
             this.subjectTitle = paper.getSubject().getTitle();
             this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();

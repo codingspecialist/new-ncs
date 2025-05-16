@@ -31,13 +31,13 @@ public class PaperController {
     private final SubjectService subjectService;
 
     @PostMapping("/api/teacher/paper/{paperId}/question/save")
-    public ResponseEntity<?> questionSave(@RequestBody PaperRequest.QuestionSaveDTO reqDTO){
+    public ResponseEntity<?> questionSave(@RequestBody PaperRequest.QuestionSaveDTO reqDTO) {
         paperService.문제등록(reqDTO);
         return ResponseEntity.ok(new ApiUtil<>(null));
     }
 
     @GetMapping("/api/teacher/paper/save-form")
-    public String saveForm(Model model) {
+    public String getList(Model model) {
         List<SubjectResponse.DTO> respDTO = subjectService.모든교과목목록();
         model.addAttribute("models", respDTO);
         return "paper/save-form";
@@ -64,7 +64,7 @@ public class PaperController {
     }
 
     @GetMapping("/api/teacher/paper/{paperId}/question")
-    public String questionSaveForm(@PathVariable(name = "paperId") Long paperId, Model model){
+    public String questionSaveForm(@PathVariable(name = "paperId") Long paperId, Model model) {
         QuestionDBResponse.ExpectedNextDTO respDTO = paperService.다음예상문제(paperId);
         model.addAttribute("expectNo", respDTO.getExpectNo());
         model.addAttribute("expectPoint", respDTO.getExpectPoint());

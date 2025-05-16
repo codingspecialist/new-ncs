@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.subject.Subject;
 import shop.mtcoding.blog.paper.question.Question;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,9 @@ public class Paper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String evaluationWay; // 평가 방법 (move -> Paper)
+    private LocalDate evaluationDate; // 평가일 (move -> Paper)
     // 하나의 시험지는 하나의 과정에 하나의 교과목에서만 사용될 수 있다.
     // 그런데 과정은 2회차가 있기 때문에 그 회차에도 사용되어야 한다.
     // 시험지는 한개 만들어서 공유해서 쓰면 된다.
@@ -40,12 +44,13 @@ public class Paper {
     private Subject subject; // Subject(정보들), SubjectElement(subtitles)
 
     private Integer count; // 문항수
-    private String paperState; // 본평가지, 재평가지
+    private String paperState; // 본평가, 재평가
+    private Boolean isReEvaluation;
 
     @OneToMany(mappedBy = "paper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
-    public void addQuestion(Question question){
+    public void addQuestion(Question question) {
         this.questions.add(question);
     }
 
@@ -53,11 +58,14 @@ public class Paper {
     private LocalDateTime createDate;
 
     @Builder
-    public Paper(Long id, Subject subject, Integer count, String paperState, LocalDateTime createDate) {
+    public Paper(Long id, String evaluationWay, LocalDate evaluationDate, Subject subject, Integer count, String paperState, Boolean isReEvaluation, LocalDateTime createDate) {
         this.id = id;
+        this.evaluationWay = evaluationWay;
+        this.evaluationDate = evaluationDate;
         this.subject = subject;
         this.count = count;
         this.paperState = paperState;
+        this.isReEvaluation = paperState.equals("재평가");
         this.createDate = createDate;
     }
 }

@@ -116,15 +116,15 @@ public class DocumentResponse {
         private String sign;
 
         // 교과목 조회, 교과목의 본평가 시험지로 출제된 문제 목록 조회
-        public No1DTO(Subject subject, List<Question> questions, String sign) {
+        public No1DTO(Subject subject, List<Question> questions, String sign, Paper paper) {
             this.courseTitle = subject.getCourse().getTitle();
             this.courseRound = subject.getCourse().getRound();
             this.courseStartDate = subject.getCourse().getStartDate().toString();
             this.courseEndDate = MyUtil.localDateToString(subject.getCourse().getEndDate());
             this.subjectTitle = subject.getTitle();
-            this.subjectEvaluationWay = subject.getEvaluationWay();
+            this.subjectEvaluationWay = paper.getEvaluationWay();
             this.subjectTeacherName = subject.getTeacherName();
-            this.subjectEvaluationDate = MyUtil.localDateToString(subject.getEvaluationDate());
+            this.subjectEvaluationDate = MyUtil.localDateToString(paper.getEvaluationDate());
             this.loc = "3호";
             this.subjectElements = subject.getElements().stream().map(subjectElement -> subjectElement.getSubtitle()).toList();
             this.submitWay = "온라인 제출";
@@ -185,7 +185,7 @@ public class DocumentResponse {
 
         public No3DTO(Paper paper, List<SubjectElement> subjectElements, List<Question> questions, User teacher) {
             this.teacherName = paper.getSubject().getTeacherName();
-            this.evaluationDate = paper.getSubject().getEvaluationDate().toString();
+            this.evaluationDate = paper.getEvaluationDate().toString();
             this.loc = "3호";
             this.subjectTitle = paper.getSubject().getTitle();
             this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();
@@ -265,7 +265,7 @@ public class DocumentResponse {
             this.paperId = exam.getPaper().getId();
             this.studentName = exam.getStudent().getName();
             this.teacherName = exam.getTeacherName();
-            this.evaluationDate = exam.getPaper().getSubject().getEvaluationDate().toString();
+            this.evaluationDate = exam.getPaper().getEvaluationDate().toString();
             this.loc = "3호";
             this.subjectTitle = exam.getPaper().getSubject().getTitle();
             this.subjectElements = subjectElements.stream().map(se -> se.getSubtitle()).toList();

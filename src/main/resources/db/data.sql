@@ -21,13 +21,13 @@ values ('A1001', 'NOT_STARTED', '2024-06-01', '2025-03-07', 5, '마이크로 아
         1200, now());
 
 
-insert into subject_tb(teacher_name, code, course_id, start_date, end_date, evaluation_date, revaluation_date,
-                       evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)
-values ('최주호', 'S2001', 1, '2024-06-01', '2024-06-07', '2024-06-07', '2024-06-08', '서술형시험', 3, 'NCS', '실습', 1,
+insert into subject_tb(teacher_name, code, course_id, start_date, end_date, grade, gubun, learning_way, no, purpose,
+                       title, total_time, create_date)
+values ('최주호', 'S2001', 1, '2024-06-01', '2024-06-07', 3, 'NCS', '실습', 1,
         '객체지향을 학습하는 능력이다', '자바', 50, now());
-insert into subject_tb(teacher_name, code, course_id, start_date, end_date, evaluation_date, revaluation_date,
-                       evaluation_way, grade, gubun, learning_way, no, purpose, title, total_time, create_date)
-values ('최주호', 'S2002', 1, '2024-06-08', '2024-06-13', '2024-06-13', '2024-06-14', '서술형시험', 3, 'NCS', '실습', 2,
+insert into subject_tb(teacher_name, code, course_id, start_date, end_date, grade, gubun, learning_way, no, purpose,
+                       title, total_time, create_date)
+values ('최주호', 'S2002', 1, '2024-06-08', '2024-06-13', 3, 'NCS', '실습', 2,
         'HTTP를 학습하는 능력이다', '스프링부트', 50, now());
 
 
@@ -57,12 +57,12 @@ values (now(), 4, 2, '리플렉션');
 insert into subject_element_tb(create_date, no, subject_id, subtitle)
 values (now(), 5, 2, '컨트롤러');
 
-insert into paper_tb(subject_id, create_date, count, paper_state)
-values (1, now(), 2, '본평가');
-insert into paper_tb(subject_id, create_date, count, paper_state)
-values (2, now(), 5, '본평가');
-insert into paper_tb(subject_id, create_date, count, paper_state)
-values (1, now(), 2, '재평가');
+insert into paper_tb(subject_id, create_date, count, paper_state, evaluation_date, evaluation_way, is_re_evaluation)
+values (1, now(), 2, '본평가', '2024-06-07', '서술형시험', false);
+insert into paper_tb(subject_id, create_date, count, paper_state, evaluation_date, evaluation_way, is_re_evaluation)
+values (2, now(), 5, '본평가', '2024-06-13', '서술형시험', false);
+insert into paper_tb(subject_id, create_date, count, paper_state, evaluation_date, evaluation_way, is_re_evaluation)
+values (1, now(), 2, '재평가', '2024-06-08', '서술형시험', true);
 
 insert into question_tb(no, title, point, answer_number, paper_id, create_date, subject_element_id, question_purpose)
 values (1, '다음 중 for문 설명으로 틀린것은?', 50, 4, 1, now(), 1, '끝이 있는 반복문 코드를 작성할 수 있다.');
