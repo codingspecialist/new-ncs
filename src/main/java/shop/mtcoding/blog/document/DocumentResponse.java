@@ -18,6 +18,28 @@ import java.util.List;
 public class DocumentResponse {
 
     @Data
+    public static class No5DTO {
+        private String draftingTeam; // 교육운영팀
+        private String docNumber; // 문서번호
+        private String writingDate;
+        private String requestDate;
+        private String retentionPeriod; // 5년
+        private String author; // 작성자
+        private String recipient; // 내부결재
+        private String title;
+
+        private String ga; // course.title
+        private String na; // course.startDate + endDate
+        private String da; // subject.title (subject.evaluationWay)
+        private String ra; // course.mainTeacherName
+        private String ma; // paper.
+        private String ba;
+        private String sa;
+        private String ah;
+        private String ja;
+    }
+
+    @Data
     public static class No2DTO {
         private String subjectPurpose; // 훈련목표
         private String subjectTitle; // 교과목명

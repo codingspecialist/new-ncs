@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.course.Course;
 import shop.mtcoding.blog.course.subject.element.SubjectElement;
+import shop.mtcoding.blog.paper.Paper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,9 +35,9 @@ public class Subject {
     private Integer totalTime; // 교과목 시간
     private Integer no; // 과정에서 몇번째로 시작하는 교과목인지에 대한 순번
     private String learningWay; // 교수 학습 방법
-    private String evaluationWay; // 평가 방법
-    private LocalDate evaluationDate; // 평가일
-    private LocalDate revaluationDate; // 재평가일
+    private String evaluationWay; // 평가 방법 (move -> Paper)
+    private LocalDate evaluationDate; // 평가일 (move -> Paper)
+    private LocalDate revaluationDate; // 재평가일 (move -> Paper)
     private LocalDate startDate; // 교과목 시작일
     private LocalDate endDate; // 교과목 종료일
     private String teacherName; // 교과목 훈련교사 이름
@@ -44,7 +45,14 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<SubjectElement> elements = new ArrayList<>();
 
-    public void addElement(SubjectElement element){
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+    private List<Paper> papers = new ArrayList<>();
+
+    public void addPaper(Paper paper) {
+        this.papers.add(paper);
+    }
+
+    public void addElement(SubjectElement element) {
         this.elements.add(element);
     }
 
